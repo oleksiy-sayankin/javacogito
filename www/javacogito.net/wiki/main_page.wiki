@@ -1,0 +1,69 @@
+[[File:logo.png|none|left|Logo]]
+
+<div id="welcome" style="margin:1.4em 0 0 1%;font-size:170%;padding:0;line-height:120%;">'''Добро пожаловать в JavaCogito&nbsp;—'''<br />
+свободный энциклопедический интернет-проект на русском языке, посвящённый языку программирования Java!<br />
+Сейчас на сайте JavaCogito [[Special:Statistics|{{NUMBEROFARTICLES}}]] статей, загружено [[Special:Statistics|{{NUMBEROFFILES}}]] изображений.</div>
+
+<div id="welcome" style="margin:1.4em 0 0 1%;font-size:110%;padding:0;line-height:150%;">Это — википедия, посвящённая профессиональному программированию на языке Java, и смежным технологиям. <br />Мы отдаём приоритет языку программирования Java, но пишем и о других языках программирования. На сайте приветствуется размещение авторами любых собственных оригинальных исследований и материалов по программированию а также переводов статей и публикаций англоязычных и других авторов. Сайт придерживается политики соблюдения прав авторов. Для участия в проекте и регистрации в нем необходимо написать на javacogito@gmail.com</div>
+
+{| cellpadding="0" cellspacing="0" width="100%" style="background:none;"
+|- valign="top"
+| width="45%" |
+<!-- Main -->
+<div style="background:lightblue; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Общий обзор</div>
+
+Интернет-сайт '''JavaCogito''' предназначен в первую очередь для профессиональных Java программистов и людей, стремящихся овладеть этим языком программирования.
+
+Конечная цель — создание интернет портала, содержащего научные публикации о Java как о языке программирования, публикаций на научные темы c использованием языка Java, а также  статей о виртуальной машине Java, модели многопоточности, принятой в Java и других аспектов программрования на Java. Приглашаем присоединяться тех, кто готов помочь этой благородной цели! Спонсоры и меценаты могут зайти [[Project:Спонсорам|сюда]]. 
+В то же время, на сайте авторы могут размещать свои любые интересные '''материалы справочного и исследовательского характера'''. Призываем опубликовать свои исследования у нас, чтобы их смогли прочитать тысячи людей.
+
+Приглашаем всех участников к дополнению существующих и созданию новых статей о программировании на языке Java, архитектуре виртуальной машины Java и связанных с Java технологиях программирования и платформах! Чтобы получить ''доступ к редактированию'', необходимо зарегистрироваться и написать на адрес '''javacogito @ gmail.com'''.
+
+<div style="background:blue; color: white; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Зачем это нужно?</div>
+
+'''Наша миссия: способстовать развитию программирования на благо человечества.'''
+
+* Мы работаем для того, чтобы больше людей становились профессионалами в области программирования.
+* Мы вдохновляем на непрерывное обучение и распространение знаний ради блага каждого человека.
+* Мы делаем профессиональное программирование доступным.
+
+| width="3%" |
+
+|
+
+<div style="background:lightgreen; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Последние поступления программированию на Java</div>
+
+Ещё можно посмотреть [[Служебная:Newpages|новосозданные статьи]]:
+
+''[[JavaCogito:Архив последних поступлений|Архив последних поступлений]]'' ''[[JavaCogito:Архив последних поступлений1|1]]'' ''[[JavaCogito:Архив последних поступлений2|2]]''
+
+<div style="background:lightgreen; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Новые оригинальные статьи на другие темы</div>
+
+<div style="background:#ddcef2; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Полезно почитать</div>
+
+<div style="background:#FFC253; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Скоро на сайте</div>
+
+* [[Спецификация виртуальной машины Java]]
+
+<div style="background:#faf9b2; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Выдержки из статей </div>
+
+
+<div style="background:#ffc9c9; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Полезные ссылки</div>
+
+См. также:
+
+* '''[[JavaCogito:Дружественные и полезные сайты|Дружественные и полезные сайты]]'''
+
+* Полезное: 
+* Также: 
+|}
+
+<br />
+
+<center>У нас  сейчас <big>'''[[Special:Statistics|{{КОЛИЧЕСТВО_СТАТЕЙ}}]]''' {{plural:{{КОЛИЧЕСТВО_СТАТЕЙ}}|статья|статьи|статей}}.</big><br />
+
+[[Special:ListUsers|Участники]] | [[Project:Портал сообщества|Сообщество]]</center>
+
+__БЕЗ_ОГЛ__
+
+[[Категория:JavaCogito| ]]
