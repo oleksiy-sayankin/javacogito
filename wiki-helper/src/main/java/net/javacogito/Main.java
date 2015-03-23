@@ -12,8 +12,9 @@ public class Main {
     private static String makeItalicJvmCommands(String inText){
         String outText = inText;
         for (String jvmCommand : Constants.JVM_COMMANDS){
+            String search = "\\b" + jvmCommand + "\\b";
             String quotedJvmCommand = Constants.TWO_QUOTES + jvmCommand + Constants.TWO_QUOTES;
-            outText = outText.replaceAll(jvmCommand, quotedJvmCommand);
+            outText = outText.replaceAll(search, quotedJvmCommand);
         }
         return outText;
     }
