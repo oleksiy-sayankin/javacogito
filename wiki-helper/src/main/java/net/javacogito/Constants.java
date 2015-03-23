@@ -6,6 +6,10 @@ public final class Constants {
     public static final String TWO_QUOTES = "''";
     public static final String START_CODE_TAG = "<code>";
     public static final String END_CODE_TAG = "</code>";
+    public static final String[] ADDITIONAL_KEY_WORDS = {
+            "null",
+            "reference"
+    };
     public static final String[] JAVA_KEY_WORDS = {
             "abstract",
             "continue",

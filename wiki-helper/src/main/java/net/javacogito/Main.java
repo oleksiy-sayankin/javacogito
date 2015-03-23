@@ -12,7 +12,7 @@ public class Main {
 
     public static void main( String[] args )
     {
-        System.out.println( makeCodeTagForJavaKeywords(makeItalicJvmCommands(inPlainText)));
+        System.out.println( makeCodeTagForJAddKeywords(makeCodeTagForJavaKeywords(makeItalicJvmCommands(inPlainText))));
     }
 
     private static String makeItalicJvmCommands(String inText){
@@ -27,10 +27,21 @@ public class Main {
     private static String makeCodeTagForJavaKeywords(String inText){
         String outText = inText;
         for (String javaKeyWord : Constants.JAVA_KEY_WORDS){
-            String search = "[ ,.!:()]" + javaKeyWord + "[ ,.!:()]";
+            String search = "\\b" + javaKeyWord + "\\b";
             String taggedJavaKeyWord = Constants.START_CODE_TAG + javaKeyWord + Constants.END_CODE_TAG;
             outText = outText.replaceAll(search, taggedJavaKeyWord);
         }
         return outText;
     }
+
+    private static String makeCodeTagForJAddKeywords(String inText){
+        String outText = inText;
+        for (String addKeyWord : Constants.ADDITIONAL_KEY_WORDS){
+            String search = "\\b" + addKeyWord + "\\b";
+            String taggedAddKeyWord = Constants.START_CODE_TAG + addKeyWord + Constants.END_CODE_TAG;
+            outText = outText.replaceAll(search, taggedAddKeyWord);
+        }
+        return outText;
+    }
+
 }
