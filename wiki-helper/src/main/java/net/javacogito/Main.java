@@ -7,6 +7,8 @@ public class Main {
     public static void main( String[] args ) throws IOException {
         String inPlainText = Util.readFile("in.txt");
         System.out.println( makeDoubleEnter(makeCodeTagForJAddKeywords(makeCodeTagForJavaKeywords(makeItalicJvmCommands(inPlainText)))));
+        System.out.println();
+        System.out.println( makeSpaceAtLineStart(makeItalicJvmCommands(inPlainText)));
     }
 
     private static String makeItalicJvmCommands(String inText){
@@ -45,6 +47,18 @@ public class Main {
         String dest = "\n\n";
         outText = outText.replaceAll(search, dest);
         return outText;
+    }
+
+    private static String makeSpaceAtLineStart(String inText){
+        String outText = inText;
+        String search = "^";
+        String dest = " ";
+        outText = outText.replaceAll(search, dest);
+        search = "\n";
+        dest = "\n ";
+        outText = outText.replaceAll(search, dest);
+        return outText;
+
     }
 
 }
