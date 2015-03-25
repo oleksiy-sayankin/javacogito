@@ -12,9 +12,9 @@ public class Main {
         String inPlainText = Util.readFile("in.txt");
         System.out.println();
         System.out.println();
-        System.out.println(makeDoubleEnter(makeCodeTagForJAddKeywords(makeCodeTagForJavaKeywords(makeItalicJvmCommands(inPlainText)))));
+//        System.out.println(makeDoubleEnter(makeCodeTagForJAddKeywords(makeCodeTagForJavaKeywords(makeItalicJvmCommands(inPlainText)))));
         System.out.println();
-        System.out.println(replaceTabWith4Spaces(makeSpaceAtLineStart(makeItalicJvmCommands(inPlainText))));
+//        System.out.println(replaceTabWith4Spaces(makeSpaceAtLineStart(makeItalicJvmCommands(inPlainText))));
         System.out.println();
         System.out.println(addCodeTagForClassFileStructure(inPlainText));
     }
@@ -93,6 +93,7 @@ public class Main {
 
     private static boolean hasUnTaggedEnglishWord(String inText, List<String> processedEnglishWords){
         inText = removeProcessedEnglishWord(inText, processedEnglishWords);
+        inText = removeExceptions(inText);
         boolean result = false;
         int index = 0;
         int inTextLength = inText.length();
@@ -113,6 +114,7 @@ public class Main {
 
     private static String findUnTaggedEnglishWord(String inText, List<String> processedEnglishWords){
         inText = removeProcessedEnglishWord(inText, processedEnglishWords);
+        inText = removeExceptions(inText);
         int index = 0;
         int inTextLength = inText.length();
         while(index <= inTextLength){
@@ -129,8 +131,7 @@ public class Main {
 
     private static String findEnglishWord(String inText, int index){
         String cutInText = inText.substring(index);
-        removeExceptions(cutInText);
-        Pattern pattern = Pattern.compile("[\\w]{2}[\\w]*");
+        Pattern pattern = Pattern.compile("[a-zA-Z]{2}[a-zA-Z_0-9]*");
         Matcher matcher = pattern.matcher(cutInText);
         if (matcher.find()) {
             return matcher.group(0);
@@ -140,8 +141,7 @@ public class Main {
 
     private static int findEnglishWordIndex(String inText, int index){
         String cutInText = inText.substring(index);
-        removeExceptions(cutInText);
-        Pattern pattern = Pattern.compile("[\\w]{2}[\\w]*");
+        Pattern pattern = Pattern.compile("[a-zA-Z]{2}[a-zA-Z_0-9]*");
         Matcher matcher = pattern.matcher(cutInText);
         if (matcher.find()) {
             return matcher.start();

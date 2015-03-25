@@ -5,7 +5,7 @@ public final class Constants {
     private Constants(){}
     public static final String EMPTY_STRING = "";
     public static final String TWO_QUOTES = "''";
-    public static final String EXCEPTIONS[] = {"Java", Constants.START_CODE_TAG, Constants.END_CODE_TAG};
+    public static final String EXCEPTIONS[] = {"Java", "JLS", "ASCII", "Unicode", "UTF"};
     public static final String START_CODE_TAG = "<code>";
     public static final String END_CODE_TAG = "</code>";
     public static final String[] ADDITIONAL_KEY_WORDS = {
