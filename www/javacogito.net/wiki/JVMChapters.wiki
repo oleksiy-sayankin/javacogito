@@ -2829,3 +2829,234 @@ long m = (e == 0) ?
 
 Тогда значение типа <code>double</code> равно математическому выражению <code>s·m·2<sup>e-1075</sup></code>.
 
+==== Структура <code>CONSTANT_NameAndType_info</code> ====
+
+Структура <code>CONSTANT_NameAndType_info</code> используется для представления имени поля или метода без указания того, к какому классу принадлежит поле или метод:
+
+ CONSTANT_NameAndType_info {
+    u1 tag;
+    u2 name_index;
+    u2 descriptor_index;
+    }
+
+Элементы структуры <code>CONSTANT_NameAndType_info</code> следующие:
+
+<code>tag</code>
+:: Элемент <code>tag</code> структуры <code>CONSTANT_NameAndType_info</code> имеет значение <code>CONSTANT_NameAndType</code>(12).
+
+<code>name_index</code>
+:: Элемент <code>name_index</code> должен быть действительным индексом элемента таблицы <code>constant_pool</code>. Содержимое этого элемента должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей имя инициализирующего метода <code><init></code> (см. §2.9) либо имя обычного метода или поля в сокращенной форме (см. §4.2.2).
+
+<code>descriptor_index</code>
+:: Значение элемента <code>descriptor_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Элемент <code>constant_pool</code> с указанным индексом представляет собой структуру <code>CONSTANT_Utf8_info</code> (см. §4.4.7) – действительный дескриптор поля (см. §4.3.2) или метода (см. §4.3.3).
+
+==== Структура <code>CONSTANT_Utf8_info</code> ====
+
+Структура <code>CONSTANT_Utf8_info</code> используется для представления строковых значений:
+
+ CONSTANT_Utf8_info {
+    u1 tag;
+    u2 length;
+    u1 bytes[length];
+    }
+
+Элементы структуры <code>CONSTANT_NameAndType_info</code> следующие:
+
+<code>tag</code>
+:: Элемент <code>tag</code> структуры <code>CONSTANT_Utf8_info</code> имеет значение <code>CONSTANT_Utf8</code> (1).
+
+<code>length</code>
+:: Значение элемента <code>length</code> содержит число байт в массиве <code>bytes</code> (обратите внимание, что это не длина результирующей строки). Строки в структуре <code>CONSTANT_Utf8_info</code> не являются нуль-терминированными.
+
+<code>bytes[]</code>
+:: Массив <code>bytes[]</code> содержит собственно байты, из которых состоит строка. Ни один из байтов не должен принимать значение <code>(byte)0</code> и лежать в диапазоне <code>(byte)0xf0</code> - <code>(byte)0xff</code>
+
+Содержимое строки хранится в модифицированном формате UTF-8. Модифицированный формат UTF-8 позволяет хранить не нулевые ASCII символы, используя при этом только один байт. Все символы Unicode представимы в модифицированном формате UTF-8.
+
+* Символы в интервале от «<code>\u0001</code>» до «<code>\u007</code>» хранятся в одном байте:
+
+{|class="wikitable" width="85%"
+| ''0''
+| ''биты 6-0''
+|}
+
+: 7 бит представляют собой значение символа.
+
+* Нулевой символ («<code>\u0000</code>») и символы в интервале от «<code>\u0080</code>» до «<code>\u07FF</code>» хранятся в двух байтах <code>x</code> и <code>y</code>:
+
+{| class="wikitable" width="85%"
+| y:
+| 1
+| 1
+| 1
+| биты 10-6 
+|-
+| y:
+| 1
+| 0
+| colspan="5"| биты 5-0 
+|}
+
+: Байты соответствуют символу, чей код равен:
+
+<syntaxhighlight lang="java">
+((x & 0x1f) << 6) + (y & 0x3f)   
+</syntaxhighlight>
+
+* Символы в интервале от «<code>\u0800</code>» до «<code>\uFFFF</code>» хранятся в трех байтах <code>x</code>, <code>y</code> и <code>z</code>:
+
+{| class="wikitable" width="85%"
+| y:
+| 1
+| 1
+| 1
+| 0
+| биты 15-12
+|-
+| y:
+| 1
+| 0
+|colspan="5" | биты 11-6 
+|-
+| z:
+| 1
+| 0
+|colspan="5" |биты 5-0
+|}
+
+: Байты соответствуют символу, чей код равен:
+
+<syntaxhighlight lang="java">
+((x & 0xf) << 12) + ((y & 0x3f) << 6) + (z & 0x3f)   
+</syntaxhighlight>
+
+* Символы с кодом выше U+FFFF (так называемые дополнительные символы) представлены двумя псевдо-символами из их представления в UTF-16. Каждый псевдо-символ состоит из трех байт, что означает, что каждый дополнительный символ занимает шесть байт <code>u</code>, <code>v</code>, <code>w</code>, <code>x</code>, <code>y</code> и <code>z</code>:
+
+{| class="wikitable" width="85%"
+| u:
+| 1
+| 1
+| 1
+| 0
+| 1
+| 1
+| 0
+| 1
+|-
+| v:
+| 1
+| 0
+| 1
+| 0
+| colspan="6" |(биты 20-16)-1 
+|-
+| w:
+| 1
+| 0
+|colspan="6"| биты 15-10 
+|-
+| x:
+| 1
+| 1
+| 1
+| 0
+| 1
+| 1
+| 0
+| 1
+|-
+| y:
+| 1
+| 0
+| 1
+| 1
+|colspan="5"|биты 9-6 
+|-
+| z:
+| 1
+| 0
+| colspan="6"|биты 5-0 
+|}
+
+: Байты соответствуют символу, чей код равен:
+
+<syntaxhighlight lang="java">
+0x10000 + ((v & 0x0f) << 16) + ((w & 0x3f) << 10) +
+((y & 0x0f) << 6) + (z & 0x3f)   
+</syntaxhighlight>
+
+: Байты хранятся в <code>class</code>-файле в порядке от старшего к младшему.
+
+Существует два отличия между данным форматом и «стандартным» форматом UTF-8. Во-первых, нулевой символ <code>(char)0</code> кодируется с помощью двух байт, а не одного, так что строки в модифицированном UTF-8 формате не имеют внедрённых нулей. Во-вторых, из стандартного UTF-8  используются только символы, кодируемые одним, двумя или тремя байтами. Виртуальная машина Java не использует четырёх байтный формат стандартного UTF-8. Вместо него используется собственный формат из шести байтов.
+<br><br>
+:: Примечание. Более подробную информацию по формату UTF-8 смотрите в разделе 3.9 стандарта ''Unicode Encoding Forms of The Unicode Standard, Version 6.0.0''.
+
+==== Структура <code>CONSTANT_MethodHandle_info</code> ====
+
+Структура <code>CONSTANT_MethodHandle_info</code> используется для представления обработчика метода:
+
+ CONSTANT_MethodHandle_info {
+    u1 tag;
+    u1 reference_kind;
+    u2 reference_index;
+    }
+
+Элементы структуры <code>CONSTANT_MethodHandle_info</code> следующие:
+
+<code>tag</code>
+:: Элемент <code>tag</code> структуры <code>CONSTANT_MethodHandle_info</code> имеет значение <code>CONSTANT_MethodHandle</code>(15).
+
+<code>reference_kind</code>
+:: Значение элемента <code>reference_kind</code> должно быть в пределах от 1 до 9. Элемент определяет ''разновидность'' обработчика метода, которая характеризирует исполняемый байт-код (см. §5.4.3.5). 
+
+<code>reference_index</code>
+:: Значение элемента <code>reference_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>.
+
+:: Если значение элемента <code>reference_kind</code> равно 1 (<code>REF_getField</code>), 2 (<code>REF_getStatic</code>), 3 (<code>REF_putField</code>) или 4 (<code>REF_putStatic</code>), то значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Fieldref_info</code> (см. §4.4.2), представляющей поле, для которого создаётся обработчик метода.
+
+:: Если значение элемента <code>reference_kind</code> равно 5 (<code>REF_invokeVirtual</code>), 6 (<code>REF_invokeStatic</code>), 7 (<code>REF_invokeSpecial</code>) или 8 (<code>REF_newInvokeSpecial</code>), то значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Methodref_info</code> (см. §4.4.2), представляющей метод класса (см. §2.9) или конструктор, для которого создается обработчик метода.
+
+:: Если значение элемента <code>reference_kind</code> равно 9 (<code>REF_invokeInterface</code>), то значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_InterfaceMethodref_info</code> (см. §4.4.2), представляющей метод интерфейса,  для которого создается обработчик метода.
+
+:: Если значение элемента <code>reference_kind</code> равно 5 (<code>REF_invokeVirtual</code>), 6 (<code>REF_invokeStatic</code>), 7 (<code>REF_invokeSpecial</code>) или 9 (<code>REF_invokeInterface</code>), то имя метода в структуре <code>CONSTANT_Methodref_info</code> не должно быть <code><init></code> или <code><clinit></code>.
+
+:: Если значение элемента <code>reference_kind</code> равно 8 (<code>REF_newInvokeSpecial</code>), то имя метода в структуре <code>CONSTANT_Methodref_info</code>  должно быть <code><init></code>.
+
+==== Структура <code>CONSTANT_MethodType_info</code> ====
+
+Структура <code>CONSTANT_MethodType_inf</code> используется для представления типа метода:
+
+ CONSTANT_MethodType_info {
+    u1 tag;
+    u2 descriptor_index;
+    }
+
+Элементы структуры <code>CONSTANT_MethodType_info</code> следующие:
+
+<code>tag</code>
+:: Элемент <code>tag</code> структуры <code>CONSTANT_MethodType_info</code> имеет значение <code>CONSTANT_MethodType</code> (16).
+
+<code>descriptor_index</code>
+:: Значение элемента <code>descriptor_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей дескриптор метода (см. §4.3.3).
+
+==== Структура <code>CONSTANT_InvokeDynamic_info</code> ====
+
+Структура <code>CONSTANT_InvokeDynamic_info</code> используется инструкцией ''invokedynamic'' для определения загрузочного метода, динамически вызываемого имени, аргументов и возвращаемого типа вызова, а также опционально набора дополнительных констант, называемых ''статическими аргументами'' загрузочного метода.
+
+ CONSTANT_InvokeDynamic_info {
+    u1 tag;
+    u2 bootstrap_method_attr_index;
+    u2 name_and_type_index;
+    }
+
+Элементы структуры <code>CONSTANT_InvokeDynamic_info</code> o следующие:
+
+<code>tag</code>
+:: Элемент <code>tag</code> структуры <code>CONSTANT_InvokeDynamic_info</code> имеет значение <code>CONSTANT_InvokeDynamic</code> (18).
+
+<code>bootstrap_method_attr_index</code>
+:: Значение элемента <code>bootstrap_method_attr_index</code> должно быть действительным индексом в массиве <code>bootstrap_methods</code>, который находится в таблице загрузочных методов (см. §4.7.21) <code>class</code>-файла.
+
+<code>name_and_type_index</code>
+:: Значение элемента <code>name_and_type_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_NameAndType_info</code> (см. §4.4.6), представляющей имя метода и дескриптор метода (см. §4.3.3).
+
