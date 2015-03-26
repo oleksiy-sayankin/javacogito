@@ -2561,3 +2561,271 @@ Object mymethod(int i, double d, Thread t)
 :: Реализация виртуальной машины компании Oracle не проверяет при загрузке и компоновке корректность сигнатур, описанных в данном разделе. Вместо этого проверка откладывается до тех пор, пока сигнатуры не будут использованы методами рефлексии, определёнными в классе <code>Class</code> или в <code>java</code>.<code>lang</code>.<code>reflect</code>. Будущие версии реализации виртуальной машины Java возможно будут проводить все или некоторые проверки корректности сигнатур во время загрузки или компоновки.
 <br>
 
+=== Константный пул ===
+
+Инструкции виртуальной машины Java не ссылаются на непосредственное положение в памяти классов, интерфейсов, экземпляров классов и массивов. Вместо этого инструкции используют символьные ссылки из таблицы <code>constant_pool</code>.
+
+Все элементы таблицы <code>constant_pool</code> имеют следующий общий формат:
+
+ cp_info {
+    u1 tag;
+    u1 info[];
+    }
+
+Каждый элемент в таблице <code>constant_pool</code> должен начинаться с однобайтного тега, определяющего разновидности элемента <code>cp_info</code>. Содержание массива <code>info</code> меняется в зависимости от значения байта <code>tag</code>. Теги и их значения приведены в таблице 4.3. За каждым тегом следует два или более байта, содержащих значение конкретной константы. Формат константы также меняется в зависимости от тега.
+
+'''Таблица 4.3 Теги константного пула'''
+{| class="wikitable"
+! Constant Type
+! Value
+|-
+| <code>CONSTANT_Class</code>
+| 7
+|-
+| <code>CONSTANT_Fieldref</code>
+| 9
+|-
+| <code>CONSTANT_Methodref</code>
+| 10
+|-
+| <code>CONSTANT_InterfaceMethodref</code>
+| 11
+|-
+| <code>CONSTANT_String</code>
+| 8
+|-
+| <code>CONSTANT_Integer</code>
+| 3
+|-
+| <code>CONSTANT_Float</code>
+| 4
+|-
+| <code>CONSTANT_Long</code>
+| 5
+|-
+| <code>CONSTANT_Double</code>
+| 6
+|-
+| <code>CONSTANT_NameAndType</code>
+| 12
+|-
+| <code>CONSTANT_Utf8</code>
+| 1
+|-
+| <code>CONSTANT_MethodHandle</code>
+| 15
+|-
+| <code>CONSTANT_MethodType</code>
+| 16
+|-
+| <code>CONSTANT_InvokeDynamic</code>
+| 18
+|}
+
+==== Структура <code>CONSTANT_Class_info</code> ====
+
+Структура <code>CONSTANT_Class_info</code> используется для описания класса или интерфейса.
+
+ CONSTANT_Class_info {
+    u1 tag;
+    u2 name_index;
+    }
+
+Элементы структуры <code>CONSTANT_Class_info</code> следующие:
+
+<code>tag</code>
+:: Элемент <code>tag</code> имеет значение <code>CONSTANT_Class</code> (7).
+
+<code>name_index</code>
+:: Элемент <code>name_index</code> должен быть действительным индексом элемента таблицы <code>constant_pool</code>. Содержимое этого элемента должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей корректное двоичное имя класса или интерфейса во внутренней форме (см. §4.2.1).
+
+	Поскольку массивы являются объектами, инструкции ''anewarray'' и ''multianewarray'' посредством структуры <code>CONSTANT_Class_info</code> ссылаются на «классы» в таблице <code>constant_pool</code>. Для таких массивов-классов имя класса – это дескриптор типа массива.
+<br> <br>
+:: Например, имя класса, представляющего двумерный массив целочисленных значений
+
+<syntaxhighlight lang="java">   
+int[][]
+</syntaxhighlight>
+
+:: есть
+
+ [[I
+
+:: Имя класса, представляющего массив потоков (класс <code>Thread</code>)
+
+<syntaxhighlight lang="java">
+Thread[]
+</syntaxhighlight> 
+
+:: есть
+
+<code>[Ljava</code>/<code>lang</code>/<code>Thread</code>;
+
+Дескриптор массива действителен, только если представляет массив, содержащий 255 или менее измерений.
+
+==== Структуры <code>CONSTANT_Fieldref_info</code>, <code>CONSTANT_Methodref_info</code> и <code>CONSTANT_InterfaceMethodref_info</code> ====
+
+Поля классов, методы экземпляров и методы интерфейсов описываются похожими структурами:
+
+ CONSTANT_Fieldref_info {
+    u1 tag;
+    u2 class_index;
+    u2 name_and_type_index;
+    }
+ 
+ CONSTANT_Methodref_info {
+    u1 tag;
+    u2 class_index;
+    u2 name_and_type_index;
+    }
+ 
+ CONSTANT_InterfaceMethodref_info {
+     u1 tag;
+     u2 class_index;
+     u2 name_and_type_index;
+     }
+
+<code>tag</code>
+:: Элемент <code>tag</code> структуры <code>CONSTANT_Fieldref_info</code> имеет значение <code>CONSTANT_Fieldref(9)</code>.
+
+:: Элемент <code>tag</code> структуры <code>CONSTANT_Methodref_info</code> имеет значение <code>CONSTANT_Methodref(10)</code>.
+
+:: Элемент <code>tag</code> структуры <code>CONSTANT_InterfaceMethodref_info</code> имеет значение <code>CONSTANT_InterfaceMethodref(11)</code>.
+
+<code>class_index</code>
+:: Элемент <code>class_index</code> должен быть действительным индексом элемента таблицы <code>constant_pool</code>. Содержимое этого элемента должно быть структурой <code>CONSTANT_Class_info</code> (см. §4.4.1), представляющей корректное двоичное имя класса или интерфейса, которому принадлежит поле или метод.
+
+:: Элемент <code>class_index</code> в структуре <code>CONSTANT_Methodref_info</code> должен указывать на класс, не на интерфейс.
+
+:: Элемент <code>class_index</code> в структуре <code>CONSTANT_InterfaceMethodref_info</code> должен указывать на интерфейс.
+
+:: Элемент <code>class_index</code> в структуре <code>CONSTANT_Fieldref_info</code> может указывать как на класс, так и на интерфейс.
+
+<code>name_and_type_index</code>
+:: Элемент <code>name_and_type_index</code> должен быть действительным индексом элемента таблицы <code>constant_pool</code>. Содержимое этого элемента должно быть структурой <code>CONSTANT_NameAndType_info</code> (см. §4.4.6). Струкутруа содержит имя и дескриптор поля или метода.
+
+:: Для структуры <code>CONSTANT_Fieldref_info</code> упомянутый ранее дескриптор должен быть дескриптором поля (см. §4.3.2). Для двух остальных случае – дескриптором метода (см. §4.3.3).
+
+:: Если имя метода в структуре <code>CONSTANT_Methodref_info</code> начинается с «<» («\u003c»), то это должно быть специальное имя <code><init></code>, принадлежащее инициализирующему методу экземпляра (см. §2.9). Тип возвращаемого значения такого метода должен быть пустым (<code>void</code>).
+
+==== Структура <code>CONSTANT_String_info</code> ====
+
+Структура <code>CONSTANT_String_info</code> используется для описания объектов типа <code>String</code>:
+
+ CONSTANT_String_info {
+    u1 tag;
+    u2 string_index;
+    }
+
+Элементы структуры <code>CONSTANT_String_info</code> следующие:
+
+<code>tag</code>
+:: Элемент <code>tag</code> структуры <code>CONSTANT_String_info</code> имеет значение <code>CONSTANT_String(8)</code>.
+
+<code>string_index</code>
+:: Значение элемента <code>string_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Элемент таблицы <code>constant_pool</code> с упомянутым индексом должен быть структурой <code>CONSTANT_Utf8_info</code>(см. §4.4.7), представляющей последовательность символов Unicode, которыми инициализируется объект <code>String</code>.
+
+==== Структуры <code>CONSTANT_Integer_info</code> и <code>CONSTANT_Float_info</code> ====
+
+Структуры <code>CONSTANT_Integer_info</code> и <code>CONSTANT_Float_info</code> представляют собой 4-х байтные числовые (<code>int</code> и <code>float</code>) константы:
+
+ CONSTANT_Integer_info {
+    u1 tag;
+    u4 bytes;
+    }
+
+ CONSTANT_Float_info {
+    u1 tag;
+    u4 bytes;
+    }
+
+Элементы этих структур следующие:
+
+<code>tag</code>
+:: Элемент <code>tag</code> структуры <code>CONSTANT_Integer_info</code> имеет значение <code>CONSTANT_Integer</code>(3).
+
+:: Элемент <code>tag</code> структуры <code>CONSTANT_Float_info</code> имеет значение <code>CONSTANT_Float</code>(4).
+
+<code>bytes</code>
+:: Элемент <code>bytes</code> структуры <code>CONSTANT_Integer_info</code> представляет собой значение константы с типом <code>int</code>. Байты значения хранятся в порядке от старшего к младшему.
+
+:: Элемент <code>bytes</code> структуры <code>CONSTANT_Float_info</code> представляет собой значение константы типа <code>float</code> одинарной точности в формате <code>IEEE</code> 754 (см. §2.3.2). Байты значения хранятся в порядке от старшего к младшему.
+
+:: Значение, задаваемое константой <code>CONSTANT_Float_info</code>, определяется следующим образом. Байты значения сначала рассматриваются как набор битов величины с типом <code>int</code>. Затем:
+
+* Если ''набор битов'' равен <code>0x7f800000</code>, то значение типа <code>float</code> равно положительной бесконечности.
+* Если ''набор битов'' равен <code>0xff800000</code>, то значение типа <code>float</code> равно отрицательной бесконечности.
+* Если ''набор битов'' лежит в пределах от <code>0x7f800001</code> до <code>0x7fffffff</code> или от <code>0xff800001</code> до 0xffffffff, то значение типа <code>float</code> равно не числу NaN.
+* Во всех остальных случаях из набора бит вычисляются три величины <code>s</code>,  <code>e</code> и <code>m</code>:
+
+<syntaxhighlight lang="java">   
+int s = ((bits>> 31) == 0) ? 1 : -1;
+int e = ((bits>> 23) & 0xff);
+int m = (e == 0) ?
+(bits& 0x7fffff) << 1 :
+(bits& 0x7fffff) | 0x800000; 
+</syntaxhighlight>
+
+Тогда значение типа <code>float</code> равно математическому выражению <code>s·m·2<sup>e-150</sup></code>.
+
+==== Структуры <code>CONSTANT_Long_info</code> и <code>CONSTANT_Double_info</code> ====
+
+Структуры <code>CONSTANT_Long_info</code> и <code>CONSTANT_Double_info</code> представляют 8-байтовые числовые (<code>long</code> и <code>double</code>) константы:
+
+ CONSTANT_Long_info {
+    u1 tag;
+    u4 high_bytes;
+    u4 low_bytes;
+    }
+ 
+ CONSTANT_Double_info {
+    u1 tag;
+    u4 high_bytes;
+    u4 low_bytes;
+    }
+
+Все 8-байтовые константы хранятся в двух элементах таблицы <code>constant_pool</code> в <code>class</code>-файле. Если структура <code>CONSTANT_Long_info</code> или <code>CONSTANT_Double_info</code> является элементом таблицы <code>constant_pool</code> с индексом ''n'', то следующий элемент константного пула расположен по индексу ''n''+2. Индекс ''n''+1 таблицы <code>constant_pool</code> является действительным, но не используется для ссылок на него.
+<br><br>
+:: Примечание. Оглядываясь назад, можно сделать вывод, что данное решение было не совсем удачным.
+<br>
+Элементы этих структур следующие:
+
+<code>tag</code>
+:: Элемент <code>tag</code> структуры <code>CONSTANT_Long_info</code> имеет значение <code>CONSTANT_Long</code>(5).
+
+:: Элемент <code>tag</code> структуры <code>CONSTANT_Double_info</code> имеет значение <code>CONSTANT_Double</code>(6).
+
+<code>high_bytes</code>, <code>low_bytes</code>
+::Беззнаковые элементы <code>high_bytes</code> и <code>low_bytes</code> структуры <code>CONSTANT_Long_info</code> вместе представляют значение константы с типом <code>long</code>
+
+<syntaxhighlight lang="java">
+((long) high_bytes << 32) + low_bytes   
+</syntaxhighlight>
+
+:: где байты каждого из элементов <code>high_bytes</code> и <code>low_bytes</code> хранятся в порядке от старшего к младшему.
+
+:: Беззнаковые элементы <code>high_bytes</code> и <code>low_bytes</code> структуры <code>CONSTANT_Double_info</code> вместе представляют значение константы с типом <code>double</code> двойной точности в формате <code>IEEE</code> 754 (см. §2.3.2). Байты значения хранятся в порядке от старшего к младшему.
+
+:: Значение, задаваемое константой <code>CONSTANT_Double_info</code>, определяется следующим образом. Байты значения сначала рассматриваются как ''набор битов'' величины с типом <code>long</code>, который равен:
+
+<syntaxhighlight lang="java"> 
+((long) high_bytes << 32) + low_bytes  
+</syntaxhighlight>
+
+:: Затем:
+
+* Если набор битов равен <code>0x7ff0000000000000L</code>, то значение типа <code>double</code> равно положительной бесконечности.
+* Если набор битов равен <code>0xfff0000000000000</code>, то значение типа <code>double</code> равно отрицательной бесконечности.
+* Если набор битов лежит в пределах от <code>0x7ff0000000000001L</code> до <code>0x7fffffffffffffffL</code> или от <code>0xfff0000000000001L</code> до <code>0xffffffffffffffffL</code>, то значение типа <code>double</code> равно не числу NaN.
+* Во всех остальных случаях из ''набора бит'' вычисляются три величины <code>s</code>,  <code>e</code> и <code>m</code>:
+
+<syntaxhighlight lang="java">
+int s = ((bits>> 63) == 0) ? 1 : -1;
+int e = (int)((bits>> 52) & 0x7ffL);
+long m = (e == 0) ?
+(bits& 0xfffffffffffffL) << 1 :
+(bits& 0xfffffffffffffL) | 0x10000000000000L;   
+</syntaxhighlight>
+
+Тогда значение типа <code>double</code> равно математическому выражению <code>s·m·2<sup>e-1075</sup></code>.
+
