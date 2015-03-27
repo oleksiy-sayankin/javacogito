@@ -2534,7 +2534,7 @@ Object mymethod(int i, double d, Thread t)
  
  ''ArrayTypeSignature'':
     <code>[</code>''TypeSignature''
-
+ 
  ''TypeSignature'':
     ''FieldTypeSignature''
     ''BaseType''
@@ -2547,7 +2547,7 @@ Object mymethod(int i, double d, Thread t)
  ''ReturnType'':
     ''TypeSignature''
   ''VoidDescriptor''
-
+ 
  ''ThrowsSignature'':
     <code>^</code> ''ClassTypeSignature''
     <code>^</code> ''TypeVariableSignature''
@@ -2733,7 +2733,7 @@ Thread[]
     u1 tag;
     u4 bytes;
     }
-
+ 
  CONSTANT_Float_info {
     u1 tag;
     u4 bytes;
@@ -3059,4 +3059,768 @@ long m = (e == 0) ?
 
 <code>name_and_type_index</code>
 :: Значение элемента <code>name_and_type_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_NameAndType_info</code> (см. §4.4.6), представляющей имя метода и дескриптор метода (см. §4.3.3).
+
+=== Поля ===
+
+Каждое поле в классе описывается структурой <code>field_info</code>. Никакие два поля в одном <code>class</code>-файле не могут иметь одинаковые имя и дескриптор (см. §4.3.2). Структура имеет следующий формат:
+
+ field_info {
+    u2 			access_flags;
+    u2 			name_index;
+    u2 			descriptor_index;
+    u2 			attributes_count;
+    attribute_info 	attributes[attributes_count];
+ }
+
+Элементы структуры <code>field_info</code> следующие:
+
+<code>access_flags</code>
+:: Значение <code>access_flags</code> является набором флагов, определяющих доступ и свойства данного поля. Описание каждого из флагов приведено в таблице 4.19.
+
+'''Таблица 4.19 Флаги доступа и свойств поля'''
+
+{| class="wikitable"
+! Имя флага
+! Значение
+! Описание
+|-
+| ACC_PUBLIC
+| 0x0001
+| Поле объявлено public; доступно вне пакета.
+|-
+| ACC_PRIVATE
+| 0x0002
+| Поле объявлено private; доступно только в классе.
+|-
+| ACC_PROTECTED
+| 0x0004
+| Поле объявлено protected; доступно для классов предков.
+|-
+| ACC_STATIC
+| 0x0008
+| Поле объявлено static.
+|-
+| ACC_FINAL
+| 0x0010
+| Поле объявлено final; присваивание после создания объекта запрещено (см. JLS §17.5).
+|-
+| ACC_VOLATILE
+| 0x0040
+| Поле объявлено volatile; не кэшируется.
+|-
+| ACC_TRANSIENT
+| 0x0080
+| Поле объявлено transient; игнорируется при сериализации объекта менеджером объектов.
+|-
+| ACC_SYNTHETIC
+| 0x1000
+| Поле объявлено вспомогательным; отсутствует в исходно коде.
+|-
+| ACC_ENUM
+| 0x4000
+| Поле объявлено элементом перечисления (enum).
+|}
+
+
+:: Если поле помечено флагом <code>ACC_SYNTHETIC</code>, то это означает, что это поле сгенерировал компилятор и в исходном коде оно отсутствует.
+
+:: Флаг <code>ACC_ENUM</code>, что поле содержит элемент перечислимого типа. Для поля класса может быть установлен любой из флагов таблицы 4.19. Однако, только один из флагов <code>ACC_PRIVATE</code>,  <code>ACC_PROTECTED</code> или <code>ACC_PUBLIC</code> для конкретного поля может быть в установленном состоянии (см. JLS §8.3.1) а также не могут быть одновременно установлены флаги <code>ACC_FINAL</code> и <code>ACC_VOLATILE</code> (см. §8.3.1.4).
+
+:: Все поля интерфейса должны иметь установленными флаги <code>ACC_PUBLIC</code>,  <code>ACC_STATIC</code> и <code>ACC_FINAL</code>; допустимо устанавливать флаг  <code>ACC_SYNTHETIC</code>, остальные флаги из таблицы 4.19 должны быть сброшены (см. JLS §9.3).
+
+:: Биты элемента <code>access_flags</code> не описанные в таблице 4.19 зарезервированы для будущего использования. Им должно быть присвоено нулевое значение в <code>class</code>-файле, а реализация виртуальной машины Java должна их игнорировать.
+
+<code>name_index</code>
+:: Значение элемента <code>name_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей действительное имя в упрощённой форме (см. §4.2.2).
+
+<code>descriptor_index</code>
+:: Значение элемента <code>descriptor_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей действительный дескриптор поля (см. §4.3.2).
+
+<code>attributes_count</code>
+:: Значение элемента <code>attributes_count</code> указывает на количество дополнительных атрибутов (см. §4.7) данного поля.
+
+<code>attributes[]</code>
+:: Каждое значение таблицы <code>attributes</code> должно быть структурой атрибутов (см. §4.7). Поле может иметь любое число атрибутов связанных с ним. Допустимы следующие атрибуты таблицы <code>attributes</code> структуры <code>field_info</code>, определяемые данной спецификацией: <code>ConstantValue</code> (см. §4.7.2),  <code>Synthetic</code> (см. §4.7.8),  <code>Signature</code> (см. §4.7.9), <code>Deprecated</code> (см. §4.7.15),  <code>RuntimeVisibleAnnotations</code> (см. §4.7.16) и <code>RuntimeInvisibleAnnotations</code> (см. §4.7.17).
+
+:: Реализация виртуальной машины Java должна распознавать и правильно обрабатывать атрибут <code>ConstantValue</code> (см. §4.7.2) из таблицы <code>attributes</code> структуры <code>field_info</code>. Если реализация виртуальной машины Java распознает <code>class</code>-файл версии 49.0 и выше, она также должна распознавать и корректно обрабатывать атрибуты <code>Signature</code> (см. §4.7.9),  <code>RuntimeVisibleAnnotations</code> (см. §4.7.16) и  <code>RuntimeInvisibleAnnotations</code> (см. §4.7.17) из таблицы <code>attributes</code> структуры <code>field_info</code>.
+
+:: Виртуальная машина Java должна игнорировать без сообщений об ошибках все атрибуты таблицы <code>attributes</code> структуры <code>field_info</code>, которые она не может распознать. Атрибутам, не определённым в данной спецификации запрещено влиять на семантику <code>class</code>-файла, но разрешается предоставлять дополнительную описательную информацию (см. §4.7.1).
+
+=== Методы ===
+
+Каждый метод, включая методы инициализации класса или экземпляра (см. §2.9), методы инициализации интерфейса (см. §2.9), описываются структурой <code>method_info</code>. Никакие два метода в одном <code>class</code>-файле не должны иметь одинаковое имя и дескриптор (см. §4.3.3).
+
+Структура имеет следующий формат:
+
+ method_info {
+    u2 		access_flags;
+    u2 		name_index;
+    u2 		descriptor_index;
+    u2 		attributes_count;
+    attribute_info 	attributes[attributes_count];
+    }
+
+Элементы структуры <code>method_info</code> следующие:
+
+<code>access_flags</code>
+:: Значение элемента <code>access_flags</code> представляет собой набор флагов для кодирования прав доступа к методу и его свойств. Описание каждого из флагов приведено в таблице 4.20.
+
+'''Таблица 4.20 Флаги доступа и свойств метода'''
+
+{| class="wikitable"
+! Имя флага
+! Значение
+! Описание
+|-
+| ACC_PUBLIC
+| 0x0001
+| Метод объявлен public; доступен вне пакета.
+|-
+| ACC_PRIVATE
+| 0x0002
+| Метод объявлен private; доступен только в классе.
+|-
+| ACC_PROTECTED
+| 0x0004
+| Метод объявлен protected; доступен для классов предков.
+|-
+| ACC_STATIC
+| 0x0008
+| Метод объявлен static.
+|-
+| ACC_FINAL
+| 0x0010
+| Метод объявлен final; не замещается в классах предках (см. §5.4.5).
+|-
+| ACC_SYNCHRONIZED
+| 0x0020
+| Метод объявлен synchronized; при вызове метода захватывается монитор.
+|-
+| ACC_BRIDGE
+| 0x0040
+| Мостовой метод, генерируется компилятором.
+|-
+| ACC_VARARGS
+| 0x0080
+| Метод с переменным числом параметров.
+|-
+| ACC_NATIVE
+| 0x0100
+| Метод объявлен native; реализован на языке отличном от Java.
+|-
+| ACC_ABSTRACT
+| 0x0400
+| Метод объявлен abstract; реализация отсутствует.
+|-
+| ACC_STRICT
+| 0x0800
+| Метод объявлен strictfp; используется режим работы с плавающей точкой FP-strict.
+|-
+| ACC_SYNTHETIC
+| 0x1000
+| Метод объявлен вспомогательным; отсутствует в исходном коде.
+|}
+
+
+:: Флаг <code>ACC_VARARGS</code> говорит о том, что данный метод использует переменное число параметров на уровне исходного кода. Метод, имеющий переменное число входных параметров, должен быть скомпилированным с установленным флагом <code>ACC_VARARGS</code>. Все остальные методы должны быть скомпилированы со сброшенным флагом <code>ACC_VARARGS</code>.
+
+:: Флаг <code>ACC_BRIDGE</code> указывает на то, что метод мостовой и сгенерирован компилятором.
+
+:: Метод может быть помечен флагом <code>ACC_SYNTHETIC</code> для указания того, что он сгенерирован компилятором и отсутствует в исходном коде, за исключением некоторых методов, указанных в §4.7.8.
+
+:: Методу класса могут быть установлены любые флаги из таблицы 4.20. Однако конкретный метод класса должен иметь установленным только один из флагов <code>ACC_PRIVATE</code>, <code>ACC_PROTECTED</code> и  <code>ACC_PUBLIC</code> (см. JLS §8.4.3). Если для метода установлен флаг <code>ACC_ABSTRACT</code>, то ни один из флагов <code>ACC_FINAL</code>, <code>ACC_NATIVE</code>,  <code>ACC_PRIVATE</code>,  <code>ACC_STATIC</code>,  <code>ACC_STRICT</code> либо  <code>ACC_SYNCHRONIZED</code> не должен быть установлен (см. JLS §8.4.3.1, JLS §8.4.3.3, JLS §8.4.3.4).
+
+:: Все методы интерфейса должны иметь установленными флаги <code>ACC_ABSTRACT</code> и  <code>ACC_PUBLIC</code>. Также у метода интерфейса могут быть установлены флаги <code>ACC_VARARGS</code>, <code>ACC_BRIDGE</code> и <code>ACC_SYNTHETIC</code>. Все остальные флаги таблицы 4.20 должны быть сброшены (см. JLS §9.4).
+
+:: Методы инициализации классов и интерфейсов (см. §2.9) вызываются виртуальной машиной Java неявно. Значения элемента <code>access_flags</code> для них игнорируется за исключением флага <code>ACC_STRICT</code>.
+
+:: Биты элемента <code>access_flags</code> не описанные в таблице 4.20 зарезервированы для будущего использования. Им должно быть присвоено нулевое значение в <code>class</code>-файле, а реализация виртуальной машины Java должна их игнорировать.
+
+<code>name_index</code>
+:: Значение элемента <code>name_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей либо одно из специальных имен (§2.9)  (<code><init></code> или <code><clinit></code>) либо действительное имя метода в упрощенной форме (см. §4.2.2).
+
+<code>descriptor_index</code>
+:: Значение элемента <code>descriptor_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей действительный дескриптор метода (см. §4.3.2).
+
+:: Примечание. В последующих редакциях данной спецификации, возможно, будет добавлено требование того, чтобы  последний параметр в дескрипторе метода был массивом, если флаг <code>ACC_VARARGS</code> в элементе <code>access_flags</code> установлен.
+
+<code>attributes_count</code>
+:: Значение элемента <code>attributes_count</code> указывает на количество дополнительных атрибутов (см. §4.7) данного поля.
+
+<code>attributes[]</code>
+:: Каждое значение таблицы <code>attributes</code> должно быть структурой атрибутов (см. §4.7). Метод может иметь любое число атрибутов связанных с ним. Допустимы следующие атрибуты таблицы <code>attributes</code> структуры <code>method_info</code>, определяемые данной спецификацией: <code>Code</code> (см. §4.7.3),  <code>Exceptions</code>  (см. §4.7.5),  <code>Synthetic</code> (см. §4.7.8),  <code>Signature</code> (см. §4.7.9),  <code>Deprecated</code> (см. §4.7.15), <code>RuntimeVisibleAnnotations</code> (см. §4.7.16),  <code>RuntimeInvisibleAnnotations</code> (см. §4.7.17),  <code>RuntimeVisibleParameterAnnotations</code> (см. §4.7.18), <code>RuntimeInvisibleParameterAnnotations</code> (см. §4.7.19) и <code>AnnotationDefault</code> (см. §4.7.20).
+
+:: Реализация виртуальной машины Java должна распознавать и правильно обрабатывать атрибут <code>Code</code> (см. §4.7.3) и <code>Exceptions</code>  (см. §4.7.5) из таблицы <code>attributes</code> структуры <code>method_info</code>. Если реализация виртуальной машины Java распознает <code>class</code>-файл версии 49.0 и выше, она также должна распознавать и корректно обрабатывать атрибуты <code>Signature</code> (см. §4.7.9), <code>RuntimeVisibleAnnotations</code> (см. §4.7.16),  <code>RuntimeInvisibleAnnotations</code> (см. §4.7.17),  <code>RuntimeVisibleParameterAnnotations</code> (см. §4.7.18), <code>RuntimeInvisibleParameterAnnotations</code> (см. §4.7.19) и <code>AnnotationDefault</code> (см. §4.7.20)
+
+:: Виртуальная машина Java должна игнорировать без сообщений об ошибках все атрибуты таблицы <code>attributes</code> структуры <code>method_info</code>, которые она не может распознать. Атрибутам, не определённым в данной спецификации запрещено влиять на семантику <code>class</code>-файла, но разрешается предоставлять дополнительную описательную информацию (см. §4.7.1).
+
+=== Атрибуты ===
+
+Атрибуты используются в структурах <code>ClassFile</code> (см. §4.1),  <code>field_info</code> (см. §4.5),  <code>method_info</code> (см. §4.6) и  <code>Code_attribute</code> (см. §4.7.3). Все атрибуты имеют следующий общий формат:
+
+ attribute_info {
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u1 info[attribute_length];
+    }
+
+У всех атрибутов элемент <code>attribute_name_index</code> должен быть действительным 16-ти битовым индексом в константном пуле класса. Элемент таблицы <code>constant_pool</code> с индексом <code>attribute_name_index</code> должен быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей имя атрибута. Значение элемента <code>attribute_length</code> содержит размер атрибута в байтах. Длина не включает в себя начальные шесть байт, содержащихся в элементах <code>attribute_name_index</code> и <code>attribute_length</code>.
+
+Некоторые атрибуты определены как часть спецификации <code>class</code>-файла. Они приведены в таблице 4.21 совместно с версией Java платформы стандартной редакции («Java SE») и версией формата <code>class</code>-файла, в которой они впервые встречаются. В контексте использования атрибутов в данной спецификации (то есть в таблице <code>attributes</code> различных структур <code>class</code>-файла) имена атрибутов являются зарезервированными. Для предопределённых атрибутов справедливо следующее:
+
+* Реализация виртуальной машины Java должна считывать и корректно обрабатывать атрибуты <code>ConstantValue</code>,  <code>Code</code> и  <code>Exceptions</code> в <code>class</code>-файле.
+
+* Атрибуты <code>InnerClasses</code>,  <code>EnclosingMethod</code> и  <code>Synthetic</code> также должны распознаваться и корректно обрабатываться для реализации библиотеки классов платформы Java (см. §2.12).
+
+* Атрибуты <code>RuntimeVisibleAnnotations</code>,  <code>RuntimeInvisibleAnnotations</code>, <code>RuntimeVisibleParameterAnnotations</code>, <code>RuntimeInvisibleParameterAnnotations</code> и <code>AnnotationDefault</code> должны распознаваться и корректно обрабатываться для реализации библиотеки классов платформы Java (см. §2.12), если версия <code>class</code>-файла равна 49.0 и выше и при этом реализация виртуальной машины Java распознает <code>class</code>-файл, чья версия 49.0 и выше.
+
+* Атрибут <code>Signature</code> должен распознаваться и корректно обрабатываться, если версия <code>class</code>-файла равна 49.0 и выше и при этом реализация виртуальной машины Java распознает <code>class</code>-файл, чья версия 49.0 и выше.
+
+* Атрибут <code>StackMapTable</code> должен распознаваться и корректно обрабатываться, если версия <code>class</code>-файла равна 50.0 и выше и при этом реализация виртуальной машины Java распознает <code>class</code>-файл, чья версия 50.0 и выше.
+
+* Атрибут <code>BootstrapMethods</code> должен распознаваться и корректно обрабатываться, если версия <code>class</code>-файла равна 51.0 и выше и при этом реализация виртуальной машины Java распознает <code>class</code>-файл, чья версия 51.0 и выше.
+
+Использование остальных предопределённых атрибутов не обязательно; процедура чтения <code>class</code>-файла может использовать информацию, которая хранится в остальных атрибутах, либо может игнорировать их без сообщений об ошибках.
+
+'''Таблица 4.21 – Предопределённые атрибуты <code>class</code>-файла'''
+
+{| class="wikitable"
+! Атрибут
+! Java SE
+! class-файл
+|-
+| ConstantValue(§4.7.2)
+| 1.0.2
+| 45.3
+|-
+| Code(§4.7.3)
+| 1.0.2
+| 45.3
+|-
+| StackMapTable(§4.7.4)
+| 6
+| 50
+|-
+| Exceptions(§4.7.5)
+| 1.0.2
+| 45.3
+|-
+| InnerClasses(§4.7.6)
+| 1.1
+| 45.3
+|-
+| EnclosingMethod(§4.7.7)
+| 5
+| 49
+|-
+| Synthetic(§4.7.8)
+| 1.1
+| 45.3
+|-
+| Signature(§4.7.9)
+| 5
+| 49
+|-
+| SourceFile(§4.7.10)
+| 1.0.2
+| 45.3
+|-
+| SourceDebugExtension(§4.7.11)
+| 5
+| 49
+|-
+| LineNumberTable(§4.7.12)
+| 1.0.2
+| 45.3
+|-
+| LocalVariableTable(§4.7.13)
+| 1.0.2
+| 45.3
+|-
+| LocalVariableTypeTable(§4.7.14)
+| 5
+| 49
+|-
+| Deprecated(§4.7.15)
+| 1.1
+| 45.3
+|-
+| RuntimeVisibleAnnotations(§4.7.16)
+| 5
+| 49
+|-
+| RuntimeInvisibleAnnotations(§4.7.17)
+| 5
+| 49
+|-
+| RuntimeVisibleParameterAnnotations(§4.7.18)
+| 5
+| 49
+|-
+| RuntimeInvisibleParameterAnnotations(§4.7.19)
+| 5
+| 49
+|-
+| AnnotationDefault(§4.7.20)
+| 5
+| 49
+|-
+| BootstrapMethods(§4.7.21)
+| 7
+| 51
+|}
+
+==== Определение и именование новых атрибутов ====
+
+Компиляторам допустимо определять и создавать <code>class</code>-файлы, содержащие новые атрибуты в таблицах <code>attributes</code>. Реализациям виртуальной машины Java разрешается распознавать и использовать новые атрибуты в таблицах <code>attributes</code> структур <code>class</code>-файла. Тем не менее, атрибуты, не определённые как часть виртуальной машины Java, не должны влиять на семантику классов или интерфейсов. Реализация виртуальной машины Java должна пропускать без сообщений об ошибках те атрибуты, которые она не может распознать.
+Например, допустимо создать новый атрибут, для поддержки специального вида отладки, предоставляемого поставщиком. Поскольку реализации виртуальной машины Java должны игнорировать без сообщений об ошибках те атрибуты, которые они не в состоянии распознать, то <code>class</code>-файл, содержащий дополнительны атрибуты можно будет выполнить и с помощью других реализаций виртуальной машины, даже, если они не поддерживают данную отладочную информацию.
+
+Реализациям виртуальной машины Java намеренно запрещено генерировать исключения либо каким-либо иным способом блокировать использование <code>class</code>-файла только лишь из-за наличия нераспознанных атрибутов. Дополнительное программное обеспечение, работающее с <code>class</code>-файлом, может выдавать сообщения об ошибке, если необходимые атрибуты не найдены.
+
+Два различных по смыслу атрибута, использующих одно и то же имя и имеющих одинаковую длину, приведут к конфликту в той реализации виртуальной машины, которая использует данный атрибут. Атрибуты, определённые за рамками данной спецификации должны использовать правила именования, описанные в Спецификации языка программирования Java SE 7 Edition (JLS §6.1).
+
+В последующих редакциях данной спецификации могут быть определены дополнительные атрибуты.
+
+==== Атрибут <code>ConstantValue</code> ====
+
+Атрибут <code>ConstantValue</code> является атрибутом с фиксированной длинной в таблице <code>attributes</code> структуры <code>field_info</code> (см. §4.5). Атрибут <code>ConstantValue</code> представляет собой значение константного поля. У заданной структуры <code>field_info</code> может быть не более одного атрибута <code>ConstantValue</code> в таблице <code>attributes</code>. Если поле является статическим (то есть, установлен флаг <code>ACC_STATIC</code>, (см. Таблицу 4.19) в элементе <code>access_flags</code> структуры <code>field_info</code>), то константному полю, описываемому структурой <code>field_info</code>, присвоено значение, участвующее в процессе инициализации класса или интерфейса, в котором содержится данное поле (см. §5.5). Чтение атрибута происходит до вызова метода инициализации класса или интерфейса (см. §2.9).
+
+Если структура <code>field_info</code>, представляющая не статическое поле, имеет атрибут <code>ConstantValue</code>, то такой атрибут игнорируется без сообщения об ошибке. Любая реализация виртуальной машины Java должна уметь распознавать атрибут <code>ConstantValue</code>.
+
+Атрибут <code>ConstantValue</code> имеет следующий формат:
+
+ ConstantValue_attribute {
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u2 constantvalue_index;
+    }
+
+Элементы структуры <code>ConstantValue_attribute</code> следующие:
+
+<code>attribute_name_index</code>
+:: Значение элемента <code>attribute_name_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей собой строку «<code>ConstantValue</code>».
+
+<code>attribute_length</code>
+:: Значение элемента <code>attribute_length</code> структуры <code>ConstantValue_attribute</code> должно быть 2.
+
+<code>constantvalue_index</code>
+:: Значение элемента <code>constantvalue_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом содержит константную структуру, которая описывается данным атрибутом. Тип константной структуры должен соответствовать типу данных поля, как указано в Таблице 4.22.
+
+'''Таблица 4.22 Типы константных структур и типы полей'''
+
+{| class="wikitable"
+! Тип поля
+! Тип константной структуры
+|-
+| long
+| CONSTANT_Long
+|-
+| float
+| CONSTANT_Float
+|-
+| double
+| CONSTANT_Double
+|-
+| int, short, char, byte, boolean
+| CONSTANT_Integer
+|-
+| String
+| CONSTANT_String
+|}
+
+==== Атрибут <code>Code</code> ====
+
+Атрибут <code>Code</code> является атрибутом с переменной длинной в таблице <code>attributes</code> структуры <code>method_info</code> (см. §4.6). Атрибут <code>Code</code> содержит инструкции виртуальной машины Java и вспомогательную информацию для одного метода экземпляра, метода инициализации экземпляра (см. §2.9), либо метода инициализации класса или интерфейса (см. §2.9). Любая реализация виртуальной машины Java должна уметь распознавать атрибут <code>Code</code>. Если метод <code>native</code> либо <code>abstract</code>, то его структура <code>method_info</code>, не должна иметь атрибут <code>Code</code>. В противном случае структура <code>method_info</code> должна иметь только один атрибут <code>Code</code>.
+
+Атрибут <code>Code</code> имеет следующий формат:
+
+ Code_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 max_stack;
+ u2 max_locals;
+ u4 code_length;
+ u1 code[code_length];
+ u2 exception_table_length;
+ {    u2 start_pc;
+      u2 end_pc;
+      u2 handler_pc;
+      u2 catch_type;
+ } exception_table[exception_table_length];
+ u2 attributes_count;
+ attribute_info attributes[attributes_count];
+ }
+
+Элементы структуры <code>Code_attribute</code> следующие:
+
+<code>attribute_name_index</code>
+:: Значение элемента <code>attribute_name_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей собой строку «<code>Code</code>».
+
+<code>attribute_length</code>
+:: Значение элемента <code>attribute_length</code> структуры определяет длину атрибута без учета начальных шести байт.
+
+<code>max_stack</code>
+:: Значение элемента <code>max_stack</code> задаёт максимально используемую глубину стека операндов (см. §2.6.2) при выполнении инструкций данного метода.
+
+<code>max_locals</code>
+:: Значение элемента <code>max_locals</code> определяет число локальных переменных, создаваемых при вызове метода (см. §2.6.1), включая локальные переменные, используемые для передачи параметров метода.
+
+:: Максимальным индексом локальной переменной типа <code>long</code> и <code>double</code> является <code>max_locals</code> - 2. Максимальным индексом локальной переменной всех остальных типов является <code>max_locals</code> - 1.
+
+<code>code_length</code>
+:: Значение элемента <code>code_length</code> задает число байт в массиве <code>code</code> для данного метода. Значение <code>code_length</code> должно быть больше нуля; массив <code>code</code> не должен быть пустым.
+
+<code>code[]</code>
+:: Массив <code>code</code> содержит байты инструкций виртуальной машины Java, которые, собственно, и реализуют метод.
+
+:: В случае, когда массив <code>code</code> считывается в память машины с байтовой адресацией и позиция первого байта массива выровнена  по 4-м байтам, то 32-х битные смещения инструкций ''tableswitch'' и ''lookupswitch'' также будут выравненны по 4-м байтам. (Подробности, описывающие принципы выравнивания, приведены в детальном описании каждой из указанных инструкций).
+
+:: Ограничения для массива <code>code</code> приведены в отдельном разделе (см. §4.9).
+
+<code>exception_table_length</code>
+:: Значение элемента  <code>exception_table_length</code> задает число элементов в таблице <code>exception_table</code>.
+
+<code>exception_table[]</code>
+:: Каждый элемент в массиве <code>exception_table</code> один обработчик исключения метода, находящегося в массиве <code>code</code>. Порядок обработчиков в массиве <code>exception_table</code> имеет значение (см. §2.10).
+
+:: Каждый элемент <code>exception_table</code> содержит следующие поля:
+
+:: <code>start_pc</code>, <code>end_pc</code>
+:::: Значения двух полей <code>start_pc</code> и <code>end_pc</code> определяют границы кода в массиве <code>code</code>, для которого написан обработчик исключений. Значение <code>start_pc</code> должно быть действительным индексом  байт-кода инструкции в массиве <code>code</code>. Значение <code>end_pc</code> должно быть либо действительным индексом  байт-кода инструкции в массиве <code>code</code> либо равно <code>code_length</code> – длине массива <code>code</code>. Значение <code>start_pc</code> должно быть меньше <code>end_pc</code>.
+
+:::: Значение <code>start_pc</code> считается включительно, а <code>end_pc</code> не включительно; то есть обработчик исключений доступен, пока программный счётчик лежит в интервале адресов [<code>start_pc</code>, <code>end_pc</code>).
+
+:::: Примечание. Тот факт, что конечная точка интервала <code>end_pc</code> рассматривается не включительно, является исторической ошибкой в проектировании виртуальной машины Java: если размер байт-кода метода равен 65535 байтам и при этом длина последней инструкции равна одному байту, то эта инструкция не может быть включена в сегмент кода, для которого срабатывает исключение. Проектировщик компилятора языка Java может обойти эту ошибку, ограничив 65534 байтами размер кода метода экземпляра, инициализирующего метода и статического инициализатора.
+
+:: <code>handler_pc</code>
+:::: Значение элемента <code>handler_pc</code> определяет начало обработчика исключений. Значение элемента должно быть действительным индексом в массиве <code>code</code> и указывать на байт-код инструкции.
+
+:: <code>catch_type</code>
+:::: Если значение элемента <code>catch_type</code> не нулевое, оно должно быть действительным индексом в таблице <code>constant_pool</code>. Элемент таблицы <code>constant_pool</code> с указанным выше индексом должен быть структурой <code>CONSTANT_Class_info</code> (см. §4.4.1) представляющей класс исключения, на которое обработчик призван реагировать. Обработчик исключения будет вызван, только если выброшенное исключение является экземпляром или потомком данного исключения.
+
+:::: Если значение элемента <code>catch_type</code> равно нулю, то данный обработчик вызывается для всех исключений. Он используется для реализации блока <code>finally</code> (см. §3.13).
+
+<code>attributes_count</code>
+:: Значение элемента <code>attributes_count</code> указывает на количество атрибутов (см. §4.7) элемента <code>Code</code>.
+
+<code>attributes[]</code>
+:: Каждое значение таблицы <code>attributes</code> должно быть структурой атрибутов (см. §4.7). Элемент <code>Code</code> может иметь любое число атрибутов связанных с ним. Допустимы следующие атрибуты таблицы <code>attributes</code> структуры <code>Code</code>, определяемые данной спецификацией: <code>LineNumberTable</code> (см. §4.7.12), <code>LocalVariableTable</code> (см. §4.7.13),  <code>LocalVariableTypeTable</code> (см. §4.7.14) и <code>StackMapTable</code> (см. §4.7.4).
+
+:: Если реализация виртуальной машины Java распознает <code>class</code>-файл версии 50.0 и выше, она также должна распознавать и корректно обрабатывать атрибут <code>StackMapTable</code> (§4.7.4) в таблице <code>attributes</code>  структуры  <code>Code</code>.
+
+:: Виртуальная машина Java должна игнорировать без сообщений об ошибках все атрибуты таблицы <code>attributes</code> структуры <code>Code</code>, которые она не может распознать. Атрибутам, не определённым в данной спецификации запрещено влиять на семантику <code>class</code>-файла, но разрешается предоставлять дополнительную описательную информацию (см. §4.7.1).
+
+==== Атрибут <code>StackMapTable</code> ====
+
+Атрибут <code>StackMapTable</code> имеет переменную длину и находится в таблице <code>attributes</code> атрибута <code>Code</code> (см. §4.7.3). Этот атрибут используется анализатором типов (см. §4.10.1) в процессе верификации. Атрибут <code>Code</code> должен иметь как минимум один атрибут <code>StackMapTable</code>.
+
+Атрибут <code>StackMapTable</code> содержит ноль или более ''соответствий стековых фреймов''.  Каждый стековый фрейм определяет (явно либо неявно) смещение байт-кода, типы для проверок (см. §4.10.1) локальных переменных, типы для проверок стека операндов.
+
+Анализатор типов работает с ожидаемыми типами локальных переменных метода и стека операндов. Везде в этом разделе мы ссылаемся либо на одну локальную переменную, либо на один элемент стека операндов.
+
+Мы будем взаимозаменяемо использовать термины ''соответствие стекового фрейма'' и ''типизированное состояние'' для того, чтобы описать соответствие типов локальных переменных метода и стека операндов проверяемым типам. Мы будем часто использовать термин ''соответствие стекового фрейма'', когда данное соответствие установлено в <code>class</code>-файле и ''термин типизированное состояние'', когда соответствие используется анализатором типов.
+
+Если атрибут <code>Code</code> не имеет атрибута <code>StackMapTable</code>, то используется ''неявный атрибут для соответствия стекового фрейма'' в <code>class</code>-файле, чья версия выше либо равна 50.0. Этот неявный атрибут  эквивалентен атрибуту <code>StackMapTable</code>, у которого <code>number_of_entries</code> равно нулю.
+
+Атрибут <code>StackMapTable</code> имеет следующий формат:
+
+ StackMapTable_attribute {
+ u2                 attribute_name_index;
+ u4                 attribute_length;
+ u2                 number_of_entries;
+ stack_map_frame    entries[number_of_entries];
+ }
+
+Элементы структуры <code>StackMapTable_attribute</code> следующие:
+
+<code>attribute_name_index</code>
+:: Значение элемента <code>attribute_name_index</code> должно быть действительным индексом в таблице <code>constant_pool</code>. Значение в таблице <code>constant_pool</code> с упомянутым выше индексом должно быть структурой <code>CONSTANT_Utf8_info</code> (см. §4.4.7), представляющей собой строку «<code>StackMapTable</code>».
+
+<code>attribute_length</code>
+:: Значение элемента <code>attribute_length</code> структуры определяет длину атрибута без учета начальных шести байт.
+
+<code>number_of_entries</code>
+:: Значение элемента <code>number_of_entries</code> определяет количество элементов <code>stack_map_frame</code> в таблице <code>entries</code>
+
+<code>entries</code>
+:: Массив <code>entries</code> содержит структуры <code>stack_map_frame</code>.
+
+Каждая структура <code>stack_map_frame</code> определяет состояние типов для конкретного смещения байт-кода. Каждый фрейм содержит явно или неявно значение <code>offset_delta</code>, предназначенное для вычисления фактического смещения байт-кода, в пределах которого используется фрейм.  Смещения байт-кода, в пределах которого используется фрейм, вычисляется путем сложения <code>offset_delta</code> + 1 и смещения предыдущего фрейма. Для начального фрейма смещения считается равным <code>offset_delta</code>.
+<br><br>
+:: Примечание. Используя разницу смещений, а не фактическое смещения байт-кода, мы по определению гарантируем, что соответствия стекового фрейма расположены в отсортированном порядке. Более того, последовательно используя формулу <code>offset_delta</code> + 1 для всех фреймов, мы гарантируем отсутствие дубликатов.
+<br>
+Мы говорим, что инструкция в последовательности байт-кодов имеет соответствие стекового фрейма, если инструкция начинается со смещения ''i'' в массиве <code>code</code> атрибута <code>Code</code> и при этом атрибут <code>Code</code> имеет атрибут <code>StackMapTable</code>, чей элемент содержит структуру <code>stack_map_frame</code>, относящуюся к байт-коду со смещением ''i''.
+
+Структура <code>stack_map_frame</code> состоит из тега размером один байт, за которым следуют ноль или более байтов, содержащих информацию в зависимости от тега.
+
+Соответствие стекового фрейма может принадлежать нескольким типам:
+
+ union stack_map_frame {
+     same_frame;
+     same_locals_1_stack_item_frame;
+     same_locals_1_stack_item_frame_extended;
+     chop_frame;
+     same_frame_extended;
+     append_frame;
+     full_frame;
+ }
+
+Все типы фреймов, даже <code>full_frame</code> используют предыдущие фреймы. Тогда закономерно возникает вопрос: что использует самый первый фрейм? Самый первый фрейм является неявным и формируется на основе дескриптора метода. Более подробно смотрите код для <code>methodInitialStackFrame</code> (раздел «Проверка кода»).
+
+* Тип фрейма <code>same_frame</code> представлен тегами в диапазоне [0-63]. Если фрейм имеет тип <code>same_frame</code>, то это значит, что фрейм имеет в точности те же локальные переменные, что и предыдущий фрейм и число элементов стека равно нулю. Значение <code>offset_delta</code> для данного фрейма равно величине <code>frame_type</code>.
+
+
+<syntaxhighlight lang="java"> 
+same_frame {
+u1 frame_type = SAME; /* 0-63 */
+}  
+</syntaxhighlight>
+
+
+* Тип фрейма <code>same_locals_1_stack_item_frame</code> представлен тегами в диапазоне [64, 127]. Если фрейм имеет тип <code>same_locals_1_stack_item_frame</code>, то это значит, что фрейм имеет в точности те же локальные переменные, что и предыдущий фрейм и число элементов стека равно единице. Значение <code>offset_delta</code> для данного фрейма равно величине (<code>frame_type</code> – 64).
+
+
+<syntaxhighlight lang="java">
+same_locals_1_stack_item_frame {
+u1 frame_type = SAME_LOCALS_1_STACK_ITEM; /* 64-127 */
+verification_type_info stack[1];
+}   
+</syntaxhighlight>
+
+
+: Теги в интервале [128-246] зарезервированы для будущего использования.
+
+* Тип фрейма <code>same_locals_1_stack_item_frame_extended</code> представлен тегом 247. Если фрейм имеет тип <code>same_locals_1_stack_item_frame_extended</code>, то это значит, что фрейм имеет в точности те же локальные переменные, что и предыдущий фрейм и число элементов стека равно единице. Значение <code>offset_delta</code> для данного фрейма задано явно. За элементом <code>frame_type</code> следует элемент <code>verification_type_info</code>.
+
+
+<syntaxhighlight lang="java">   
+same_locals_1_stack_item_frame_extended {
+u1 frame_type = SAME_LOCALS_1_STACK_ITEM_EXTENDED; /* 247 */
+u2 offset_delta;
+verification_type_info stack[1];
+}
+</syntaxhighlight>
+
+
+* Тип фрейма <code>chop_frame</code> представлен тегами в диапазоне [248-250]. Если фрейм имеет тип <code>chop_frame</code>, то это значит, что стек операндов пуст и фрейм имеет в точности те же локальные переменные, что и предыдущий фрейм, за исключением того, что последние ''k'' локальных переменных отсутствуют. Значение ''k'' равно величине 251 – <code>frame_type</code>. 
+
+
+<syntaxhighlight lang="java">
+chop_frame {
+u1 frame_type = CHOP; /* 248-250 */
+u2 offset_delta;
+}   
+</syntaxhighlight>
+
+
+* Тип фрейма <code>same_frame_extended</code> представлен тегом 251. Если фрейм имеет тип <code>same_frame_extended</code>, то это значит, что фрейм имеет в точности те же локальные переменные, что и предыдущий фрейм и число элементов стека равно нулю.
+
+
+<syntaxhighlight lang="java"> 
+same_frame_extended {
+u1 frame_type = SAME_FRAME_EXTENDED; /* 251 */
+u2 offset_delta;
+}
+</syntaxhighlight>
+
+
+* Тип фрейма <code>append_frame</code> представлен тегами в диапазоне [252-254]. Если фрейм имеет тип <code>append_frame</code>, то это значит, что стек операндов пуст и фрейм имеет в точности те же локальные переменные, что и предыдущий фрейм, за исключением того, что дополнительно определены ''k'' локальных переменных. Значение ''k'' равно величине <code>frame_type</code> – 251. 
+
+
+<syntaxhighlight lang="java"> 
+append_frame {
+u1 frame_type = APPEND; /* 252-254 */
+u2 offset_delta;
+verification_type_info locals[frame_type - 251];
+}  
+</syntaxhighlight>
+
+
+: Нулевой элемент в <code>locals</code> содержит тип первой дополнительной локальной переменной. Если <code>locals[M]</code> соответствует локальной переменной <code>N</code>, тогда <code>locals[M+1]</code> содержит локальную переменную <code>N</code> + 1, при условии, что <code>locals[M]</code> является одной из структур:
+<br>
+::* <code>Top_variable_info</code>
+::* <code>Integer_variable_info</code>
+::* <code>Float_variable_info</code>
+::* <code>Null_variable_info</code>
+::* <code>UninitializedThis_variable_info</code>
+::* <code>Object_variable_info</code>
+::* <code>Uninitialized_variable_info</code>
+
+: В противном случае <code>locals[M+1]</code> соответствует локальной переменной <code>N</code> + 2.
+
+: Считается ошибкой, если для произвольного индекса ''i'', элемент <code>locals[i]</code> содержит локальную переменную, чей индекс больше чем максимальное число локальных переменных метода.
+
+* Тип фрейма <code>full_frame</code> представлен тегом 255.
+
+
+<syntaxhighlight lang="java">
+full_frame {
+u1 frame_type = FULL_FRAME; /* 255 */
+u2 offset_delta;
+u2 number_of_locals;
+verification_type_info locals[number_of_locals];
+u2 number_of_stack_items;
+verification_type_info stack[number_of_stack_items];
+}   
+</syntaxhighlight>
+
+
+: Нулевой элемент в <code>locals</code> представляет собой тип локальной переменной 0. Если <code>locals[M]</code> соответствует локальной переменной N, тогда <code>locals[M+1]</code> содержит локальную переменную <code>N</code>+1, при условии, что <code>locals[M]</code> является одной из структур:
+
+::* <code>Top_variable_info</code>
+::* <code>Integer_variable_info</code>
+::* <code>Float_variable_info</code>
+::* <code>Null_variable_info</code>
+::* <code>UninitializedThis_variable_info</code>
+::* <code>Object_variable_info</code>
+::* <code>Uninitialized_variable_info</code>
+
+: В противном случае <code>locals[M+1]</code> соответствует локальной переменной <code>N</code>+2.
+
+: Считается ошибкой, если для произвольного индекса ''i'', элемент <code>locals[i]</code> содержит локальную переменную, чей индекс больше чем максимальное число локальных переменных метода.
+
+: Нулевой элемент в <code>stack</code> представляет собой тип элемента на дне стека, а последующие элементы в <code>stack</code> представляют типы элементов стека операндов по направлению к его вершине. Мы будем ссылаться на самый нижний элемент стека, как элемент с индексом 0, следующий за ним – 2 и так далее. Если <code>stack[M]</code> соответствует локальной переменной <code>N</code>, тогда <code>stack[M+1]</code> содержит локальную переменную <code>N</code>+1, при условии, что <code>stack[M]</code> является одной из структур:
+
+::* <code>Top_variable_info</code>
+::* <code>Integer_variable_info</code>
+::* <code>Float_variable_info</code>
+::* <code>Null_variable_info</code>
+::* <code>UninitializedThis_variable_info</code>
+::* <code>Object_variable_info</code>
+::* <code>Uninitialized_variable_info</code>
+
+: В противном случае <code>stack[M+1]</code> соответствует локальной переменной <code>N</code> + 2.
+: Считается ошибкой, если для произвольного индекса ''i'', элемент <code>stack[i]</code> содержит элемент стека, чей индекс больше чем максимальное число элементов в стеке операндов.
+
+: Структура <code>verification_type_info</code> состоит из тега размером в один байт, за которым следует ноль или более байт с дополнительной информацией о теге. Каждая структура <code>verification_type_info</code> определяет проверочный тип для одной или двух локальных переменных.
+
+
+<syntaxhighlight lang="java">
+union verification_type_info {
+Top_variable_info;
+Integer_variable_info;
+Float_variable_info;
+Long_variable_info;
+Double_variable_info;
+Null_variable_info;
+UninitializedThis_variable_info;
+Object_variable_info;
+Uninitialized_variable_info;
+}   
+</syntaxhighlight>
+
+
+* Тип <code>Top_variable_info</code> соответствует тому, что локальная переменная имеет проверочный тип <code>top</code>(<code>T</code>).
+
+
+<syntaxhighlight lang="java">
+Top_variable_info {
+u1 tag = ITEM_Top; /* 0 */
+}   
+</syntaxhighlight>
+
+
+* Тип <code>Integer_variable_info</code> соответствует тому, что локальная переменная имеет проверочный тип <code>int</code>.
+
+<syntaxhighlight lang="java">
+Integer_variable_info {
+u1 tag = ITEM_Integer; /* 1 */
+}   
+</syntaxhighlight>
+
+
+* Тип <code>Float_variable_info</code> соответствует тому, что локальная переменная имеет проверочный тип <code>float</code>.
+
+
+<syntaxhighlight lang="java">
+Float_variable_info {
+u1 tag = ITEM_Float; /* 2 */
+}   
+</syntaxhighlight>
+
+
+* Тип <code>Long_variable_info</code> соответствует тому, что локальная переменная имеет проверочный тип <code>long</code>.
+
+
+<syntaxhighlight lang="java">
+Long_variable_info {
+u1 tag = ITEM_Long; /* 4 */
+}   
+</syntaxhighlight>
+
+
+: Данная структура описывает содержимое двух элементов стека операндов или двух элементов в массиве локальных переменных.
+
+: Если описывается локальная переменная, тогда:
+
+::::* Локальная переменная не должна быть переменной с максимальным индексом.
+::::* Локальная переменная со следующим индексом также принадлежит к проверочному типу <code>T</code>.
+
+: Если описывается элемент стека операндов, тогда:
+
+::::* Элемент стека операндов не должен быть на вершине стека.
+::::* Элемент стека операндов, следующий по направлению к вершине стека,  также принадлежит к проверочному типу <code>T</code>.
+
+* Тип <code>Double_variable_info</code> соответствует тому, что локальная переменная имеет проверочный тип <code>double</code>.
+
+
+<syntaxhighlight lang="java">
+Double_variable_info {
+u1 tag = ITEM_Double; /* 3 */
+}   
+</syntaxhighlight>
+
+
+: Данная структура описывает содержимое двух элементов стека операндов или двух элементов в массиве локальных переменных.
+
+: Если описывается локальная переменная, тогда:
+
+::::* Локальная переменная не должна быть переменной с максимальным индексом.
+::::* Локальная переменная со следующим индексом также принадлежит к проверочному типу <code>T</code>.
+
+: Если описывается элемент стека операндов, тогда:
+
+::::* Элемент стека операндов не должен быть на вершине стека.
+::::* Элемент стека операндов, следующий по направлению к вершине стека,  также принадлежит к проверочному типу <code>T</code>.
+
+* Тип <code>Null_variable_info</code> соответствует тому, что локальная переменная имеет проверочный тип <code>null</code>.
+
+
+<syntaxhighlight lang="java">
+Null_variable_info {
+u1 tag = ITEM_Null; /* 5 */
+}   
+</syntaxhighlight>
+
+
+* Тип <code>UninitializedThis_variable_info</code> соответствует тому, что локальная переменная имеет проверочный тип <code>uninitializedThis</code>.
+
+
+<syntaxhighlight lang="java">
+UninitializedThis_variable_info {
+u1 tag = ITEM_UninitializedThis; /* 6 */
+}   
+</syntaxhighlight>
+
+
+* Тип <code>Object_variable_info</code> соответствует тому, что описываемый элемент содержит экземпляр класса, представленный структурой <code>CONSTANT_Class_info</code> (см. §4.4.1) в таблице <code>constant_pool</code> с индексом <code>cpool_index</code>.
+
+
+<syntaxhighlight lang="java">
+Object_variable_info {
+u1 tag = ITEM_Object; /* 7 */
+u2 cpool_index;
+}   
+</syntaxhighlight>
+
+
+* Тип <code>Object_variable_info</code> соответствует тому, что описываемый элемент имеет проверочный тип <code>uninitialized</code>(<code>offset</code>). Элемент <code>offset</code> содержит смещение в массиве <code>code</code> атрибута <code>Code</code> (см. §4.7.3), который содержит данный атрибут <code>StackMapTable</code>. Смещение указывает на расположение новых объектов, создаваемых с помощью инструкции ''new''.
+
+
+<syntaxhighlight lang="java">
+Uninitialized_variable_info {
+u1 tag = ITEM_Uninitialized /* 8 */
+u2 offset;
+}   
+</syntaxhighlight>
 
