@@ -4,8 +4,9 @@ package net.javacogito;
 public final class Constants {
     private Constants(){}
     public static final String EMPTY_STRING = "";
+    public static final String RIGHT_BRACKET = ">";
     public static final String TWO_QUOTES = "''";
-    public static final String EXCEPTIONS[] = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN"};
+    public static final String EXCEPTIONS[] = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE"};
     public static final String START_CODE_TAG = "<code>";
     public static final String END_CODE_TAG = "</code>";
     public static final String[] ADDITIONAL_KEY_WORDS = {
