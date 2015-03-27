@@ -2,6 +2,7 @@ package net.javacogito;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.apache.log4j.Logger;
 
@@ -29,7 +30,17 @@ public class FormatHelperTest {
         String actual = FormatHelper.addCodeTagForClassFileStructure(source);
         LOGGER.info("actual = " + actual);
         Assert.assertEquals(expected, actual);
-
     }
+
+    @Ignore
+    @Test
+    public void addCodeTagForClassFileStructureTestBrackets(){
+        String source = "Считается ошибкой, если для произвольного индекса i, элемент stack[i] содержит элемент стека, чей индекс больше чем максимальное число элементов в стеке операндов.";
+        String expected = "Считается ошибкой, если для произвольного индекса i, элемент <code>stack[i]</code> содержит элемент стека, чей индекс больше чем максимальное число элементов в стеке операндов.";
+        String actual = FormatHelper.addCodeTagForClassFileStructure(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
 
 }
