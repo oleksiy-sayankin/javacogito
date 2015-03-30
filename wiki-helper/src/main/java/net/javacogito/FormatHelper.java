@@ -10,6 +10,20 @@ import static net.javacogito.Constants.*;
 public final class FormatHelper {
     private FormatHelper(){}
 
+    public static String replaceCodeTagWithFontTag(String inText){
+        String outText = inText;
+        String search = "<code>";
+        String dest = "<font face=Courier>";
+        outText = outText.replaceAll(search, dest);
+        search = "</code>";
+        dest = "</font>";
+        outText = outText.replaceAll(search, dest);
+        return outText;
+    }
+
+
+
+
     public static String addCodeTagForClassFileStructure(String inText){
         String outText = inText;
         List<String> processedEnglishWords = new ArrayList<String>();

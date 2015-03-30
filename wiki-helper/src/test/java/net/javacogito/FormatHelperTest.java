@@ -42,5 +42,15 @@ public class FormatHelperTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void replaceCodeTagWithFontTagTest(){
+        String source = "имеющих расширение <code>class</code>. Эти файлы содержат инструкции";
+        String expected = "имеющих расширение <font face=Courier>class</font>. Эти файлы содержат инструкции";
+        String actual = FormatHelper.replaceCodeTagWithFontTag(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+
 
 }
