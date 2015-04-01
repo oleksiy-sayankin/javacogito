@@ -2255,37 +2255,37 @@ Class-файл представляет собой последовательн�
 ! Значение
 ! Пояснение
 |-
-| ACC_PUBLIC
-| 0x0001
-| Объявлен как public; доступен из других пакетов.
+| <font face=Courier>ACC_PUBLIC</font>
+| <font face=Courier>0x0001</font>
+| Объявлен как <font face=Courier>public</font>; доступен из других пакетов.
 |-
-| ACC_FINAL
-| 0x0010
-| Объявлен как final; наследование от класса запрещено.
+| <font face=Courier>ACC_FINAL</font>
+| <font face=Courier>0x0010</font>
+| Объявлен как <font face=Courier>final</font>; наследование от класса запрещено.
 |-
-| ACC_SUPER
-| 0x0020
-| При исполнении инструкции invokespecial обрабатывать методы класса предка особым способом.
+| <font face=Courier>ACC_SUPER</font>
+| <font face=Courier>0x0020</font>
+| При исполнении инструкции <font face=Courier>invokespecial</font> обрабатывать методы класса предка особым способом.
 |-
-| ACC_INTERFACE
-| 0x0200
-| Class-файл определяет интерфейс, а не класс.
+| <font face=Courier>ACC_INTERFACE</font>
+| <font face=Courier>0x0200</font>
+| <font face=Courier>Class</font>-файл определяет интерфейс, а не класс.
 |-
-| ACC_ABSTRACT
-| 0x0400
-| Объявлен как abstract; создание экземпляров запрещено.
+| <font face=Courier>ACC_ABSTRACT</font>
+| <font face=Courier>0x0400</font>
+| Объявлен как <font face=Courier>abstract</font>; создание экземпляров запрещено.
 |-
-| ACC_SYNTHETIC
-| 0x1000
+| <font face=Courier>ACC_SYNTHETIC</font>
+| <font face=Courier>0x1000</font>
 | Служебный класс. Отсутствует в исходном коде.
 |-
-| ACC_ANNOTATION
-| 0x2000
+| <font face=Courier>ACC_ANNOTATION</font>
+| <font face=Courier>0x2000</font>
 | Объявлен как аннотация
 |-
-| ACC_ENUM
-| 0x4000
-| Объявлен как перечисление (тип enum)
+| <font face=Courier>ACC_ENUM</font>
+| <font face=Courier>0x4000</font>
+| Объявлен как перечисление (тип <font face=Courier>enum</font>)
 |}
 
 :: Класс может быть помечен флагом <font face=Courier>ACC_SYNTHETIC</font>, что означает, что класс сгенерирован компилятором и отсутствует в исходном коде.
@@ -3164,41 +3164,41 @@ long m = (e == 0) ?
 ! Значение
 ! Описание
 |-
-| ACC_PUBLIC
-| 0x0001
-| Поле объявлено public; доступно вне пакета.
+| <font face=Courier>ACC_PUBLIC</font>
+| <font face=Courier>0x0001</font>
+| Поле объявлено <font face=Courier>public</font>; доступно вне пакета.
 |-
-| ACC_PRIVATE
-| 0x0002
-| Поле объявлено private; доступно только в классе.
+| <font face=Courier>ACC_PRIVATE</font>
+| <font face=Courier>0x0002</font>
+| Поле объявлено <font face=Courier>private</font>; доступно только в классе.
 |-
-| ACC_PROTECTED
-| 0x0004
-| Поле объявлено protected; доступно для классов предков.
+| <font face=Courier>ACC_PROTECTED</font>
+| <font face=Courier>0x0004</font>
+| Поле объявлено <font face=Courier>protected</font>; доступно для классов предков.
 |-
-| ACC_STATIC
-| 0x0008
-| Поле объявлено static.
+| <font face=Courier>ACC_STATIC</font>
+| <font face=Courier>0x0008</font>
+| Поле объявлено <font face=Courier>static</font>.
 |-
-| ACC_FINAL
-| 0x0010
-| Поле объявлено final; присваивание после создания объекта запрещено (см. JLS §17.5).
+| <font face=Courier>ACC_FINAL</font>
+| <font face=Courier>0x0010</font>
+| Поле объявлено <font face=Courier>final</font>; присваивание после создания объекта запрещено (см. JLS §17.5).
 |-
-| ACC_VOLATILE
-| 0x0040
-| Поле объявлено volatile; не кэшируется.
+| <font face=Courier>ACC_VOLATILE</font>
+| <font face=Courier>0x0040</font>
+| Поле объявлено <font face=Courier>volatile</font>; не кэшируется.
 |-
-| ACC_TRANSIENT
-| 0x0080
-| Поле объявлено transient; игнорируется при сериализации объекта менеджером объектов.
+| <font face=Courier>ACC_TRANSIENT</font>
+| <font face=Courier>0x0080</font>
+| Поле объявлено <font face=Courier>transient</font>; игнорируется при сериализации объекта менеджером объектов.
 |-
-| ACC_SYNTHETIC
-| 0x1000
+| <font face=Courier>ACC_SYNTHETIC</font>
+| <font face=Courier>0x1000</font>
 | Поле объявлено вспомогательным; отсутствует в исходно коде.
 |-
-| ACC_ENUM
-| 0x4000
-| Поле объявлено элементом перечисления (enum).
+| <font face=Courier>ACC_ENUM</font>
+| <font face=Courier>0x4000</font>
+| Поле объявлено элементом перечисления (<font face=Courier>enum</font>).
 |}
 
 
@@ -3254,52 +3254,52 @@ long m = (e == 0) ?
 ! Значение
 ! Описание
 |-
-| ACC_PUBLIC
-| 0x0001
-| Метод объявлен public; доступен вне пакета.
+| <font face=Courier>ACC_PUBLIC</font>
+| <font face=Courier>0x0001</font>
+| Метод объявлен <font face=Courier>public</font>; доступен вне пакета.
 |-
-| ACC_PRIVATE
-| 0x0002
-| Метод объявлен private; доступен только в классе.
+| <font face=Courier>ACC_PRIVATE</font>
+| <font face=Courier>0x0002</font>
+| Метод объявлен <font face=Courier>private</font>; доступен только в классе.
 |-
-| ACC_PROTECTED
-| 0x0004
-| Метод объявлен protected; доступен для классов предков.
+| <font face=Courier>ACC_PROTECTED</font>
+| <font face=Courier>0x0004</font>
+| Метод объявлен <font face=Courier>protected</font>; доступен для классов предков.
 |-
-| ACC_STATIC
-| 0x0008
-| Метод объявлен static.
+| <font face=Courier>ACC_STATIC</font>
+| <font face=Courier>0x0008</font>
+| Метод объявлен <font face=Courier>static</font>.
 |-
-| ACC_FINAL
-| 0x0010
-| Метод объявлен final; не замещается в классах предках (см. §5.4.5).
+| <font face=Courier>ACC_FINAL</font>
+| <font face=Courier>0x0010</font>
+| Метод объявлен <font face=Courier>final</font>; не замещается в классах предках (см. §5.4.5).
 |-
-| ACC_SYNCHRONIZED
-| 0x0020
-| Метод объявлен synchronized; при вызове метода захватывается монитор.
+| <font face=Courier>ACC_SYNCHRONIZED</font>
+| <font face=Courier>0x0020</font>
+| Метод объявлен <font face=Courier>synchronized</font>; при вызове метода захватывается монитор.
 |-
-| ACC_BRIDGE
-| 0x0040
+| <font face=Courier>ACC_BRIDGE</font>
+| <font face=Courier>0x0040</font>
 | Мостовой метод, генерируется компилятором.
 |-
-| ACC_VARARGS
-| 0x0080
+| <font face=Courier>ACC_VARARGS</font>
+| <font face=Courier>0x0080</font>
 | Метод с переменным числом параметров.
 |-
-| ACC_NATIVE
-| 0x0100
-| Метод объявлен native; реализован на языке отличном от Java.
+| <font face=Courier>ACC_NATIVE</font>
+| <font face=Courier>0x0100</font>
+| Метод объявлен <font face=Courier>native</font>; реализован на языке отличном от Java.
 |-
-| ACC_ABSTRACT
-| 0x0400
-| Метод объявлен abstract; реализация отсутствует.
+| <font face=Courier>ACC_ABSTRACT</font>
+| <font face=Courier>0x0400</font>
+| Метод объявлен <font face=Courier>abstract</font>; реализация отсутствует.
 |-
-| ACC_STRICT
-| 0x0800
-| Метод объявлен strictfp; используется режим работы с плавающей точкой FP-strict.
+| <font face=Courier>ACC_STRICT</font>
+| <font face=Courier>0x0800</font>
+| Метод объявлен <font face=Courier>strictfp</font>; используется режим работы с плавающей точкой <font face=Courier>FP</font>-<font face=Courier>strict</font>.
 |-
-| ACC_SYNTHETIC
-| 0x1000
+| <font face=Courier>ACC_SYNTHETIC</font>
+| <font face=Courier>0x1000</font>
 | Метод объявлен вспомогательным; отсутствует в исходном коде.
 |}
 
@@ -3337,6 +3337,7 @@ long m = (e == 0) ?
 :: Виртуальная машина Java должна игнорировать без сообщений об ошибках все атрибуты таблицы <font face=Courier>attributes</font> структуры <font face=Courier>method_info</font>, которые она не может распознать. Атрибутам, не определённым в данной спецификации запрещено влиять на семантику <font face=Courier>class</font>-файла, но разрешается предоставлять дополнительную описательную информацию (см. §4.7.1).
 
 <br><br><br><br>
+
 === Атрибуты ===
 
 Атрибуты используются в структурах <font face=Courier>ClassFile</font> (см. §4.1),  <font face=Courier>field_info</font> (см. §4.5),  <font face=Courier>method_info</font> (см. §4.6) и  <font face=Courier>Code_attribute</font> (см. §4.7.3). Все атрибуты имеют следующий общий формат:
@@ -3348,7 +3349,7 @@ long m = (e == 0) ?
     }
 
 У всех атрибутов элемент <font face=Courier>attribute_name_index</font> должен быть действительным 16-ти битовым индексом в константном пуле класса. Элемент таблицы <font face=Courier>constant_pool</font> с индексом <font face=Courier>attribute_name_index</font> должен быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей имя атрибута. Значение элемента <font face=Courier>attribute_length</font> содержит размер атрибута в байтах. Длина не включает в себя начальные шесть байт, содержащихся в элементах <font face=Courier>attribute_name_index</font> и <font face=Courier>attribute_length</font>.
-
+Таблица 4.21 – Предопределённые атрибуты class-файла
 Некоторые атрибуты определены как часть спецификации <font face=Courier>class</font>-файла. Они приведены в таблице 4.21 совместно с версией Java платформы стандартной редакции («Java SE») и версией формата <font face=Courier>class</font>-файла, в которой они впервые встречаются. В контексте использования атрибутов в данной спецификации (то есть в таблице <font face=Courier>attributes</font> различных структур <font face=Courier>class</font>-файла) имена атрибутов являются зарезервированными. Для предопределённых атрибутов справедливо следующее:
 
 * Реализация виртуальной машины Java должна считывать и корректно обрабатывать атрибуты <font face=Courier>ConstantValue</font>,  <font face=Courier>Code</font> и  <font face=Courier>Exceptions</font> в <font face=Courier>class</font>-файле.
@@ -3370,89 +3371,88 @@ long m = (e == 0) ?
 {| border="1" style="border-collapse:collapse"
 ! Атрибут
 ! Java SE
-! class-файл
+! <font face=Courier>class</font>-файл
 |-
-| ConstantValue(§4.7.2)
+| <font face=Courier>ConstantValue</font>(§4.7.2)
 | 1.0.2
 | 45.3
 |-
-| Code(§4.7.3)
+| <font face=Courier>Code</font>(§4.7.3)
 | 1.0.2
 | 45.3
 |-
-| StackMapTable(§4.7.4)
+| <font face=Courier>StackMapTable</font>(§4.7.4)
 | 6
 | 50
 |-
-| Exceptions(§4.7.5)
+| <font face=Courier>Exceptions</font>(§4.7.5)
 | 1.0.2
 | 45.3
 |-
-| InnerClasses(§4.7.6)
+| <font face=Courier>InnerClasses</font>(§4.7.6)
 | 1.1
 | 45.3
 |-
-| EnclosingMethod(§4.7.7)
+| <font face=Courier>EnclosingMethod</font>(§4.7.7)
 | 5
 | 49
 |-
-| Synthetic(§4.7.8)
+| <font face=Courier>Synthetic</font>(§4.7.8)
 | 1.1
 | 45.3
 |-
-| Signature(§4.7.9)
+| <font face=Courier>Signature</font>(§4.7.9)
 | 5
 | 49
 |-
-| SourceFile(§4.7.10)
+| <font face=Courier>SourceFile</font>(§4.7.10)
 | 1.0.2
 | 45.3
 |-
-| SourceDebugExtension(§4.7.11)
+| <font face=Courier>SourceDebugExtension</font>(§4.7.11)
 | 5
 | 49
 |-
-| LineNumberTable(§4.7.12)
+| <font face=Courier>LineNumberTable</font>(§4.7.12)
 | 1.0.2
 | 45.3
 |-
-| LocalVariableTable(§4.7.13)
+| <font face=Courier>LocalVariableTable</font>(§4.7.13)
 | 1.0.2
 | 45.3
 |-
-| LocalVariableTypeTable(§4.7.14)
+| <font face=Courier>LocalVariableTypeTable</font>(§4.7.14)
 | 5
 | 49
 |-
-| Deprecated(§4.7.15)
+| <font face=Courier>Deprecated</font>(§4.7.15)
 | 1.1
 | 45.3
 |-
-| RuntimeVisibleAnnotations(§4.7.16)
+| <font face=Courier>RuntimeVisibleAnnotations</font>(§4.7.16)
 | 5
 | 49
 |-
-| RuntimeInvisibleAnnotations(§4.7.17)
+| <font face=Courier>RuntimeInvisibleAnnotations</font>(§4.7.17)
 | 5
 | 49
 |-
-| RuntimeVisibleParameterAnnotations(§4.7.18)
+| <font face=Courier>RuntimeVisibleParameterAnnotations</font>(§4.7.18)
 | 5
 | 49
 |-
-| RuntimeInvisibleParameterAnnotations(§4.7.19)
+| <font face=Courier>RuntimeInvisibleParameterAnnotations</font>(§4.7.19)
 | 5
 | 49
 |-
-| AnnotationDefault(§4.7.20)
+| <font face=Courier>AnnotationDefault</font>(§4.7.20)
 | 5
 | 49
 |-
-| BootstrapMethods(§4.7.21)
+| <font face=Courier>BootstrapMethods</font>(§4.7.21)
 | 7
 | 51
 |}
-
 <br><br><br><br>
 ==== Определение и именование новых атрибутов ====
 
@@ -3498,20 +3498,20 @@ long m = (e == 0) ?
 ! Тип поля
 ! Тип константной структуры
 |-
-| long
-| CONSTANT_Long
+| <font face=Courier>long</font>
+| <font face=Courier>CONSTANT_Long</font>
 |-
-| float
-| CONSTANT_Float
+| <font face=Courier>float</font>
+| <font face=Courier>CONSTANT_Float</font>
 |-
-| double
-| CONSTANT_Double
+| <font face=Courier>double</font>
+| <font face=Courier>CONSTANT_Double</font>
 |-
-| int, short, char, byte, boolean
-| CONSTANT_Integer
+| <font face=Courier>int</font>, <font face=Courier>short</font>, <font face=Courier>char</font>, <font face=Courier>byte</font>, <font face=Courier>boolean</font>
+| <font face=Courier>CONSTANT_Integer</font>
 |-
-| String
-| CONSTANT_String
+| <font face=Courier>String</font>
+| <font face=Courier>CONSTANT_String</font>
 |}
 
 <br><br><br><br>
