@@ -52,5 +52,14 @@ public class FormatHelperTest {
     }
 
 
+    @Test
+    public void addFontCourierTagForClassFileStructureTest(){
+        String source = "Значение элемента code_length задает число байт в массиве code для данного метода. Значение code_length должно быть больше нуля; массив code не должен быть пустым.";
+        String expected = "Значение элемента <font face=Courier>code_length</font> задает число байт в массиве <font face=Courier>code</font> для данного метода. Значение <font face=Courier>code_length</font> должно быть больше нуля; массив <font face=Courier>code</font> не должен быть пустым.";
+        String actual = FormatHelper.addFontCourierTagForClassFileStructure(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
 
 }

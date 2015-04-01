@@ -8,7 +8,7 @@ public class Main {
         String inPlainText = Util.readFile("in.txt");
         System.out.println();
         System.out.println();
-        System.out.println(makeDoubleEnter(makeCodeTagForJAddKeywords(makeCodeTagForJavaKeywords(makeItalicJvmCommands(inPlainText)))));
+        System.out.println(makeDoubleEnter(makeCodeTagForAddKeywords(makeCodeTagForJavaKeywords(makeItalicJvmCommands(inPlainText)))));
         System.out.println();
         System.out.println(replaceTabWith4Spaces(makeSpaceAtLineStart(makeItalicJvmCommands(inPlainText))));
         System.out.println();

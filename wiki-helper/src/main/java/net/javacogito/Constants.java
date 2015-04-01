@@ -9,6 +9,8 @@ public final class Constants {
     public static final String EXCEPTIONS[] = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE"};
     public static final String START_CODE_TAG = "<code>";
     public static final String END_CODE_TAG = "</code>";
+    public static final String START_FONT_COURIER_TAG = "<font face=Courier>";
+    public static final String END_FONT_COURIER_TAG = "</font>";
     public static final String[] ADDITIONAL_KEY_WORDS = {
             "null",
             "reference"
