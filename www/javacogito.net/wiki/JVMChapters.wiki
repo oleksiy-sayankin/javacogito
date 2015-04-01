@@ -3864,3 +3864,818 @@ u2 offset;
 }   
 </syntaxhighlight>
 
+<br><br><br><br>
+==== Атрибут <font face=Courier>Exceptions</font> ====
+
+Атрибут <font face=Courier>Exceptions</font> является атрибутом с переменной длинной, принадлежащим таблице <font face=Courier>attributes</font> структуры <font face=Courier>method_info</font> (см. §4.6). Атрибут <font face=Courier>Exceptions</font> указывает, какие проверяемые исключения метод может генерировать. Должен быть, по крайней мере, один атрибут <font face=Courier>Exceptions</font> в структуре <font face=Courier>method_info</font>.
+
+Атрибут <font face=Courier>Exceptions</font> имеет следующий формат:
+
+ Exceptions_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 number_of_exceptions;
+ u2 exception_index_table[number_of_exceptions];
+ }
+
+Элементы структуры <font face=Courier>Exceptions_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>Exceptions</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры определяет длину атрибута без учёта начальных шести байт.
+
+<font face=Courier>number_of_exceptions</font>
+Значение элемента <font face=Courier>number_of_exceptions</font> определяет количество элементов <font face=Courier>stack_map_frame</font> в таблице <font face=Courier>exception_index_table</font>.
+
+<font face=Courier>exception_index_table[]</font>
+:: Каждое значение в массиве <font face=Courier>exception_index_table</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Элемент таблицы <font face=Courier>constant_pool</font> по указанному выше индексу должен быть структурой <font face=Courier>CONSTANT_Class_info</font> (см. §4.4.1), представляющей класс исключения, который данный метод генерирует.
+<br>
+:: <span style="font-size:88%">Примечание. Метод должен генерировать исключение, только если хотя бы одно условие истинно:</span>
+
+::* <span style="font-size:88%">Исключение является экземпляром <font face=Courier>RuntimeException</font> или его наследника.</span>
+::* <span style="font-size:88%">Исключение является экземпляром <font face=Courier>Error</font> или его наследника.</span>
+::* <span style="font-size:88%">Исключение является экземпляром одного из классов, описанных выше в таблице <font face=Courier>exception_index_table</font> либо их наследника.</span>
+
+:: <span style="font-size:88%">Эти условия налагаются не виртуальной машиной Java, а компилятором во время компиляции.</span>
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>InnerClasses</font>====
+
+Атрибут <font face=Courier>InnerClasses</font> является атрибутом с переменной длинной, принадлежащим таблице <font face=Courier>attributes</font> структуры <font face=Courier>ClassFile</font> (см. §4.1). Если константный пул класса или интерфейса C содержит элемент <font face=Courier>CONSTANT_Class_info</font>, который представляет класс или интерфейс, не являющийся членом пакета, то структура <font face=Courier>ClassFile</font> класса или интерфейса C должна иметь в точности один атрибут <font face=Courier>InnerClasses</font> в таблице <font face=Courier>attributes</font>.
+
+Атрибут <font face=Courier>InnerClasses</font> имеет следующий формат:
+
+ InnerClasses_attribute {
+     u2 attribute_name_index;
+     u4 attribute_length;
+     u2 number_of_classes;
+     { u2 inner_class_info_index;
+          u2 outer_class_info_index;
+          u2 inner_name_index;
+          u2 inner_class_access_flags;
+     } classes[number_of_classes];
+ }
+
+Элементы структуры <font face=Courier>Exceptions_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>InnerClasses</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры определяет длину атрибута без учёта начальных шести байт.
+
+<font face=Courier>number_of_classes</font>
+:: Значение элемента <font face=Courier>number_of_classes</font> определяет количество элементов в массиве  <font face=Courier>classes</font>.
+
+<font face=Courier>classes[]</font>
+:: Каждый элемент <font face=Courier>CONSTANT_Class_info</font> в таблице <font face=Courier>constant_pool</font>, который соответствует классу или интерфейсу C, не являющемуся членом пакета, должен соответствовать одному и только одному элементу массива <font face=Courier>classes</font>.
+
+:: Если класс имеет поля, являющиеся ссылками на экземпляр класса или имплементацию интерфейса, то таблица <font face=Courier>constant_pool</font> (и, следовательно, атрибут <font face=Courier>InnerClasses</font>) должны ссылаться на каждое такое поле, даже если это поле нигде в классе больше не упоминается. Из данного правила следует, что вложенный класс или интерфейс будут иметь в <font face=Courier>InnerClasses</font> информацию для каждого объемлющего класса и для каждого непосредственного члена данных.
+
+:: Каждый элемент массива <font face=Courier>classes</font> состоит из следующих четырёх полей:
+
+:: <font face=Courier>inner_class_info_index</font>
+:::: Значение <font face=Courier>inner_class_info_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Элемент, с указанным выше индексом должен быть структурой <font face=Courier>CONSTANT_Class_info</font> (см. §4.4.1), представляющей C. Оставшиеся поля элемента массива <font face=Courier>classes</font> содержат информацию о C.
+
+:: <font face=Courier>outer_class_info_index</font>
+:::: Если C не является членом-данным класса или интерфейса (т.е. C класс или интерфейс верхнего уровня (JLS §7.6), или локальный класс (JLS §14.3), или анонимный класс (JLS §15.9.5)), то значение <font face=Courier>outer_class_info_index</font> должно быть равно нулю.
+
+:::: В противном случае значение <font face=Courier>outer_class_info_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>, а элемент с данным индексом должен быть структурой <font face=Courier>CONSTANT_Class_info</font> (см. §4.4.1), представляющей класс или интерфейс, членом-данным которого является C.
+
+:: <font face=Courier>inner_name_index</font>
+:::: Если C анонимный класс (см. JLS §15.9.5), то значение <font face=Courier>inner_name_index</font> должно быть равно нулю.
+:::: В противном случае значение <font face=Courier>inner_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font> а элемент с данным индексом должен быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей исходное имя C, как оно записано в исходном коде, на основании которого скомпилирован <font face=Courier>class</font>-файл.
+
+:: <font face=Courier>inner_class_access_flags</font>
+:::: Значение элемента <font face=Courier>inner_class_access_flags</font> представляет собой маску из флагов для обозначения прав доступа и свойств класса или интерфейса C, как они записаны в исходном коде, на основании которого скомпилирован <font face=Courier>class</font>-файл. Флаги показаны в таблице 4.23.
+
+:::: '''Таблица 4.23 Флаги доступа и свойств метода'''
+{| border="1" style="border-collapse:collapse; margin-left: 92px;"
+! Имя флага
+! Значение
+! Описание
+|-
+| <font face=Courier>ACC_PUBLIC</font>
+| <font face=Courier>0x0001</font>
+| Объявлен <font face=Courier>public</font> в исходном коде.
+|-
+| <font face=Courier>ACC_PRIVATE</font>
+| <font face=Courier>0x0002</font>
+| Объявлен <font face=Courier>private</font> в исходном коде
+|-
+| <font face=Courier>ACC_PROTECTED</font>
+| <font face=Courier>0x0004</font>
+| Объявлен <font face=Courier>protected</font> в исходном коде
+|-
+| <font face=Courier>ACC_STATIC</font>
+| <font face=Courier>0x0008</font>
+| Объявлен <font face=Courier>static</font> в исходном коде.
+|-
+| <font face=Courier>ACC_FINAL</font>
+| <font face=Courier>0x0010</font>
+| Объявлен <font face=Courier>final</font> в исходном коде.
+|-
+| <font face=Courier>ACC_INTERFACE</font>
+| <font face=Courier>0x0200</font>
+| в исходном коде
+|-
+| <font face=Courier>ACC_ABSTRACT</font>
+| <font face=Courier>0x0400</font>
+| Объявлен <font face=Courier>abstract</font> в исходном коде.
+|-
+| <font face=Courier>ACC_SYNTHETIC</font>
+| <font face=Courier>0x1000</font>
+| Объявлен вспомогательным; отсутствует в исходном коде.
+|-
+| <font face=Courier>ACC_ANNOTATION</font>
+| <font face=Courier>0x2000</font>
+| Аннотация.
+|-
+| <font face=Courier>ACC_ENUM</font>
+| <font face=Courier>0x4000</font>
+| Перечисление.
+|}
+
+:: Все биты элемента <font face=Courier>inner_class_access_flags</font> не указанные в таблице 4.23 зарезервированы для будущего использования. Им должно быть присвоено нулевое значение при генерации <font face=Courier>class</font>-файла. Реализация виртуальной машины Java должно игнорировать биты, не указанные в таблице 4.23.
+
+Если номер версии <font face=Courier>class</font>-файла больше либо равен 51.0 и атрибут <font face=Courier>InnerClasses</font> присутствует в таблице атрибутов, тогда для всех элементов  в массиве <font face=Courier>classes</font> атрибута <font face=Courier>InnerClasses</font> значение элемента <font face=Courier>outer_class_info_index</font>  должно быть нулевым, если значение <font face=Courier>inner_name_index</font> также ноль.
+<br><br>
+:: <span style="font-size:88%">Примечание. Реализация виртуальной машины Java компании <font face=Courier>Oracle</font> не проверяет взаимную согласованность атрибута <font face=Courier>InnerClasses</font> и собственно содержания <font face=Courier>class</font>-файла, представляющего класс или интерфейс, на который ссылается атрибут.
+</span>
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>EnclosingMethod</font> ====
+
+Атрибут <font face=Courier>EnclosingMethod</font> является необязательным атрибутом постоянной длины в таблице <font face=Courier>attributes</font> структуры <font face=Courier>ClassFile</font> (см. §4.1). Класс должен иметь атрибут <font face=Courier>EnclosingMethod</font> тогда и только тогда, когда он является локальным или анонимным классом. Класс может иметь не более одного атрибута <font face=Courier>EnclosingMethod</font>.
+
+Атрибут <font face=Courier>EnclosingMethod</font> имеет следующий формат:
+
+ EnclosingMethod_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 class_index;
+ u2 method_index;
+ }
+
+Элементы структуры <font face=Courier>EnclosingMethod_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>EnclosingMethod</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> равно четырем.
+
+<font face=Courier>class_index</font>
+:: Значение элемента <font face=Courier>class_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Class_info</font> (см. §4.4.1) представляющим ближайший класс, который содержит текущий класс.
+
+<font face=Courier>method_index</font>
+:: Если текущий класс не содержится непосредственно в методе или конструкторе, то значение элемента <font face=Courier>method_index</font> должно быть равно нулю.
+
+:: В противном случае значение элемента <font face=Courier>method_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_NameAndType_info</font> (см. §4.4.6), представляющей имя и тип метода в классе, на который ссылается <font face=Courier>class_index</font> выше.
+<br>
+:: <span style="font-size:88%">Примечание. Проверка того, что метод по индексу <font face=Courier>method_index</font> в действительности является ближайшим включающим в себя данный класс, является ответственностью компилятора виртуальной машины Java.
+</span>
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>Synthetic</font> ====
+
+Атрибут <font face=Courier>Synthetic</font> является атрибутом фиксированной длины таблицы <font face=Courier>attributes</font> структур <font face=Courier>ClassFile</font> (см. §4.1), <font face=Courier>field_info</font> (см. §4.5) и <font face=Courier>method_info</font> (см. §4.6). Член класса, которого нет в исходном классе, должен быть помечен с помощью атрибута <font face=Courier>Synthetic</font> либо с помощью флага <font face=Courier>ACC_SYNTHETIC</font>. Единственное исключение из этого правила – это методы, сгенерированные компилятором, для которых не требуется имплементация: методы инициализации экземпляра, соответствующие конструктору по умолчанию языка программирования Java (см. §2.9), методы инициализации класса (см. §2.9), методы <font face=Courier>Enum</font>.<font face=Courier>values</font>() и <font face=Courier>Enum</font>.<font face=Courier>valueOf</font>().
+<br><br>
+:: <span style="font-size:88%">Примечание. Атрибут <font face=Courier>Synthetic</font> был введен в JDK release 1.1 для поддержки вложенных классов и интерфейсов.
+</span>
+
+
+Атрибут <font face=Courier>Synthetic</font> имеет следующий формат:
+
+ Synthetic_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ }
+
+Элементы структуры <font face=Courier>Synthetic_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>Synthetic</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> равно нулю.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>Signature</font> ====
+
+Атрибут <font face=Courier>Signature</font> является необязательным атрибутом постоянной длины в таблице <font face=Courier>attributes</font> структуры <font face=Courier>ClassFile</font> (§4.1), <font face=Courier>field_info</font> (см. §4.5) и <font face=Courier>method_info</font> (см. §4.6). Атрибут <font face=Courier>Signature</font> содержит информацию о сигнатуре с обобщёнными типами для класса, интерфейса, конструктора или члена данного, чья обобщённая сигнатура в языке программирования Java содержит ссылку на переменную типа или параметризированный тип.
+
+Атрибут <font face=Courier>Signature</font> имеет следующий формат:
+
+ Signature_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 signature_index;
+ }
+
+Элементы структуры <font face=Courier>Signature_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>Signature</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>Signature_attribute</font> равно двум.
+
+<font face=Courier>signature_index</font>
+:: Значение элемента <font face=Courier>signature_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой сигнатуру класса (см. §4.3.4), если атрибут <font face=Courier>Signature</font> является атрибутом структуры <font face=Courier>ClassFile</font>; метода, если атрибут <font face=Courier>Signature</font> является атрибутом структуры <font face=Courier>method_info</font> или сигнатуру типа поля в противном случае.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>SourceFile</font> ====
+
+Атрибут <font face=Courier>SourceFile</font> является необязательным атрибутом постоянной длины в таблице <font face=Courier>attributes</font> структуры <font face=Courier>ClassFile</font> (см. §4.1). Может быть не более одного атрибута <font face=Courier>SourceFile</font> в таблице <font face=Courier>attributes</font> данной структуры <font face=Courier>ClassFile</font>.
+
+Атрибут <font face=Courier>SourceFile</font> имеет следующий формат:
+
+ SourceFile_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 sourcefile_index;
+ }
+
+Элементы структуры <font face=Courier>SourceFile_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>SourceFile</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>SourceFile_attribute</font> равно двум.
+
+<font face=Courier>sourcefile_index</font>
+:: Значение элемента <font face=Courier>sourcefile_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку.
+
+::Строка, на которую ссылается <font face=Courier>sourcefile_index</font>, интерпретируется как имя файла, из которого был скомпилирован <font face=Courier>class</font>-файл. Не предполагается, что данная строка будет содержать имя директории или абсолютный путь к файлу; такая платформенно зависимая дополнительная информация должна быть представлена интерпретатором времени выполнения или средствами разработки в момент, когда имя файла фактически используется.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>SourceDebugExtension</font> ====
+
+Атрибут <font face=Courier>SourceDebugExtension</font> является необязательным атрибутом постоянной длины в таблице <font face=Courier>attributes</font> структуры <font face=Courier>ClassFile</font> (см. §4.1). Может быть не более одного атрибута <font face=Courier>SourceDebugExtension</font> в таблице <font face=Courier>attributes</font> данной структуры <font face=Courier>ClassFile</font>.
+
+Атрибут <font face=Courier>SourceDebugExtension</font> имеет следующий формат:
+
+ SourceDebugExtension_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u1 debug_extension[attribute_length];
+ }
+
+Элементы структуры <font face=Courier>SourceDebugExtension_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+::Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>SourceDebugExtension</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>SourceFile_attribute</font> содержит длину атрибута в байтах без учёта начальных шести байт. Поэтому значение элемента <font face=Courier>attribute_length</font> есть число байт в элементе <font face=Courier>debug_extension[]</font>.
+
+<font face=Courier>debug_extension[]</font>
+:: Массив <font face=Courier>debug_extension</font> содержит дополнительную отладочную информацию, которая не влияет на работу виртуальной машины Java. Информация представлена в виде модифицированной UTF-8 строки (см. §4.4.7) без завершающего нулевого байта.
+<br>
+:: <span style="font-size:88%">Примечание. Обратите внимание, что массив <font face=Courier>debug_extension</font> может содержать строку, длинна которой больше, чем длина строки, допустимая в классе <font face=Courier>String</font>.
+</span>
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>LineNumberTable</font> ====
+
+Атрибут <font face=Courier>LineNumberTable</font> является необязательным атрибутом переменной длины в таблице <font face=Courier>attributes</font> атрибута <font face=Courier>Code</font> (см. §4.7.3). Этот атрибут может быть использован отладчиком для определения того, какая часть массива  <font face=Courier>code</font> виртуальной машины Java соответствует какой строке в исходном файле.
+
+Если атрибуты <font face=Courier>LineNumberTable</font> присутствуют в таблице <font face=Courier>attributes</font> данного атрибута <font face=Courier>Code</font>, то они могут появляться там в произвольном порядке. Более того, несколько атрибутов <font face=Courier>LineNumberTable</font> совместно могут представлять одну строку в исходном файле; то есть атрибуты <font face=Courier>LineNumberTable</font> не обязательно взаимно однозначно соответствуют строкам исходного файла.
+
+Атрибут <font face=Courier>LineNumberTable</font> имеет следующий формат:
+
+ LineNumberTable_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 line_number_table_length;
+     { 
+     u2 start_pc;
+     u2 line_number; 
+     } line_number_table[line_number_table_length];
+ }
+
+Элементы структуры <font face=Courier>LineNumberTable_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>LineNumberTable</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>LineNumberTable_attribute</font> содержит длину атрибута в байтах без учёта начальных шести байт.
+
+<font face=Courier>line_number_table_length</font>
+:: Значение элемента <font face=Courier>line_number_table_length</font> содержит число элементов в массиве <font face=Courier>line_number_table</font>.
+
+<font face=Courier>line_number_table</font>[]
+:: Каждый элемент массива <font face=Courier>line_number_table</font> сообщает, что номер строки в исходном файле изменился и принял новое значение в заданном смещении в массиве <font face=Courier>code</font>. Каждый элемент <font face=Courier>line_number_table</font> должен содержать два следующих элемента:
+
+:: <font face=Courier>start_pc</font>
+:::: Значение <font face=Courier>start_pc</font> указывает на индекс в массиве <font face=Courier>code</font>, где начинается новый номер строки в исходном файле соответственно. 
+
+:::: Значение <font face=Courier>start_pc</font> должно быть меньше чем значение элемента <font face=Courier>code_length</font> атрибута <font face=Courier>Code</font>, для которого задан атрибут <font face=Courier>LineNumberTable</font>.
+
+:: <font face=Courier>line_number</font>
+:::: Значение элемента <font face=Courier>line_number</font> должно содержать соответствующий номер строки в исходном файле.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>LocalVariableTable</font> ====
+
+Атрибут <font face=Courier>LocalVariableTable</font> является необязательным атрибутом переменной длины в таблице <font face=Courier>attributes</font> атрибута <font face=Courier>Code</font> (см. §4.7.3). Этот атрибут может быть использован отладчиком для определения значения локальной переменной во время выполнения метода.
+Если атрибуты <font face=Courier>LocalVariableTable</font> присутствуют в таблице <font face=Courier>attributes</font> данного атрибута <font face=Courier>Code</font>, то они могут появляться там в произвольном порядке. Может быть не более одного атрибута <font face=Courier>LocalVariableTable</font> для одной локальной переменной в атрибуте <font face=Courier>Code</font>.
+
+Атрибут <font face=Courier>LocalVariableTable</font> имеет следующий формат:
+
+ LocalVariableTable_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 local_variable_table_length;
+ { 	u2 start_pc;
+        u2 length;
+        u2 name_index;
+        u2 descriptor_index;
+        u2 index;
+ } local_variable_table[local_variable_table_length];
+ }
+
+Элементы структуры <font face=Courier>LocalVariableTable_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>LocalVariableTable</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>LineNumberTable_attribute</font> содержит длину атрибута в байтах без учета начальных шести байт.
+
+<font face=Courier>local_variable_table_length</font>
+:: Значение элемента <font face=Courier>local_variable_table_length</font> содержит число элементов в массиве <font face=Courier>local_variable_table</font>.
+
+<font face=Courier>local_variable_table[]</font>
+:: Каждый элемент в массиве <font face=Courier>local_variable_table</font> содержит границы кода в массиве <font face=Courier>code</font>, в котором данная переменная имеет определенное значение. Он также содержит индекс в массиве локальных переменных текущего фрейма, по которому может быть найдена локальная переменная. Каждый элемент массива состоит из следующих пяти элементов:
+
+:: <font face=Courier>start_pc</font>, <font face=Courier>length</font>
+:::: Данная локальная переменная должна иметь значение в пределах индексов [<font face=Courier>start_pc</font>,  <font face=Courier>start_pc</font> + <font face=Courier>length</font>) в массиве <font face=Courier>code</font>. Это значит, что локальная переменная имеет значение, начиная с индекса <font face=Courier>start_pc</font> включительно и заканчивая <font face=Courier>start_pc</font> + <font face=Courier>length</font> не включительно.
+
+:::: Значение <font face=Courier>start_pc</font> должно быть действительным индексом массива <font face=Courier>code</font> атрибута <font face=Courier>Code</font> и должно представлять собой индекс машинного кода инструкции виртуальной машины Java.
+
+:::: Значение <font face=Courier>start_pc</font> + <font face=Courier>length</font> должно быть либо действительным индексом массива <font face=Courier>code</font> атрибута <font face=Courier>Code</font> и должно представлять собой индекс машинного кода инструкции виртуальной машины Java либо должно быть индексом на один большим размера массива <font face=Courier>code</font>.
+
+:: <font face=Courier>name_index</font>
+:::: Значение элемента <font face=Courier>name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой действительное имя (см. §4.2.2) локальной переменной.
+
+:: <font face=Courier>descriptor_index</font>
+:::: Значение элемента <font face=Courier>descriptor_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой дескриптор поля (см. §4.3.2) определяющий тип локальной переменной в исходном коде.
+
+:: <font face=Courier>index</font>
+:::: Данная локальная переменная должна находиться по индексу <font face=Courier>index</font> в массиве локальных переменных текущего фрейма.
+
+:::: Если тип локальной переменной равен <font face=Courier>double</font> либо <font face=Courier>long</font>, то её значение расположено по индексам <font face=Courier>index</font> и <font face=Courier>index</font> + 1.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>LocalVariableTypeTable</font> ====
+
+Атрибут <font face=Courier>LocalVariableTypeTable</font> является необязательным атрибутом переменной длины в таблице <font face=Courier>attributes</font> атрибута <font face=Courier>Code</font> (см. §4.7.3). Этот атрибут может быть использован отладчиком для определения значения локальной переменной во время выполнения метода.
+
+Если атрибуты <font face=Courier>LocalVariableTypeTable</font> присутствуют в таблице <font face=Courier>attributes</font> данного атрибута <font face=Courier>Code</font>, то они могут появляться там в произвольном порядке. Может быть не более одного атрибута <font face=Courier>LocalVariableTypeTable</font> для одной локальной переменной в атрибуте <font face=Courier>Code</font>.
+
+Атрибут <font face=Courier>LocalVariableTypeTable</font> отличается от <font face=Courier>LocalVariableTable</font> тем, что предоставляет информацию о сигнатуре, а не о дескрипторе. Это отличие имеет смысл только для тех переменных, чей тип принадлежит обобщённому типу (<font face=Courier>generic</font>). Такие переменные будут присутствовать в обеих таблицах, в то время как переменные остальных типов будут только в <font face=Courier>LocalVariableTable</font>.
+
+Атрибут <font face=Courier>LocalVariableTypeTable</font> имеет следующий формат:
+
+ LocalVariableTypeTable_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 local_variable_type_table_length;
+ { 	u2 start_pc;
+        u2 length;
+        u2 name_index;
+        u2 signature_index;
+        u2 index;
+ } local_variable_type_table[local_variable_type_table_length];
+ }
+
+Элементы структуры <font face=Courier>LocalVariableTypeTable_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>LocalVariableTypeTable</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>LineNumberTable_attribute</font> содержит длину атрибута в байтах без учета начальных шести байт.
+
+<font face=Courier>local_variable_type_table_length</font>
+:: Значение элемента <font face=Courier>local_variable_type_table_length</font> содержит число элементов в массиве <font face=Courier>local_variable_type_table</font>.
+
+<font face=Courier>local_variable_type_table[]</font>
+:: Каждый элемент в массиве <font face=Courier>local_variable_type_table</font> содержит границы кода в массиве <font face=Courier>code</font>, в котором данная переменная имеет определенное значение. Он также содержит индекс в массиве локальных переменных текущего фрейма, по которому может быть найдена локальная переменная. Каждый элемент массива состоит из следующих пяти элементов:
+
+:: <font face=Courier>start_pc</font>, <font face=Courier>length</font>
+:::: Данная локальная переменная должна иметь значение в пределах индексов [<font face=Courier>start_pc</font>,  <font face=Courier>start_pc</font> + <font face=Courier>length</font>) в массиве <font face=Courier>code</font>. Это значит, что локальная переменная имеет значение, начиная с индекса <font face=Courier>start_pc</font> включительно и заканчивая <font face=Courier>start_pc</font> + <font face=Courier>length</font> не включительно.
+
+:::: Значение <font face=Courier>start_pc</font> должно быть действительным индексом массива <font face=Courier>code</font> атрибута <font face=Courier>Code</font> и должно представлять собой индекс машинного кода инструкции виртуальной машины Java.
+
+:::: Значение <font face=Courier>start_pc</font> + <font face=Courier>length</font> должно быть либо действительным индексом массива <font face=Courier>code</font> атрибута <font face=Courier>Code</font> и должно представлять собой индекс машинного кода инструкции виртуальной машины Java либо должно быть индексом на один большим размера массива <font face=Courier>code</font>.
+
+:: <font face=Courier>name_index</font>
+:::: Значение элемента <font face=Courier>name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой действительное имя (см. §4.2.2) локальной переменной.
+
+:: <font face=Courier>signature_index</font>
+:::: Значение элемента <font face=Courier>signature_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой сигнатуру типа поля (см. §4.3.4) определяющую тип локальной переменной в исходном коде.
+
+:: <font face=Courier>index</font>
+:::: Данная локальная переменная должна находиться по индексу <font face=Courier>index</font> в массиве локальных переменных текущего фрейма.
+
+:::: Если тип локальной переменной равен <font face=Courier>double</font> либо <font face=Courier>long</font>, то ее значение расположено по индексам <font face=Courier>index</font> и <font face=Courier>index</font> + 1.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>Deprecated</font> ====
+
+Атрибут <font face=Courier>Deprecated</font> является необязательным атрибутом постоянной длины в таблице <font face=Courier>attributes</font> структур <font face=Courier>ClassFile</font> (см. §4.1), <font face=Courier>field_info</font> (см. §4.5) или <font face=Courier>method_info</font> (см. §4.6). Класс, интерфейс, метод или поле могут быть помечены с использованием атрибута <font face=Courier>Deprecated</font> как нежелательные к использованию (устаревшие).
+
+Интерпретатор времени выполнения или инструмент для чтения <font face=Courier>class</font>-файла, такой как компилятор, может использовать данный атрибут, сообщая пользователю о том, что создана ссылка на устаревшие класс, интерфейс, метод либо поле. Присутствие атрибута <font face=Courier>Deprecated</font> не изменяет семантики класса или интерфейса.
+
+Атрибут <font face=Courier>Deprecated</font> имеет следующий формат:
+
+ Deprecated_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ }
+
+Элементы структуры <font face=Courier>Deprecated_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>Deprecated</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> равно нулю.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>RuntimeVisibleAnnotations</font> ====
+
+Атрибут <font face=Courier>RuntimeVisibleAnnotations</font> является необязательным атрибутом переменной длины в таблице <font face=Courier>attributes</font> структур <font face=Courier>ClassFile</font> (см. §4.1), <font face=Courier>field_info</font> (см. §4.5) или <font face=Courier>method_info</font> (см. §4.6). Атрибут <font face=Courier>RuntimeVisibleAnnotations</font> хранит аннотации времени выполнения языка программирования Java для соответствующего класса, поля или метода.
+
+Каждая из структур <font face=Courier>ClassFile</font>,  <font face=Courier>field_info</font> и <font face=Courier>method_info</font> может содержать не более одного атрибута <font face=Courier>RuntimeVisibleAnnotations</font>, который содержит все аннотации времени выполнения языка программирования Java для соответствующего элемента программы. Виртуальная машина Java имеет доступ к этим аннотациям, так что они могут быть получены с помощью рефлексии и ее <font face=Courier>API</font>.
+
+Атрибут <font face=Courier>RuntimeVisibleAnnotations</font> имеет следующий формат:
+
+ RuntimeVisibleAnnotations_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 num_annotations;
+ annotation annotations[num_annotations];
+ }
+
+Элементы структуры <font face=Courier>RuntimeVisibleAnnotations_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>RuntimeVisibleAnnotations</font>».
+
+<font face=Courier>attribute_length</font>
+::Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>LineNumberTable_attribute</font> содержит длину атрибута в байтах без учёта начальных шести байт. 
+
+:: Значение <font face=Courier>attribute_length</font> зависит от аннотаций времени выполнения и значения этих аннотаций.
+
+<font face=Courier>num_annotations</font>
+:: Значение элемента <font face=Courier>num_annotations</font> содержит число аннотаций времени выполнения, находящихся в данной структуре.
+
+<br>
+:: <span style="font-size:88%">Примечание. Программный элемент может иметь до 65535 аннотаций времени выполнения языка программирования Java.
+</span>
+
+
+<font face=Courier>annotations</font>
+:: Каждый элемент в таблице <font face=Courier>annotations</font> представляет собой одну аннотацию времени выполнения для программного элемента. Структура аннотации имеет следующий формат:
+
+ annotation {
+ u2 type_index;
+ u2 num_element_value_pairs;
+ { 	u2 element_name_index;
+ element_value value;
+ } element_value_pairs[num_element_value_pairs];
+ }
+
+Элементы структуры <font face=Courier>annotation</font> следующие:
+
+<font face=Courier>type_index</font>
+:: Значение элемента <font face=Courier>type_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой дескриптор поля, который описывает тип аннотации, представленной в данной структуре <font face=Courier>annotation</font>.
+
+<font face=Courier>num_element_value_pairs</font>
+:: Значение элемента <font face=Courier>num_element_value_pairs</font> равно числу пар элемент-значение, представленных в данной структуре <font face=Courier>annotation</font>.
+
+<br>
+:: <span style="font-size:88%">Примечание. В одной аннотации может содержаться до 65535 пар элемент-значение.
+</span>
+
+<font face=Courier>element_value_pairs</font>
+:: Каждое значение в таблице <font face=Courier>element_value_pairs</font> представляет собой одну пару элемент-значение, принадлежащую данной структуре <font face=Courier>annotation</font>. 
+
+:: Каждый элемент из <font face=Courier>element_value_pairs</font> содержит два следующие элемента:
+
+:: <font face=Courier>element_name_index</font>
+:::: Значение элемента <font face=Courier>element_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой действительный дескриптор поля (см. §4.3.2), который обозначает имя типа аннотации, находящегося в паре <font face=Courier>element_value_pairs</font>.
+
+:: <font face=Courier>value</font>
+:::: Элемент <font face=Courier>value</font> представляет собой значение пары элемент-значение, находящейся в таблице <font face=Courier>element_value_pairs</font>.
+
+<br><br><br><br>
+===== Структура <font face=Courier>element_value</font> =====
+
+Структура <font face=Courier>element_value</font> является отдельным элементом, содержащим значение из пары элемент-значение. Она используется для представления значения элемента во всех атрибутах, которые описывают аннотации (<font face=Courier>RuntimeVisibleAnnotations</font>,
+<font face=Courier>RuntimeInvisibleAnnotations</font>,  <font face=Courier>RuntimeVisibleParameterAnnotations</font>, и
+<font face=Courier>RuntimeInvisibleParameterAnnotations</font>).
+
+Структура <font face=Courier>element_value</font> имеет следующий формат:
+
+ element_value {
+ u1 tag;
+ union {
+ u2 const_value_index;
+ 
+ { 	u2 type_name_index;
+        u2 const_name_index;
+ } enum_const_value;
+ 
+ u2 class_info_index;
+ 
+ annotation annotation_value;
+ 
+ { u2 num_values;
+        element_value values[num_values];
+ } array_value;
+ } value;
+ }
+
+Элементы структуры <font face=Courier>element_value</font> следующие:
+
+<font face=Courier>tag</font>
+:: Элемент <font face=Courier>tag</font> определяет тип данной пары элемент-значение. Литеры «<font face=Courier>B</font>», «<font face=Courier>C</font>», «<font face=Courier>D</font>», «<font face=Courier>F</font>», «<font face=Courier>I</font>», «<font face=Courier>J</font>»,«<font face=Courier>S</font>», и «<font face=Courier>Z</font>» определяют примитивные типы. Они интерпретируются согласно таблице примитивных типов (см. Таблицу 4.2). Остальные допустимые значения для элемента <font face=Courier>tag</font> и их интерпретация приведены в Таблице 4.24.
+
+:: '''Таблица 4.24 Дополнительные значения элемента <font face=Courier>tag</font>'''
+{| border="1" style="border-collapse:collapse; margin-left: 46px;"
+! Значение элемента <font face=Courier>tag</font>
+! Тип элемента
+|-
+| <font face=Courier>s</font>
+| <font face=Courier>String</font>
+|-
+| <font face=Courier>e</font>
+| Перечисление
+|-
+| <font face=Courier>c</font>
+| Класс
+|-
+| <font face=Courier>@</font>
+| Аннотация
+|-
+| <font face=Courier>[</font>
+| Массив
+|}
+
+<font face=Courier>value</font>
+:: Элемент <font face=Courier>value</font> представляет собой значение аннотации. Он представляет собой объединение (<font face=Courier>union</font> — структура данных, члены которой расположены по одному и тому же адресу. Размер объединения равен размеру его наибольшего члена. В любой момент времени объединение хранит значение только одного из членов. – прим. перев.). Элемент <font face=Courier>tag</font> (см. выше) определяет какой именно элемент из объединения будет использован:
+
+<font face=Courier>const_value_index</font>
+:: Элемент <font face=Courier>const_value_index</font> используется, если <font face=Courier>tag</font> принимает значение «<font face=Courier>B</font>», «<font face=Courier>C</font>», «<font face=Courier>D</font>»,«<font face=Courier>F</font>», «<font face=Courier>I</font>», «<font face=Courier>J</font>», «<font face=Courier>S</font>», «<font face=Courier>Z</font>» или «<font face=Courier>s</font>». Значение элемента <font face=Courier>const_value_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой, представляющей собой корректную константу, соответствующую элементу <font face=Courier>tag</font> (см. Таблицу 4.24).
+
+<font face=Courier>enum_const_value</font>
+:: Элемент <font face=Courier>enum_const_value</font> используется, если <font face=Courier>tag</font> равен «e». Элемент <font face=Courier>enum_const_value</font> состоит из следующих двух элементов:
+
+:: <font face=Courier>type_name_index</font>
+:::: Значение элемента <font face=Courier>type_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой действительный дескриптор поля (см. §4.3.2), который обозначает внутреннюю форму двоичного имени (см. §4.2.1) типа перечисления, соответствующего структуре <font face=Courier>element_value</font>.
+
+:: <font face=Courier>const_name_index</font>
+:::: Значение элемента <font face=Courier>const_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой простое имя константы из перечисления, соответствующей структуре <font face=Courier>element_value</font>.
+
+
+<font face=Courier>class_info_index</font>
+:: Элемент <font face=Courier>class_info_index</font> используется, если <font face=Courier>tag</font> равен «c». Значение элемента <font face=Courier>const_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой дескриптор возвращаемого значения (см. §4.3.3), определяющий класс для структуры <font face=Courier>element_value</font>.
+<br>
+:: <span style="font-size:88%">Примечание. Например, «V» для <font face=Courier>Void</font>.<font face=Courier>class</font>, «<font face=Courier>Ljava</font>/<font face=Courier>lang</font>/<font face=Courier>Object</font>;» для <font face=Courier>Object</font> и так далее.
+</span>
+<br>
+
+<font face=Courier>annotation_value</font>
+:: Элемент <font face=Courier>annotation_value</font> используется, если <font face=Courier>tag</font> равен «@». Структура <font face=Courier>element_value</font> представляет вложенную аннотацию.
+
+<font face=Courier>array_value</font>
+:: Элемент <font face=Courier>array_value</font> используется, если <font face=Courier>tag</font> равен «[». Элемент <font face=Courier>array_value</font> состоит из следующих двух элементов:
+
+<font face=Courier>num_values</font>
+:: Значение <font face=Courier>num_values</font> определяет число элементов в массиве, который соответствует структуре <font face=Courier>element_value</font>.
+<br>
+:: <span style="font-size:88%">Примечание. Допустимо не более 65535 значений в массиве.
+</span>
+<br>
+
+<font face=Courier>values</font>
+:: Каждое значение таблицы <font face=Courier>values</font> представляет собой значения массива, соответствующего структуре <font face=Courier>element_value</font>.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>RuntimeInvisibleAnnotations</font> ====
+
+	Атрибут <font face=Courier>RuntimeInvisibleAnnotations</font> похож на <font face=Courier>RuntimeVisibleAnnotations</font> за исключением того, что аннотации, представленные в атрибуте <font face=Courier>RuntimeVisibleAnnotations</font> не доступны с помощью механизма рефлексии, до тех пор, пока виртуальной машине Java не будет выдана команда сделать доступными эти аннотации, например с помощью флага командной строки. Если такой команды нет, виртуальная машина игнорирует данный атрибут.
+
+Атрибут <font face=Courier>RuntimeInvisibleAnnotations</font> является необязательным атрибутом переменной длины в таблице <font face=Courier>attributes</font> структур <font face=Courier>ClassFile</font> (см. §4.1), <font face=Courier>field_info</font> (см. §4.5) или <font face=Courier>method_info</font> (см. §4.6). Атрибут <font face=Courier>RuntimeInvisibleAnnotations</font> хранит аннотации времени выполнения языка программирования Java для соответствующего класса, поля или метода.
+
+Каждая из структур <font face=Courier>ClassFile</font>,  <font face=Courier>field_info</font> и <font face=Courier>method_info</font> может содержать не более одного атрибута <font face=Courier>RuntimeInvisibleAnnotations</font>, который содержит все не видимые во время выполнения аннотации языка программирования Java для соответствующего элемента программы.
+
+Атрибут <font face=Courier>RuntimeInvisibleAnnotations</font> имеет следующий формат:
+
+ RuntimeInvisibleAnnotations_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 num_annotations;
+ annotation annotations[num_annotations];
+ }
+
+Элементы структуры <font face=Courier>RuntimeInvisibleAnnotations_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>RuntimeInvisibleAnnotations</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>LineNumberTable_attribute</font> содержит длину атрибута в байтах без учета начальных шести байт. 
+
+:: Значение <font face=Courier>attribute_length</font> зависит от аннотаций времени выполнения и значения этих аннотаций.
+
+<font face=Courier>num_annotations</font>
+:: Значение элемента <font face=Courier>num_annotations</font> содержит число аннотаций времени выполнения, находящихся в данной структуре.
+<br>
+:: <span style="font-size:88%">Примечание. Программный элемент может иметь до 65535 аннотаций времени выполнения языка программирования Java.
+</span>
+<br>
+
+<font face=Courier>annotations</font>
+:: Каждый элемент в таблице <font face=Courier>annotations</font> представляет собой одну аннотацию времени выполнения для программного элемента.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>RuntimeVisibleParameterAnnotations</font> ====
+
+Атрибут <font face=Courier>RuntimeVisibleParameterAnnotations</font> является необязательным атрибутом переменной длины в таблице <font face=Courier>attributes</font> структуры <font face=Courier>method_info</font> (см. §4.6). Атрибут <font face=Courier>RuntimeVisibleParameterAnnotations</font> хранит аннотации времени выполнения языка программирования Java для параметра соответствующего метода.
+
+Каждая структура <font face=Courier>method_info</font> может содержать не более одного атрибута <font face=Courier>RuntimeVisibleParameterAnnotations</font>, который содержит все аннотации времени выполнения языка программирования Java для соответствующего параметра метода. Виртуальная машина Java имеет доступ к этим аннотациям, так что они могут быть получены с помощью рефлексии и её <font face=Courier>API</font>.
+
+Атрибут <font face=Courier>RuntimeVisibleParameterAnnotations</font> имеет следующий формат:
+
+ RuntimeVisibleParameterAnnotations_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u1 num_parameters;
+ { 	u2 num_annotations;
+        annotation annotations[num_annotations];
+ } parameter_annotations[num_parameters];
+ }
+
+Элементы структуры <font face=Courier>RuntimeVisibleParameterAnnotations_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>RuntimeVisibleParameterAnnotations</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>LineNumberTable_attribute</font> содержит длину атрибута в байтах без учета начальных шести байт.
+
+:: Значение <font face=Courier>attribute_length</font> зависит от числа параметров, числа аннотаций времени выполнения для каждого параметра и значения этих аннотаций.
+
+<font face=Courier>num_parameters</font>
+:: Значение элемента <font face=Courier>num_parameters</font> представляет собой число параметров метода в структуре <font face=Courier>method_info</font>, для которых заданы аннотации. (Это дублирует информацию, которая может быть получена и дескриптора метода (см. §4.3.3).)
+
+<font face=Courier>parameter_annotations</font>
+:: Каждое значение в таблице <font face=Courier>parameter_annotations</font> представляет собой все аннотации времени выполнения для данного параметра. Последовательность элементов в таблице соответствует последовательности параметров в дескрипторе метода. Каждый элемент из <font face=Courier>parameter_annotations</font> содержит два элемента:
+
+:: <font face=Courier>num_annotations</font>
+:::: Значение элемента <font face=Courier>num_annotations</font> содержит число аннотаций времени выполнения для параметра, чей порядковый номер соответствует порядковому номеру данного элемента в таблице <font face=Courier>parameter_annotations</font>.
+
+:: <font face=Courier>annotations</font>
+:::: Каждый элемент в таблице <font face=Courier>annotations</font> представляет собой одну аннотацию времени выполнения для параметра, чей порядковый номер соответствует порядковому номеру данного элемента в таблице <font face=Courier>parameter_annotations</font>.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>RuntimeInvisibleParameterAnnotations</font> ====
+
+Атрибут <font face=Courier>RuntimeInvisibleParameterAnnotations</font> похож на <font face=Courier>RuntimeVisibleParameterAnnotations</font> за исключением того, что аннотации, представленные в атрибуте  <font face=Courier>RuntimeInvisibleParameterAnnotations</font> не доступны с помощью механизма рефлексии, до тех пор, пока виртуальной машине Java не будет выдана команда сделать доступными эти аннотации, например с помощью флага командной строки. Если такой команды нет, виртуальная машина игнорирует данный атрибут.
+
+Атрибут <font face=Courier>RuntimeInvisibleParameterAnnotations</font> является необязательным атрибутом переменной длины в таблице <font face=Courier>attributes</font> структуры <font face=Courier>method_info</font> (см. §4.6). Атрибут <font face=Courier>RuntimeVisibleParameterAnnotations</font> хранит не видимые во время выполнения аннотации языка программирования Java для параметра соответствующего метода.
+
+Каждая структура <font face=Courier>method_info</font> может содержать не более одного атрибута <font face=Courier>RuntimeInvisibleParameterAnnotations</font>, который содержит все не видимые во время выполнения аннотации языка программирования Java для соответствующего параметра метода.
+
+Атрибут <font face=Courier>RuntimeInvisibleParameterAnnotations</font> имеет следующий формат:
+
+ RuntimeInvisibleParameterAnnotations_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u1 num_parameters;
+ { u2 num_annotations;
+   annotation annotations[num_annotations];
+ } parameter_annotations[num_parameters];
+ }
+
+Элементы структуры <font face=Courier>RuntimeInvisibleParameterAnnotations_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>RuntimeInvisibleParameterAnnotations</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> структуры <font face=Courier>LineNumberTable_attribute</font> содержит длину атрибута в байтах без учета начальных шести байт.
+Значение <font face=Courier>attribute_length</font> зависит от числа параметров, числа аннотаций, не видимых во время выполнения для каждого параметра и значения этих аннотаций.
+
+<font face=Courier>num_parameters</font>
+:: Значение элемента <font face=Courier>num_parameters</font> представляет собой число параметров метода в структуре <font face=Courier>method_info</font>, для которых заданы аннотации. (Это дублирует информацию, которая может быть получена и дескриптора метода (см. §4.3.3).)
+
+<font face=Courier>parameter_annotations</font>
+:: Каждое значение в таблице <font face=Courier>parameter_annotations</font> представляет собой все аннотации времени выполнения для данного параметра. Последовательность элементов в таблице соответствует последовательности параметров в дескрипторе метода. Каждый элемент из <font face=Courier>parameter_annotations</font> содержит два элемента:
+
+:: <font face=Courier>num_annotations</font>
+:::: Значение элемента <font face=Courier>num_annotations</font> содержит число аннотаций времени выполнения для параметра, чей порядковый номер соответствует порядковому номеру данного элемента в таблице <font face=Courier>parameter_annotations</font>.
+
+:: <font face=Courier>annotations</font>
+:::: Каждый элемент в таблице <font face=Courier>annotations</font> представляет собой одну аннотацию времени выполнения для параметра, чей порядковый номер соответствует порядковому номеру данного элемента в таблице <font face=Courier>parameter_annotations</font>.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>AnnotationDefault</font> ====
+
+Атрибут <font face=Courier>AnnotationDefault</font> является необязательным атрибутом переменной длины в таблице <font face=Courier>attributes</font> структуры <font face=Courier>method_info</font> (см. §4.6), который может присутствовать там, где присутствуют аннотации других типов. Атрибут <font face=Courier>AnnotationDefault</font> содержит значение по умолчанию для аннотации, находящейся в структуре <font face=Courier>method_info</font>.
+
+Каждая структура <font face=Courier>method_info</font> может содержать не более одного атрибута <font face=Courier>AnnotationDefault</font>. Виртуальная машина Java должна иметь доступ к этим аннотациям, так что они могут быть получены с помощью рефлексии и ее <font face=Courier>API</font>.
+
+Атрибут <font face=Courier>AnnotationDefault</font> имеет следующий формат:
+
+ AnnotationDefault_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ element_value default_value;
+ }
+
+Элементы структуры <font face=Courier>AnnotationDefault_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>AnnotationDefault</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> содержит длину атрибута в байтах без учёта начальных шести байт. Значение <font face=Courier>attribute_length</font> зависит от значения по умолчанию.
+
+<font face=Courier>default_value</font>
+:: Элемент <font face=Courier>default_value</font> представляет собой значение по умолчанию для аннотации, соответствующей атрибуту <font face=Courier>AnnotationDefault</font>.
+
+<br><br><br><br>
+==== Атрибут <font face=Courier>BootstrapMethods</font> ====
+
+Атрибут <font face=Courier>BootstrapMethods</font> является атрибутом переменной длины в таблице <font face=Courier>attributes</font> структуры <font face=Courier>ClassFile</font> (см. §4.1). Атрибут <font face=Courier>BootstrapMethods</font> содержит спецификаторы загрузочных методов, на которые ссылается инструкция ''invokedynamic''.
+
+Должен быть один и только один атрибут <font face=Courier>BootstrapMethods</font> в таблице <font face=Courier>attributes</font> данной структуры  <font face=Courier>ClassFile</font>, если таблица  <font face=Courier>constant_pool</font> структуры  <font face=Courier>ClassFile</font> имеет, по крайней мере, один элемент <font face=Courier>CONSTANT_InvokeDynamic_info</font> (см. §4.4.10). Может быть не более одного атрибута <font face=Courier>BootstrapMethods</font> в таблице <font face=Courier>attributes</font> данной структуры <font face=Courier>ClassFile</font>.
+
+Атрибут <font face=Courier>BootstrapMethods</font> имеет следующий формат:
+
+ BootstrapMethods_attribute {
+ u2 attribute_name_index;
+ u4 attribute_length;
+ u2 num_bootstrap_methods;
+ { 	u2 bootstrap_method_ref;
+        u2 num_bootstrap_arguments;
+        u2 bootstrap_arguments[num_bootstrap_arguments];
+ } bootstrap_methods[num_bootstrap_methods];
+ }
+
+Элементы структуры <font face=Courier>BootstrapMethods_attribute</font> следующие:
+
+<font face=Courier>attribute_name_index</font>
+:: Значение элемента <font face=Courier>attribute_name_index</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Значение в таблице <font face=Courier>constant_pool</font> с упомянутым выше индексом должно быть структурой <font face=Courier>CONSTANT_Utf8_info</font> (см. §4.4.7), представляющей собой строку «<font face=Courier>BootstrapMethods</font>».
+
+<font face=Courier>attribute_length</font>
+:: Значение элемента <font face=Courier>attribute_length</font> содержит длину атрибута в байтах без учёта начальных шести байт.
+
+:: Значение элемента <font face=Courier>attribute_length</font> зависит от числа инструкций ''invokedynamic'' в данной структуре <font face=Courier>ClassFile</font>.
+
+<font face=Courier>num_bootstrap_methods</font>
+:: Значение элемента <font face=Courier>num_bootstrap_methods</font> определяет число спецификаторов загрузочных методов в массиве <font face=Courier>bootstrap_methods</font>.
+
+<font face=Courier>bootstrap_methods[]</font>
+:: Каждый элемент массива <font face=Courier>bootstrap_methods</font> содержит указатель на структуру <font face=Courier>CONSTANT_MethodHandle_info</font> (см. §4.4.8), которая определяет загрузочный метод, и набор указателей (возможно пустой) на ''статические аргументы'' загрузочного метода.
+
+:: Каждый элемент массива <font face=Courier>bootstrap_methods</font> должен содержать следующие три элемента:
+
+:: <font face=Courier>bootstrap_method_ref</font>
+:::: Значение <font face=Courier>bootstrap_method_ref</font> должно быть действительным индексом в таблице <font face=Courier>constant_pool</font>. Элемент <font face=Courier>constant_pool</font> по этому индексу должен представлять собой структуру <font face=Courier>CONSTANT_MethodHandle_info</font> (см. §4.4.8)
+<br>
+:::: <span style="font-size:88%">Примечание. Элемент <font face=Courier>reference_kind</font> структуры <font face=Courier>CONSTANT_MethodHandle_info</font> должен иметь значение 6 (<font face=Courier>REF_invokeStatic</font>) или 8 (<font face=Courier>REF_newInvokeSpecial</font>) (см. §5.4.3.5). В противном случае вызов обработчика загрузочного метода входе разрешения спецификатора узла вызова для инструкции <font face=Courier>invokedynamic</font> будет завершен аварийно.
+</span>
+<br>
+
+:: <font face=Courier>num_bootstrap_arguments</font>
+:::: Значение элемента <font face=Courier>num_bootstrap_arguments</font> содержит число элементов в массиве <font face=Courier>bootstrap_arguments</font>.
+
+:: <font face=Courier>bootstrap_arguments</font>
+:::: Каждый элемент массива <font face=Courier>bootstrap_arguments</font> должен быть действительным индексом таблицы <font face=Courier>constant_pool</font>. Элемент <font face=Courier>constant_pool</font> по этому индексу должен быть одной из следующих структур: <font face=Courier>CONSTANT_String_info</font> (см. §4.4.3),  <font face=Courier>CONSTANT_Class_info</font> (см. §4.4.1), <font face=Courier>CONSTANT_Integer_info</font> (см. §4.4.4),  <font face=Courier>CONSTANT_Long_info</font> (см. §4.4.5), <font face=Courier>CONSTANT_Float_info</font> (см. §4.4.4),  <font face=Courier>CONSTANT_Double_info</font> (см. §4.4.5), <font face=Courier>CONSTANT_MethodHandle_info</font> (см. §4.4.8), либо <font face=Courier>CONSTANT_MethodType_info</font> (см. §4.4.9).
+
+<br><br><br><br>
+=== Проверка формата === 
+
+Когда потенциальный <font face=Courier>class</font>-файл загружается (см. §5.3) виртуальной машиной Java, то виртуальная машина Java сначала проверяет, что формат загружаемого файла соответствует формату <font face=Courier>class</font>-файла (см. §4.1). Этот процесс известен как ''проверка формата''. Первые четыре байта должны содержать правильное кодовое число. Все распознанные атрибуты должны иметь соответствующую длину. <font face=Courier>Class</font>-файл не должен быть обрезанным или иметь лишние байты в конце. Константный пул не должен содержать не распознаваемую информацию.
+
+Эта базовая проверка целостности <font face=Courier>class</font>-файла необходима при любой дальнейшей интерпретации содержимого <font face=Courier>class</font>-файла.
+
+Проверка формата отличается от проверки байт-кода. Оба процесса являются частью процесса верификации.  Исторически, проверку формата часто путают с проверкой байт-кода, поскольку обе проверки являются проверками целостности.
+
+<br><br><br><br>
+=== Ограничения для кода виртуальной машины Java ===
+
+Виртуальная машина Java хранит исходный код метода, инициализирующего метода экземпляра  (см. §2.9), класса или интерфейса (см. §2.9) хранит в массиве <font face=Courier>code</font> атрибута <font face=Courier>Code</font> структуры <font face=Courier>method_info</font> <font face=Courier>class</font>-файла (см. §4.7.3). Этот раздел посвящён ограничениям, связанным с содержимым структуры <font face=Courier>Code_attribute</font>.
+
