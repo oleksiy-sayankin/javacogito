@@ -187,7 +187,7 @@ public final class FormatHelper {
 
     private static String findEnglishWord(String inText, int index){
         String cutInText = inText.substring(index);
-        Pattern pattern = Pattern.compile("[a-zA-Z]{2}[a-zA-Z_0-9]*");
+        Pattern pattern = Pattern.compile("[a-zA-Z_]{2}[a-zA-Z_0-9]*");
         Matcher matcher = pattern.matcher(cutInText);
         if (matcher.find()) {
             return matcher.group(0);
@@ -197,7 +197,7 @@ public final class FormatHelper {
 
     private static int findEnglishWordIndex(String inText, int index){
         String cutInText = inText.substring(index);
-        Pattern pattern = Pattern.compile("[a-zA-Z]{2}[a-zA-Z_0-9]*");
+        Pattern pattern = Pattern.compile("[a-zA-Z_]{2}[a-zA-Z_0-9]*");
         Matcher matcher = pattern.matcher(cutInText);
         if (matcher.find()) {
             return matcher.start();

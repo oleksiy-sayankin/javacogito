@@ -108,5 +108,14 @@ public class FormatHelperTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void addFontCourierTagForClassFileLowDashTest(){
+        String source = "Операнд atype каждой инструкции newarray должен принимать одно из значений T_BOOLEAN(4),  T_CHAR(5),  T_FLOAT(6),  T_DOUBLE(7),  T_BYTE(8),  T_SHORT(9), T_INT(10) либо T_LONG(11).";
+        String expected = "Операнд <font face=Courier>atype</font> каждой инструкции newarray должен принимать одно из значений <font face=Courier>T_BOOLEAN</font>(4),  <font face=Courier>T_CHAR</font>(5),  <font face=Courier>T_FLOAT</font>(6),  <font face=Courier>T_DOUBLE</font>(7),  <font face=Courier>T_BYTE</font>(8),  <font face=Courier>T_SHORT</font>(9), <font face=Courier>T_INT</font>(10) либо <font face=Courier>T_LONG</font>(11).";
+        String actual = FormatHelper.addFontCourierTagForClassFileStructure(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
 
 }
