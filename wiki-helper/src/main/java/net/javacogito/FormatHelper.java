@@ -215,17 +215,19 @@ public final class FormatHelper {
     private static String removeExceptions(String inText){
         String outText = inText;
         for(String exception : EXCEPTIONS){
+            String search = "\\b" + exception + "\\b";
             String dest = EMPTY_STRING;
-            outText = outText.replaceAll(exception, dest);
+            outText = outText.replaceAll(search, dest);
         }
         return outText;
     }
 
     private static String removeJvmCommands(String inText){
         String outText = inText;
-        for(String exception : JVM_COMMANDS){
+        for(String jvmCommand : JVM_COMMANDS){
+            String search = "\\b" + jvmCommand + "\\b";
             String dest = EMPTY_STRING;
-            outText = outText.replaceAll(exception, dest);
+            outText = outText.replaceAll(search, dest);
         }
         return outText;
     }
@@ -233,8 +235,9 @@ public final class FormatHelper {
     private static String removeSpecialWords(String inText){
         String outText = inText;
         for(String specialWord : SPECIAL_WORDS){
+            String search = "\\b" + specialWord + "\\b";
             String dest = EMPTY_STRING;
-            outText = outText.replaceAll(specialWord, dest);
+            outText = outText.replaceAll(search, dest);
         }
         return outText;
     }

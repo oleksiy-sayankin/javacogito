@@ -99,4 +99,14 @@ public class FormatHelperTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void addFontCourierTagForClassFileStructureAllKeyWordsTest(){
+        String source = "Операнды инструкций instanceof,  checkcast, new и  anewarray и операнды indexbyte каждой инструкции multianewarray должны представлять собой действительный индекс в таблице constant_pool. Элемент константного пула по этому индексу должен иметь тип CONSTANT_Class.";
+        String expected = "Операнды инструкций instanceof,  checkcast, new и  anewarray и операнды <font face=Courier>indexbyte</font> каждой инструкции multianewarray должны представлять собой действительный индекс в таблице <font face=Courier>constant_pool</font>. Элемент константного пула по этому индексу должен иметь тип <font face=Courier>CONSTANT_Class</font>.";
+        String actual = FormatHelper.addFontCourierTagForClassFileStructure(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+
 }

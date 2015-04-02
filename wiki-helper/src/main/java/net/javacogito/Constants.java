@@ -6,7 +6,7 @@ public final class Constants {
     public static final String EMPTY_STRING = "";
     public static final String RIGHT_BRACKET = ">";
     public static final String TWO_QUOTES = "''";
-    public static final String EXCEPTIONS[] = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE", "JDK release"};
+    public static final String EXCEPTIONS[] = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE", "JDK",  "release"};
     public static final String START_CODE_TAG = "<code>";
     public static final String END_CODE_TAG = "</code>";
     public static final String START_FONT_COURIER_TAG = "<font face=Courier>";
@@ -23,7 +23,7 @@ public final class Constants {
             "abstract",
             "continue",
             "for",
-            "new",
+            //"new",
             "switch",
             "assert",
             "default",
@@ -47,7 +47,7 @@ public final class Constants {
             "throws",
             "case",
             "enum",
-            "instanceof",
+            //"instanceof",
             "return",
             "transient",
             "catch",
