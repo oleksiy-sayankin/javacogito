@@ -148,6 +148,7 @@ public final class FormatHelper {
         inText = removeExceptions(inText);
         inText = removeJvmCommands(inText);
         inText = removeSpecialWords(inText);
+        inText = removeGenericJvmCommands(inText);
         boolean result = false;
         int index = 0;
         int inTextLength = inText.length();
@@ -171,6 +172,7 @@ public final class FormatHelper {
         inText = removeExceptions(inText);
         inText = removeJvmCommands(inText);
         inText = removeSpecialWords(inText);
+        inText = removeGenericJvmCommands(inText);
         int index = 0;
         int inTextLength = inText.length();
         while(index <= inTextLength){
@@ -232,6 +234,17 @@ public final class FormatHelper {
         return outText;
     }
 
+    private static String removeGenericJvmCommands(String inText){
+        String outText = inText;
+        for(String genericJvmCommand : GENERIC_JVM_COMMANDS){
+            String search = genericJvmCommand;
+            String dest = EMPTY_STRING;
+            outText = outText.replaceAll(search, dest);
+        }
+        return outText;
+    }
+
+
     private static String removeSpecialWords(String inText){
         String outText = inText;
         for(String specialWord : SPECIAL_WORDS){
@@ -262,6 +275,19 @@ public final class FormatHelper {
         }
         return outText;
     }
+
+    public static String makeItalicGenericJvmCommands(String inText){
+        String outText = inText;
+        for (String genericJvmCommand : GENERIC_JVM_COMMANDS){
+            String search = genericJvmCommand;
+            String quotedJvmCommand = TWO_QUOTES + genericJvmCommand + TWO_QUOTES;
+            outText = outText.replaceAll(search, quotedJvmCommand);
+        }
+        return outText;
+    }
+
+
+
 
     public static String makeCodeTagForJavaKeywords(String inText){
         String outText = inText;

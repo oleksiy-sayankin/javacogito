@@ -15,10 +15,12 @@ public final class Constants {
             "null",
             "reference"
     };
-        public static final String[] SPECIAL_WORDS = {
-                "<clinit>",
-                "<init>"
-        };
+
+    public static final String[] SPECIAL_WORDS = {
+            "<clinit>",
+            "<init>"
+    };
+
     public static final String[] JAVA_KEY_WORDS = {
             "abstract",
             "continue",
@@ -71,6 +73,29 @@ public final class Constants {
             "super",
             "while"
     };
+
+    public static final String[] GENERIC_JVM_COMMANDS = {
+            "aload_<n>",
+            "astore_<n>",
+            "dcmp<op>",
+            "dconst_<d>",
+            "dload_<n>",
+            "dstore_<n>",
+            "fcmp<op>",
+            "fconst_<f>",
+            "fload_<n>",
+            "fstore_<n>",
+            "iconst_<i>",
+            "if_acmp<cond>",
+            "if_icmp<cond>",
+            "if<cond>",
+            "iload_<n>",
+            "istore_<n>",
+            "lconst_<l>",
+            "lload_<n>",
+            "lstore_<n>",
+    };
+
     public static final String[] JVM_COMMANDS = {
             "nop",
             "aconst_null",

@@ -118,4 +118,23 @@ public class FormatHelperTest {
     }
 
 
+    @Test
+    public void makeItalicGenericJvmCommandsTest(){
+        String source = "Неявный индекс каждой из инструкций iload_<n>,  fload_<n>,  aload_<n>,  istore_<n>, fstore_<n> и  astore_<n> должен быть числом не превосходящим max_locals - 1.";
+        String expected = "Неявный индекс каждой из инструкций ''iload_<n>'',  ''fload_<n>'',  ''aload_<n>'',  ''istore_<n>'', ''fstore_<n>'' и  ''astore_<n>'' должен быть числом не превосходящим max_locals - 1.";
+        String actual = FormatHelper.makeItalicGenericJvmCommands(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void addFontCourierTagForClassGenericJvmCommandsTest(){
+        String source = "Неявный индекс каждой из инструкций iload_<n>,  fload_<n>,  aload_<n>,  istore_<n>, fstore_<n> и  astore_<n> должен быть числом не превосходящим max_locals - 1.";
+        String expected = "Неявный индекс каждой из инструкций iload_<n>,  fload_<n>,  aload_<n>,  istore_<n>, fstore_<n> и  astore_<n> должен быть числом не превосходящим <font face=Courier>max_locals</font> - 1.";
+        String actual = FormatHelper.addFontCourierTagForClassFileStructure(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
 }
