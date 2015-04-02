@@ -15,6 +15,10 @@ public final class Constants {
             "null",
             "reference"
     };
+        public static final String[] SPECIAL_WORDS = {
+                "<clinit>",
+                "<init>"
+        };
     public static final String[] JAVA_KEY_WORDS = {
             "abstract",
             "continue",

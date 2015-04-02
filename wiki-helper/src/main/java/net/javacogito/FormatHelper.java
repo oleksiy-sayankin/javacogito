@@ -22,6 +22,15 @@ public final class FormatHelper {
     }
 
 
+    public static String addFontCourierTagForSpecialWords(String inText){
+        String outText = inText;
+        for(String specialWord : SPECIAL_WORDS){
+            String dest = START_FONT_COURIER_TAG + specialWord +END_FONT_COURIER_TAG;
+            outText = outText.replaceAll(specialWord, dest);
+        }
+        return outText;
+    }
+
 
 
     public static String addFontCourierTagForClassFileStructure(String inText){
@@ -56,6 +65,7 @@ public final class FormatHelper {
         inText = removeProcessedEnglishWord(inText, processedEnglishWords, startTag, endTag);
         inText = removeExceptions(inText);
         inText = removeJvmCommands(inText);
+        inText = removeSpecialWords(inText);
         boolean result = false;
         int index = 0;
         int inTextLength = inText.length();
@@ -78,6 +88,7 @@ public final class FormatHelper {
         inText = removeProcessedEnglishWord(inText, processedEnglishWords, startTag, endTag);
         inText = removeExceptions(inText);
         inText = removeJvmCommands(inText);
+        inText = removeSpecialWords(inText);
         int index = 0;
         int inTextLength = inText.length();
         while(index <= inTextLength){
@@ -133,6 +144,15 @@ public final class FormatHelper {
         for(String exception : JVM_COMMANDS){
             String dest = EMPTY_STRING;
             outText = outText.replaceAll(exception, dest);
+        }
+        return outText;
+    }
+
+    private static String removeSpecialWords(String inText){
+        String outText = inText;
+        for(String specialWord : SPECIAL_WORDS){
+            String dest = EMPTY_STRING;
+            outText = outText.replaceAll(specialWord, dest);
         }
         return outText;
     }

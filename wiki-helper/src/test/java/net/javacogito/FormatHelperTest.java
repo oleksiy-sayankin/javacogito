@@ -80,5 +80,14 @@ public class FormatHelperTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void addFontCourierTagForSpecialWordsTest(){
+        String source = "В частности, инициализирующий метод класса или интерфейса, имеющий имя <clinit> никогда не вызывается явно из инструкций виртуальной машины Java, а вызывается неявно только самой виртуальной машиной Java.";
+        String expected = "В частности, инициализирующий метод класса или интерфейса, имеющий имя <font face=Courier><clinit></font> никогда не вызывается явно из инструкций виртуальной машины Java, а вызывается неявно только самой виртуальной машиной Java.";
+        String actual = FormatHelper.addFontCourierTagForSpecialWords(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
 
 }
