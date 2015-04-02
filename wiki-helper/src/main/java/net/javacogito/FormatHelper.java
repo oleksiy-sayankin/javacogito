@@ -31,6 +31,88 @@ public final class FormatHelper {
         return outText;
     }
 
+    public static String addFontCourierTagForUnicode(String inText){
+        String outText = inText;
+        List<String> processedUnicode = new ArrayList<String>();
+
+        while (hasUnTaggedUnicode(outText, processedUnicode, START_FONT_COURIER_TAG, END_FONT_COURIER_TAG)) {
+            String unTaggedUnicode = findUnTaggedUnicode(outText, processedUnicode, START_FONT_COURIER_TAG, END_FONT_COURIER_TAG);
+            String search = "\\" + unTaggedUnicode;
+            String dest = START_FONT_COURIER_TAG + "\\" + unTaggedUnicode + END_FONT_COURIER_TAG;
+            outText = outText.replaceAll(search, dest);
+            processedUnicode.add("\\" + unTaggedUnicode);
+        }
+        return outText;
+    }
+
+
+    private static String findUnTaggedUnicode(String inText, List<String> processedEnglishWords, String startTag, String endTag){
+        inText = removeProcessedWords(inText, processedEnglishWords, startTag, endTag);
+        inText = removeExceptions(inText);
+        inText = removeJvmCommands(inText);
+        inText = removeSpecialWords(inText);
+        int index = 0;
+        int inTextLength = inText.length();
+        while(index <= inTextLength){
+            String unicode = findUnicode(inText, index);
+            int unicodeIndex = findUnicodeIndex(inText, index);
+            if (isTaggedWord(inText, unicode, index, startTag, endTag)){
+                index = unicodeIndex + unicode.length();
+            } else {
+                return unicode;
+            }
+        }
+        return  EMPTY_STRING;
+    }
+
+
+
+    private static boolean hasUnTaggedUnicode(String inText, List<String> processedUnicode, String startTag, String endTag){
+        inText = removeProcessedWords(inText, processedUnicode, startTag, endTag);
+        inText = removeExceptions(inText);
+        inText = removeJvmCommands(inText);
+        inText = removeSpecialWords(inText);
+        boolean result = false;
+        int index = 0;
+        int inTextLength = inText.length();
+        while(index <= inTextLength){
+            String unicode = findUnicode(inText, index);
+            int unicodeIndex = findUnicodeIndex(inText, index);
+            if (unicodeIndex == -1){
+                return false;
+            }
+            if (isTaggedWord(inText, unicode, index, startTag, endTag)){
+                index = unicodeIndex + unicode.length();
+            } else {
+                return true;
+            }
+        }
+        return result;
+    }
+
+
+    private static String findUnicode(String inText, int index){
+        String cutInText = inText.substring(index);
+        Pattern pattern = Pattern.compile("\\\\u[0-9a-fA-F]{4}");
+        Matcher matcher = pattern.matcher(cutInText);
+        if (matcher.find()) {
+            return matcher.group(0);
+        }
+        return EMPTY_STRING;
+    }
+
+    private static int findUnicodeIndex(String inText, int index){
+        String cutInText = inText.substring(index);
+        Pattern pattern = Pattern.compile("\\\\u[0-9a-fA-F]{4}");
+        Matcher matcher = pattern.matcher(cutInText);
+        if (matcher.find()) {
+            return matcher.start();
+        }
+        return  -1;
+    }
+
+
+
 
 
     public static String addFontCourierTagForClassFileStructure(String inText){
@@ -62,7 +144,7 @@ public final class FormatHelper {
     }
 
     private static boolean hasUnTaggedEnglishWord(String inText, List<String> processedEnglishWords, String startTag, String endTag){
-        inText = removeProcessedEnglishWord(inText, processedEnglishWords, startTag, endTag);
+        inText = removeProcessedWords(inText, processedEnglishWords, startTag, endTag);
         inText = removeExceptions(inText);
         inText = removeJvmCommands(inText);
         inText = removeSpecialWords(inText);
@@ -75,7 +157,7 @@ public final class FormatHelper {
             if (englishWordIndex == -1){
                 return false;
             }
-            if (isTaggedEnglishWord(inText, englishWord, index, startTag, endTag)){
+            if (isTaggedWord(inText, englishWord, index, startTag, endTag)){
                 index = englishWordIndex + englishWord.length();
             } else {
                 return true;
@@ -85,7 +167,7 @@ public final class FormatHelper {
     }
 
     private static String findUnTaggedEnglishWord(String inText, List<String> processedEnglishWords, String startTag, String endTag){
-        inText = removeProcessedEnglishWord(inText, processedEnglishWords, startTag, endTag);
+        inText = removeProcessedWords(inText, processedEnglishWords, startTag, endTag);
         inText = removeExceptions(inText);
         inText = removeJvmCommands(inText);
         inText = removeSpecialWords(inText);
@@ -94,7 +176,7 @@ public final class FormatHelper {
         while(index <= inTextLength){
             String englishWord = findEnglishWord(inText, index);
             int englishWordIndex = findEnglishWordIndex(inText, index);
-            if (isTaggedEnglishWord(inText, englishWord, index, startTag, endTag)){
+            if (isTaggedWord(inText, englishWord, index, startTag, endTag)){
                 index = englishWordIndex + englishWord.length();
             } else {
                 return englishWord;
@@ -123,7 +205,7 @@ public final class FormatHelper {
         return  -1;
     }
 
-    private static boolean isTaggedEnglishWord(String inText, String englishWord, int index, String startTag, String endTag){
+    private static boolean isTaggedWord(String inText, String englishWord, int index, String startTag, String endTag){
         String cutInText = inText.substring(index);
         Pattern pattern = Pattern.compile(startTag + englishWord + endTag);
         Matcher matcher = pattern.matcher(cutInText);
@@ -158,9 +240,9 @@ public final class FormatHelper {
     }
 
 
-    private static String removeProcessedEnglishWord(String inText, List<String> processedEnglishWords, String startTag, String endTag){
+    private static String removeProcessedWords(String inText, List<String> processedWords, String startTag, String endTag){
         String outText = inText;
-        for(String processedEnglishWord : processedEnglishWords){
+        for(String processedEnglishWord : processedWords){
             String source = startTag + processedEnglishWord + endTag;
             String dest = Constants.EMPTY_STRING;
             outText = outText.replaceAll(source, dest);

@@ -90,4 +90,13 @@ public class FormatHelperTest {
     }
 
 
+    @Test
+    public void addFontCourierTagForUnicodeTest(){
+        String source = "Никакой другой метод, начинающийся с символа «<» («\\u003c») не может быть вызван инструкцией вызова метода непосредственно.";
+        String expected = "Никакой другой метод, начинающийся с символа «<» («<font face=Courier>\\u003c</font>») не может быть вызван инструкцией вызова метода непосредственно.";
+        String actual = FormatHelper.addFontCourierTagForUnicode(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
 }
