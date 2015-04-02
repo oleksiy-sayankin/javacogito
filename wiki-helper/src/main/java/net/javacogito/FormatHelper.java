@@ -55,6 +55,7 @@ public final class FormatHelper {
     private static boolean hasUnTaggedEnglishWord(String inText, List<String> processedEnglishWords, String startTag, String endTag){
         inText = removeProcessedEnglishWord(inText, processedEnglishWords, startTag, endTag);
         inText = removeExceptions(inText);
+        inText = removeJvmCommands(inText);
         boolean result = false;
         int index = 0;
         int inTextLength = inText.length();
@@ -76,6 +77,7 @@ public final class FormatHelper {
     private static String findUnTaggedEnglishWord(String inText, List<String> processedEnglishWords, String startTag, String endTag){
         inText = removeProcessedEnglishWord(inText, processedEnglishWords, startTag, endTag);
         inText = removeExceptions(inText);
+        inText = removeJvmCommands(inText);
         int index = 0;
         int inTextLength = inText.length();
         while(index <= inTextLength){
@@ -125,6 +127,16 @@ public final class FormatHelper {
         }
         return outText;
     }
+
+    private static String removeJvmCommands(String inText){
+        String outText = inText;
+        for(String exception : JVM_COMMANDS){
+            String dest = EMPTY_STRING;
+            outText = outText.replaceAll(exception, dest);
+        }
+        return outText;
+    }
+
 
     private static String removeProcessedEnglishWord(String inText, List<String> processedEnglishWords, String startTag, String endTag){
         String outText = inText;

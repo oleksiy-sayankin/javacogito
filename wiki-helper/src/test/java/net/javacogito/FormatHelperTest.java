@@ -62,4 +62,23 @@ public class FormatHelperTest {
     }
 
 
+    @Test
+    public void addFontCourierTagForClassFileStructureJvmCommandsTest(){
+        String source = "Если версия class-файла 51.0 или выше, то коды инструкций jsr и jsr_w не должны присутствовать в массиве code.";
+        String expected = "Если версия <font face=Courier>class</font>-файла 51.0 или выше, то коды инструкций jsr и jsr_w не должны присутствовать в массиве <font face=Courier>code</font>.";
+        String actual = FormatHelper.addFontCourierTagForClassFileStructure(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void makeItalicJvmCommandsTest(){
+        String source = "Если версия <font face=Courier>class</font>-файла 51.0 или выше, то коды инструкций jsr и jsr_w не должны присутствовать в массиве <font face=Courier>code</font>.";
+        String expected = "Если версия <font face=Courier>class</font>-файла 51.0 или выше, то коды инструкций ''jsr'' и ''jsr_w'' не должны присутствовать в массиве <font face=Courier>code</font>.";
+        String actual = FormatHelper.makeItalicJvmCommands(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+
 }

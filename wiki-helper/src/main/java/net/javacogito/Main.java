@@ -12,6 +12,6 @@ public class Main {
         System.out.println();
         System.out.println(replaceTabWith4Spaces(makeSpaceAtLineStart(makeItalicJvmCommands(inPlainText))));
         System.out.println();
-        System.out.println(addFontCourierTagForClassFileStructure(inPlainText));
+        System.out.println(makeItalicJvmCommands(addFontCourierTagForClassFileStructure(inPlainText)));
     }
 }
