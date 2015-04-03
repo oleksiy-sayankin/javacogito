@@ -4897,3 +4897,896 @@ u2 offset;
 
 Проверка для реализаций виртуальных машин Java поддерживающих профайлы Java ME CLDC и Java Card описана в соответствующих спецификациях.
 
+<br><br><br><br>
+==== Проверка сравнением типов ====
+
+<font face=Courier>Class</font>-файл, чей номер версии больше либо равен 50.0,  должен быть проверен с использованием правил проверки типов, данных в этом разделе. Тогда и только тогда, когда номер версии <font face=Courier>class</font>-файла равен 50.0 и проверка типов закончилась аварийно, реализация виртуальной машины Java может выполнить проверку логическим выведением типов.
+
+<br><br>
+:: <span style="font-size:88%">Примечание. Эта двойная проверка, спроектирована для упрощения перехода на новый способ проверки. Многие инструментальные программы, работающие с <font face=Courier>class</font>-файлами, могут модифицировать байт-код метода таким образом, что может понадобиться выравнивание стековых фреймов метода. Если инструментальная программа не выполняет необходимого выравнивания стековых фреймов метода, то проверка типов завершиться аварийно, не смотря на то, что сам байт-код принципиально может быть верным. Чтобы дать время разработчикам адаптировать их программные инструменты, виртуальная машина Java будет также поддерживать и старую парадигму проверки,  но только ограниченное время.
+</span>
+
+:: <span style="font-size:88%">В тех случаях, когда проверка типов завершается аварийно, но интерфейсный тип успешно используется, производительность кода уменьшится. Этого уменьшения нельзя избежать. Оно также должно служить сигналом поставщикам программного обеспечения, что их выходной код нуждается в выравнивании стековых фреймов, а также дает поставщикам дополнительный мотив для проведения операции выравнивания.
+</span>
+
+:: <span style="font-size:88%">В заключение необходимо отметить, что перехват управления при отказе для проверки интерфейсных типов поддерживает как постепенное добавление стековых фреймов (если их нет в версии <font face=Courier>class</font>-файла 50.0, то перехват управления при отказе будет выполнен) и постепенное удаление инструкций  ''jsr'' и ''jsr_w'' из платформы Java SE (если они присутствуют в <font face=Courier>class</font>-файле версии 50.0, то перехват управления при отказе будет выполнен).
+</span>
+<br>
+
+Если реализация виртуальной машины Java выполняет поверку с помощью интерфейсных типов для версии <font face=Courier>class</font>-файла 50.0, то ей необходимо выполнять данную проверку везде, где проверка по типам закончилась неудачей.
+<br><br>
+:: <span style="font-size:88%">Примечание. Это означает, что реализация виртуальной машины Java не может сделать выбор в одном случае прибегать к проверке с помощью интерфейсных типов, а в другом случае – нет. Она должна либо отклонить <font face=Courier>class</font>-файлы, которые не проверяются с помощью проверки типов, либо последовательно выполнить перехват управления при отказе для проверки интерфейсных типов, для каждой неудачной проверки типов.
+</span>
+<br>
+
+Для выполнения проверки по типам необходим список стековых фреймов для каждого метода с атрибутом <font face=Courier>Code</font>. Модуль проверки по типам считывает стековые фреймы для каждого метода и использует их для подтверждения безопасности типов для каждой инструкции в атрибуте <font face=Courier>Code</font>.
+<br><br>
+:: <span style="font-size:88%">Примечание. Замысел в том, что стековые фреймы должны появляться в начале каждого базового блока в методе. Стековые фреймы определяют тип проверки для каждого элемента стека операндов и для каждой локальной переменной в начале каждого базового блока.
+</span>
+<br>
+
+Применяющиеся правила проверки типов определены средствами языка Пролог. Текст на русском языке используется для описания правил проверки типов в свободной манере, в то время как код на языке Пролог является формальной спецификацией.
+Тогда и только тогда, когда предикат <font face=Courier>classIsTypeSafe</font> не является истинным, система проверки типов может сгенерировать исключение  <font face=Courier>VerifyError</font>, означающее, что <font face=Courier>class</font>-файл сформирован неверно. В противном случае проверка типов <font face=Courier>class</font>-файла и проверка байт-кода завершена успешно.
+
+ classIsTypeSafe(Class) :-
+  classClassName(Class, Name), 
+  classDefiningLoader(Class, L),
+  superclassChain(Name, L, Chain),
+  Chain \= [],
+  classSuperClassName(Class, SuperclassName),
+  loadedClass(SuperclassName, L, Superclass),
+  classIsNotFinal(Superclass), 
+  classMethods(Class, Methods), 
+  checklist(methodIsTypeSafe(Class), Methods).
+  
+  classIsTypeSafe(Class) :-
+  classClassName(Class, 'java/lang/Object'),
+  classDefiningLoader(Class, L),
+  isBootstrapClassLoader(L),
+  classMethods(Class, Methods), 
+  checklist(methodIsTypeSafe(Class), Methods).
+
+<br>
+:: <span style="font-size:88%">Примечание. Таким образом, класс прошёл проверку на безопасность типов, если каждый его метод прошёл проверку на безопасность типов и класс не является наследником класса с модификатором <font face=Courier>final</font>.
+</span>
+<br>
+
+Предикат <font face=Courier>classIsTypeSafe</font> предполагает, что <font face=Courier>Class</font> – это структура на языке Пролог, представляющая двоичный класс, который был успешно синтаксически разобран и загружен. Данная спецификация не задаёт точную реализацию этой структуры, но требует, чтобы определённые предикаты (например, <font face=Courier>classMethods</font>) были в ней определены так, как указано в разделе «4.10.1.3.1 Средства доступа».
+<br><br>
+:: <span style="font-size:88%">Примечание. Предположим, например, что предикат <font face=Courier>classMethods</font>(<font face=Courier>Class</font>, <font face=Courier>Methods</font>) такой, что  данный терм (терм – выражение формального языка, имя объекта или формы – прим. перев.) связывает свой первый аргумент (класс, описанный выше) со своим вторым аргументом, представляющим собой список всех методов класса, данных в удобной форме, описанной ниже.
+</span>
+<br>
+
+Мы также требуем существование предиката <font face=Courier>loadedClass</font>(<font face=Courier>Name</font>, <font face=Courier>InitiatingLoader</font>, <font face=Courier>ClassDefinition</font>), который предполагает, что существует класс с именем <font face=Courier>Name</font>, чьё представление (в соответствии с данной спецификацией) будучи загружено загрузчиком классов <font face=Courier>InitiatingLoader</font> является структурой <font face=Courier>ClassDefinition</font>. Все остальные необходимые предикаты обсуждаются в разделе «Средства доступа».
+
+Отдельные инструкции представлены термами, чей функтор – это имя инструкции (функтор – имя терма. Пример терма:  ''t(X1, X2, … , Xn)'', где ''t'' – функтор, ''X1, X2, … , Xn'' - термы, структурированные или простейшие. ''Прим. перев.'')
+<br><br>
+:: <span style="font-size:88%">Примечание. Например, инструкция ''aload'' представлена термом  <font face=Courier>aload(N)</font>, который включает в себя индекс <font face=Courier>N</font>, являющийся операндом инструкции.
+</span>
+<br>
+Операндами некоторых инструкций являются элементы константного пула, представляющие собой методы, узлы динамического вызова и поля. Метод представлен структурами <font face=Courier>CONSTANT_InterfaceMethodref_info</font> (для метода интерфейса) либо <font face=Courier>CONSTANT_Methodref_info</font> (для метода класса) в константном пуле. Узел динамического вызова представлен структурой <font face=Courier>CONSTANT_InvokeDynamic_info</font> в константном пуле.
+
+Следующие структуры представлены в виде функторов:
+
+* <font face=Courier>imethod</font>(<font face=Courier>MethodIntfName</font>, <font face=Courier>MethodName</font>, <font face=Courier>MethodDescriptor</font>) для интерфейсных методов, где <font face=Courier>MethodIntfName</font> имя интерфейса, на который ссылается элемент <font face=Courier>class_index</font> структуры <font face=Courier>CONSTANT_InterfaceMethodref_info</font>. И <font face=Courier>MethodName</font> и <font face=Courier>MethodDescriptor</font> соответствуют имени и типу дескриптора, на который ссылается элемент <font face=Courier>name_and_type_index</font> структуры <font face=Courier>CONSTANT_InterfaceMethodref_info</font>;
+
+* <font face=Courier>method</font>(<font face=Courier>MethodClassName</font>, <font face=Courier>MethodName</font>, <font face=Courier>MethodDescriptor</font>) для методов класса, где <font face=Courier>MethodClassName</font> имя класса, на который ссылается элемент <font face=Courier>class_index</font> структуры  <font face=Courier>CONSTANT_Methodref_info</font>. И <font face=Courier>MethodName</font>, и <font face=Courier>MethodDescriptor</font> соответствуют имени и типу дескриптора, на который ссылается элемент <font face=Courier>name_and_type_index</font> структуры <font face=Courier>CONSTANT_Methodref_info</font>;
+
+* <font face=Courier>dmethod</font>(<font face=Courier>CallSiteName</font>, <font face=Courier>MethodDescriptor</font>) для узлов динамического вызова, где <font face=Courier>CallSiteName</font> и <font face=Courier>MethodDescriptor</font> соответствуют имени и типу дескриптора, на который ссылается элемент <font face=Courier>name_and_type_index</font> структуры <font face=Courier>CONSTANT_InvokeDynamic_info</font>.
+
+Аналогично поля представлены в структуре <font face=Courier>CONSTANT_Fieldref_info</font> в <font face=Courier>class</font> файле. Структуры представлены как приложения функторов формы <font face=Courier>field</font>(<font face=Courier>FieldClassName</font>, <font face=Courier>FieldName</font>, <font face=Courier>FieldDescriptor</font>), где <font face=Courier>FieldClassName</font> имя класса, на который ссылается элемент <font face=Courier>class_index</font>, а <font face=Courier>FieldName</font> и <font face=Courier>FieldDescriptor</font> соответствуют имени и дескриптору типов, на которые ссылается элемент структуры <font face=Courier>name_and_type_index</font>.
+
+Для ясности мы полагаем, что дескрипторы типов поставлены в соответствие более читаемым именам: где ведущая литера <font face=Courier>L</font> и оконечная точка с запятой (;) выброшены из имени класса, а символы базовых типов для примитивных типов поставлены в соответствие именам типов.
+<br><br>
+:: <span style="font-size:88%">Пример. То есть инструкция ''getfield'', чей операнд был индекс в константном пуле, который ссылается на поле <font face=Courier>foo</font> с типом <font face=Courier>F</font> в классе <font face=Courier>Bar</font> будет представлен как ''getfield''(<font face=Courier>field</font>('<font face=Courier>Bar</font>', '<font face=Courier>foo</font>', '<font face=Courier>F</font>')).
+</span>
+<br>
+
+Элементы константного пула, которые ссылаются на постоянные значение, такие как <font face=Courier>CONSTANT_String</font>, <font face=Courier>CONSTANT_Integer</font>, <font face=Courier>CONSTANT_Float</font>, <font face=Courier>CONSTANT_Long</font>, <font face=Courier>CONSTANT_Double</font>, и <font face=Courier>CONSTANT_Class</font> кодируются функторами с именами <font face=Courier>string</font>, <font face=Courier>int</font>, <font face=Courier>float</font>, <font face=Courier>long</font>, <font face=Courier>double</font>, и <font face=Courier>classConstant</font> соответственно.
+<br><br>
+:: <span style="font-size:88%">Пример. Инструкция ''ldc'' для загрузки целого числа 91 будет представлена как <font face=Courier>ldc(int(91))</font>.
+</span>
+<br>
+
+Инструкции в целом представлены как список термов формы <font face=Courier>instruction</font>(<font face=Courier>Offset</font>, <font face=Courier>AnInstruction</font>).
+<br><br>
+:: <span style="font-size:88%">Пример. <font face=Courier>instruction(21, aload(1))</font>.
+</span>
+<br>
+
+Порядок следования инструкций в данном списке должен быть такой же как и в <font face=Courier>class</font> файле.
+
+Стековые фреймы представлены как список термов следующей формы <font face=Courier>stackMap</font>(<font face=Courier>Offset</font>,<font face=Courier>TypeState</font>), где <font face=Courier>Offset</font> целочисленное значение равное смещению инструкции фрейма, а <font face=Courier>TypeState</font> — ожидаемое входящее состояние типа для данной инструкции. Порядок следования инструкций в данном списке должен быть такой же как и в <font face=Courier>class</font> файле.
+
+<font face=Courier>TypeState</font> имеет форму <font face=Courier>frame</font>(<font face=Courier>Locals</font>, <font face=Courier>OperandStack</font>, <font face=Courier>Flags</font>).
+
+<font face=Courier>Locals</font> — это список проверочных типов, таких что N-ный элемент в списке (счёт ведётся с нуля) представляет тип локальной переменной N. Если какая либо переменная в <font face=Courier>Locals</font> имеет тип <font face=Courier>uninitializedThis</font>, то <font face=Courier>Flags</font> равен [<font face=Courier>flagThisUninit</font>], в противном случае это пустой список.
+
+<font face=Courier>OperandStack</font> представляет собой список типов, такой что первый элемент соответствует типу на вершине стека операндов, второй элемент — следующему под вершинным элементом и так далее.
+
+Однако обратите внимание, что типы, имеющие размер 2, представлены двумя сущностями первая из которых <font face=Courier>top</font>, а вторая, собственно и есть тип.
+<br><br>
+:: <span style="font-size:88%">Пример. Стек со значениями <font face=Courier>double</font>,  <font face=Courier>int</font>, и <font face=Courier>long</font> будет представлен как [<font face=Courier>top</font>, <font face=Courier>double</font>, <font face=Courier>int</font>, <font face=Courier>top</font>, <font face=Courier>long</font>].
+</span>
+<br>
+
+Массивы представлены путём применения функтора <font face=Courier>arrayOf</font> к аргументу, обозначающему компонент типа массива.
+Остальные ссылочные типы представлен с использованием функтора <font face=Courier>class</font>. Поэтому <font face=Courier>class(N, L)</font> представляет собой класс, чьё двоичное имя <font face=Courier>N</font> и который загружается загрузчиком <font face=Courier>L</font>.
+<br><br>
+:: <span style="font-size:88%">Примечание. Таким образом  <font face=Courier>L</font> — инициирующий загрузчик класса, представленного как <font face=Courier>class(N, L)</font>. Он может быть, а может и не быть определяющим загрузчиком.
+</span>
+<br>
+
+Тип <font face=Courier>uninitialized</font>(<font face=Courier>offset</font>) представлен путём применения функтора <font face=Courier>uninitialized</font> к аргументу, представляющему собой численное значение смещения <font face=Courier>offset</font>.
+
+Остальные проверочные типы представлены элементами Пролога, имена которых обозначают проверочные типы со знаком вопроса.
+<br><br>
+:: <span style="font-size:88%">Примечание. Иными словами, класс <font face=Courier>Object</font> будет представлен как <font face=Courier>class</font>('<font face=Courier>java</font>/<font face=Courier>lang</font>/<font face=Courier>Object</font>', <font face=Courier>BL</font>), где <font face=Courier>BL</font> — начальный загрузчик. Типы <font face=Courier>int[]</font> и <font face=Courier>Object[]</font> будут представлены как <font face=Courier>arrayOf</font>(<font face=Courier>int</font>) и <font face=Courier>arrayOf</font>(<font face=Courier>class</font>('<font face=Courier>java</font>/<font face=Courier>lang</font>/<font face=Courier>Object</font>', <font face=Courier>BL</font>)) соответственно.
+</span>
+<br>
+
+<font face=Courier>Flags</font> — это список, который может быть как пустым так и иметь один элемент <font face=Courier>flagThisUninit</font>.
+<br><br>
+:: <span style="font-size:88%">Примечание. Этот флаг используется в конструкторах, чтобы обозначить состояния типов, инициализация которых ещё не была завершена. В таких состояниях типов запрещено делать возврат из метода.
+</span>
+<br>
+
+<br><br><br><br>
+===== Иерархия типов =====
+
+Использование проверщика типов, приводит к созданию иерархии типов изображённой ниже. Большинство типов верификатора имеют прямое соответствие с дескрипторами типов виртуальной машины Java как показано в таблице 4.2. Единственным исключением являются дескрипторы полей <font face=Courier>B</font> , <font face=Courier>C</font> , <font face=Courier>S</font> и <font face=Courier>Z</font>, которые соответствуют типу верификатора <font face=Courier>int</font>.
+
+ Проверочные типы:
+                                          top 
+  
+                              ____________/\____________
+                             /                          \
+                            /                            \
+                       oneWord                           twoWord
+                     /   |   \                          /      \ 
+                    /    |    \                        /        \                
+                  int  float  reference              long      double
+                              /      \
+                             /        \________________
+                            /                          \
+                           /                            \
+                   uninitialized                       Object
+                    /       \                             \
+                   /         \                             \
+ uninitializedThis   uninitialized(offset)           +-----------------------+
+                                                     |                       |
+                                                     | Иерархия классов Java |
+                                                     |                       |
+                                                     +-----------------------+
+                                                                 |
+                                                                 |
+                                                                null
+<br><br><br><br>
+===== Правила подтипов =====
+
+Правила подтипов рефлексивны:
+
+ isAssignable(X, X).
+ 
+ isAssignable(oneWord, top).
+ isAssignable(twoWord, top).
+ 
+ 
+ isAssignable(int, X) :- isAssignable(oneWord, X).
+ isAssignable(float, X) :- isAssignable(oneWord, X).
+ isAssignable(long, X) :- isAssignable(twoWord, X).
+ isAssignable(double, X) :- isAssignable(twoWord, X).
+ 
+ isAssignable(reference, X) :- isAssignable(oneWord, X).
+ isAssignable(class(_, _), X) :- isAssignable(reference, X).
+ isAssignable(arrayOf(_), X) :- isAssignable(reference, X).
+ 
+ isAssignable(uninitialized, X) :- isAssignable(reference, X).
+ isAssignable(uninitializedThis, X) :- isAssignable(uninitialized, X).
+ isAssignable(uninitialized(_), X) :- isAssignable(uninitialized, X).
+ 
+ isAssignable(null, class(_, _)).
+ isAssignable(null, arrayOf(_)).
+ isAssignable(null, X) :- isAssignable(class('java/lang/Object', BL), X),
+ isBootstrapLoader(BL).
+
+
+Эти правила подтипов не обязательно очевидные следствия взаимосвязи типов и подтипов. Есть чёткое разделение между правилами подтипов для ссылочных типов языка программирования Java и правилами для оставшихся проверочных типов.  Это разделение позволяет нам установить общие отношения между типами языка программирования Java и остальными проверочными типами. Отношения справедливы вне зависимости от положения Java типа в иерархии класса, и позволяют предотвратить излишнюю загрузку классов в реализации виртуальной машины Java. Например, мы не начнём подниматься вверх по иерархии классов Java если запрос имеет вид <font face=Courier>class</font>(<font face=Courier>foo,L) <: twoWord</font>.
+
+Правила подтипов для ссылочных типов в языке программирования Java очевидным образом определены рекурсивно с помощью <font face=Courier>isJavaAssignable</font>. Оставшиеся проверочные типы имеют правила подтипов следующей формы:
+
+ isAssignable(v, X) :- isAssignable(the_direct_supertype_of_v, X).
+
+Где  <font face=Courier>v</font> подтип  <font face=Courier>X</font>, если непосредственный подтип  <font face=Courier>v</font> есть подтип  <font face=Courier>X</font>.
+
+Также имеется правило, согласно которому отношение подтипов рефлексивно, так что совместно эти правила покрывают большинство проверочных типов, которые не являются ссылочными типами языка программирования Java.
+
+ isAssignable(class(X, Lx), class(Y, Ly)) :-
+     isJavaAssignable(class(X, Lx), class(Y, Ly)).
+ 
+ 
+ isAssignable(arrayOf(X), class(Y, L)) :-
+     isJavaAssignable(arrayOf(X), class(Y, L)).
+ 
+ 
+ isAssignable(arrayOf(X), arrayOf(Y)) :-
+     isJavaAssignable(arrayOf(X), arrayOf(Y)).
+
+При присвоениях интерфейсы рассматриваются как <font face=Courier>Object</font>.
+
+ isJavaAssignable(class(_, _), class(To, L)) :-
+     loadedClass(To, L, ToClass),
+     classIsInterface(ToClass).
+ 
+ isJavaAssignable(From, To) :-
+     isJavaSubclassOf(From, To).
+
+Массивы являются подтипами <font face=Courier>Object</font>.
+
+ isJavaAssignable(arrayOf(_), class('java/lang/Object', BL)) :-
+     isBootstrapLoader(BL).
+
+Смысл здесь в том, что массив является подтипом <font face=Courier>Cloneable</font> и <font face=Courier>java</font>.<font face=Courier>io</font>.<font face=Courier>Serializable</font>.
+
+ isJavaAssignable(arrayOf(_), X) :-
+     isArrayInterface(X).
+ 
+Отношение подтипов между массивами и примитивными типами это отношение тождества.
+
+ isJavaAssignable(arrayOf(X), arrayOf(Y)) :-
+     atom(X),
+     atom(Y),
+     X = Y.
+
+Отношение подтипов между массивами и ссылочными типами ковариантно.
+
+ isJavaAssignable(arrayOf(X), arrayOf(Y)) :-
+     compound(X), compound(Y), isJavaAssignable(X, Y).
+ 
+ isArrayInterface(class('java/lang/Cloneable', BL)) :-
+     isBootstrapLoader(BL).
+ 
+ isArrayInterface(class('java/io/Serializable', BL)) :-
+      isBootstrapLoader(BL).
+ 
+Наследование рефлексивно.
+
+ isJavaSubclassOf(class(SubclassName, L), class(SubclassName, L)).
+ 
+ isJavaSubclassOf(class(SubclassName, LSub), class(SuperclassName, LSuper)) :-
+     superclassChain(SubclassName, LSub, Chain),
+     member(class(SuperclassName, L), Chain),
+     loadedClass(SuperclassName, L, Sup),
+     loadedClass(SuperclassName, LSuper, Sup).
+ 
+ 
+ superclassChain(ClassName, L, [class(SuperclassName, Ls) | Rest]) :-
+     loadedClass(ClassName, L, Class),
+     classSuperClassName(Class, SuperclassName),
+     classDefiningLoader(Class, Ls),
+     superclassChain(SuperclassName, Ls, Rest).
+ 
+ 
+ superclassChain('java/lang/Object', L, []) :-
+     loadedClass('java/lang/Object', L, Class),
+     classDefiningLoader(Class, BL),
+     isBootstrapLoader(BL).
+
+Отношение подтипов расширяется к типам состояний.
+
+Массив локальных переменных метода имеет фиксированную длину по построению (в <font face=Courier>methodInitialStackFrame</font>), в то время как стек операндов может увеличиваться и уменьшаться. Следовательно нам необходима явная проверка длинны стека операндов, при присваивании фреймов.
+
+ frameIsAssignable(frame(Locals1, StackMap1, Flags1),
+                                frame(Locals2, StackMap2, Flags2)) :-
+ 
+     length(StackMap1, StackMapLength),
+     length(StackMap2, StackMapLength),
+     maplist(isAssignable, Locals1, Locals2),
+     maplist(isAssignable, StackMap1, StackMap2),
+     subset(Flags1, Flags2).
+
+<br><br><br><br>
+===== Правила проверки типов =====
+====== Средства доступа ======
+
+''Заранее оговорённые средства доступа'': повсюду в данной спецификации мы предполагаем существование определённых предикатов Пролога, чьи формальные определения не даны в спецификации. Ниже мы приводим данные предикаты и описываем их ожидаемое поведение.
+<br><br>
+:: <span style="font-size:88%">Примечание. Руководящим принципом в определении того какие средства доступа полностью определены, а какие оговорены и определены заранее, являлось намерение не перегружать <font face=Courier>class</font> файл излишним кодом. Предоставляя определённые средства доступа к терму класса или метода, мы вынуждены полностью определять формат терма Пролога, представляющего <font face=Courier>class</font> файл.
+</span>
+<br>
+
+<font face=Courier>parseFieldDescriptor</font>(<font face=Courier>Descriptor</font>, <font face=Courier>Type</font>)
+
+:: Преобразует дескриптор поля <font face=Courier>Descriptor</font> в соответствующий проверочный тип <font face=Courier>Type</font> (см. начало §4.10.1.1 для точного определения этого соответствия)
+
+<font face=Courier>parseMethodDescriptor</font>(<font face=Courier>Descriptor</font>, <font face=Courier>ArgTypeList</font>, <font face=Courier>ReturnType</font>)
+
+:: Преобразует дескриптор метода  <font face=Courier>Descriptor</font> в список проверочных типов <font face=Courier>ArgTypeList</font>, соответствующих (см. §4.10.1.1) типам аргументов метода и проверочный тип <font face=Courier>ReturnType</font>, соответствующий возвращаемому типу.
+
+<font face=Courier>parseCodeAttribute</font>(<font face=Courier>Class</font>, <font face=Courier>Method</font>, <font face=Courier>FrameSize</font>, <font face=Courier>MaxStack</font>, <font face=Courier>ParsedCode</font>, <font face=Courier>Handlers</font>, <font face=Courier>StackMap</font>)
+
+:: Извлекает поток инструкций <font face=Courier>ParsedCode</font> метода  <font face=Courier>Method</font> в классе  <font face=Courier>Class</font>, а также максимальный размер стека операндов <font face=Courier>MaxStack</font>, максимальное количество локальных переменных <font face=Courier>FrameSize</font>, обработчики исключений <font face=Courier>Handlers</font> и отображение стека <font face=Courier>StackMap</font>.
+
+:: Представление атрибутов потока инструкций и  отображение стека должно быть таким, как описано в начале §4.10.1.
+
+:: Каждый обработчик исключения представлен функтором вида <font face=Courier>handler</font>(<font face=Courier>Start</font>, <font face=Courier>End</font>, <font face=Courier>Target</font>, <font face=Courier>ClassName</font>), чьи аргументы соответственно начало и конец интервала инструкций, принадлежащих обработчику, первая инструкция обработчика, и имя исключения, которое обрабатывает данный обработчик.
+
+<font face=Courier>classClassName</font>(<font face=Courier>Class</font>, <font face=Courier>ClassName</font>)
+
+:: Возвращает имя  <font face=Courier>ClassName</font> класса <font face=Courier>Class</font>.
+
+<font face=Courier>classIsInterface</font>(<font face=Courier>Class</font>)
+
+:: Истинно тогда и только тогда, когда <font face=Courier>Class</font> является интерфейсом.
+
+<font face=Courier>classIsNotFinal</font>(<font face=Courier>Class</font>)
+
+:: Истинно тогда и только тогда, когда <font face=Courier>Class</font> не является <font face=Courier>final</font> классом.
+
+<font face=Courier>classSuperClassName</font>(<font face=Courier>Class</font>, <font face=Courier>SuperClassName</font>)
+
+:: Возвращает имя  <font face=Courier>SuperClassName</font> класса предка.
+
+<font face=Courier>classInterfaces</font>(<font face=Courier>Class</font>, <font face=Courier>Interfaces</font>)
+
+:: Возвращает список <font face=Courier>Interfaces</font> непосредственных предков класса <font face=Courier>Class</font>.
+
+<font face=Courier>classMethods</font>(<font face=Courier>Class</font>, <font face=Courier>Methods</font>)
+
+:: Возвращает список методов <font face=Courier>Methods</font> объявленных в классе <font face=Courier>Class</font>.
+
+<font face=Courier>classAttributes</font>(<font face=Courier>Class</font>, <font face=Courier>Attributes</font>)
+
+:: Возвращает список атрибутов <font face=Courier>Attributes</font> класса <font face=Courier>Class</font>. Каждый атрибут представляет собой приложение функтора к форме <font face=Courier>attribute</font>(<font face=Courier>AttributeName</font>, <font face=Courier>AttributeContents</font>), где <font face=Courier>AttributeName</font> — имя атрибута. Формат содержимого атрибутов неопределён.
+
+<font face=Courier>classDefiningLoader</font>(<font face=Courier>Class</font>, <font face=Courier>Loader</font>)
+
+:: Возвращает определяющий загрузчик <font face=Courier>Loader</font> класса  <font face=Courier>Class</font>.
+
+<font face=Courier>isBootstrapLoader</font>(<font face=Courier>Loader</font>)
+
+:: Истинно тогда и только тогда, когда <font face=Courier>Loader</font> — начальный загрузчик.
+
+<font face=Courier>methodName</font>(<font face=Courier>Method</font>, <font face=Courier>Name</font>)
+
+:: Возвращает имя <font face=Courier>Name</font> метода  <font face=Courier>Method</font>.
+
+<font face=Courier>methodAccessFlags</font>(<font face=Courier>Method</font>, <font face=Courier>AccessFlags</font>)
+
+:: Возвращает флаги доступа <font face=Courier>AccessFlags</font> метода <font face=Courier>Method</font>.
+
+<font face=Courier>methodDescriptor</font>(<font face=Courier>Method</font>, <font face=Courier>Descriptor</font>)
+
+:: Возвращает дескриптор <font face=Courier>Descriptor</font> метода  <font face=Courier>Method</font>.
+
+<font face=Courier>methodAttributes</font>(<font face=Courier>Method</font>, <font face=Courier>Attributes</font>)
+
+:: Возвращает список атрибутов <font face=Courier>Attributes</font> метода  <font face=Courier>Method</font>.
+
+<font face=Courier>isNotFinal</font>(<font face=Courier>Method</font>, <font face=Courier>Class</font>)
+
+:: Истинно тогда и только тогда, когда метод  <font face=Courier>Method</font> в классе  <font face=Courier>Class</font> не является <font face=Courier>final</font>.
+
+<font face=Courier>isProtected</font>(<font face=Courier>MemberClass</font>, <font face=Courier>MemberName</font>, <font face=Courier>MemberDescriptor</font>)
+
+:: Истинно тогда и только тогда, когда поле <font face=Courier>MemberName</font> с дескриптором <font face=Courier>MemberDescriptor</font> в классе  <font face=Courier>MemberClass</font> является <font face=Courier>protected</font>.
+
+<font face=Courier>isNotProtected</font>(<font face=Courier>MemberClass</font>, <font face=Courier>MemberName</font>, <font face=Courier>MemberDescriptor</font>)
+
+:: Истинно тогда и только тогда, когда поле <font face=Courier>MemberName</font> с дескриптором <font face=Courier>MemberDescriptor</font> в классе  <font face=Courier>MemberClass</font> не является <font face=Courier>protected</font>.
+
+<font face=Courier>samePackageName</font>(<font face=Courier>Class1</font>, <font face=Courier>Class2</font>)
+
+:: Истинно тогда и только тогда, когда имя пакетов у классов  <font face=Courier>Class1</font> и <font face=Courier>Class2</font> совпадают.
+
+<font face=Courier>differentPackageName</font>(<font face=Courier>Class1</font>, <font face=Courier>Class2</font>)
+
+:: Истинно тогда и только тогда, когда имя пакетов у классов  <font face=Courier>Class1</font> и <font face=Courier>Class2</font> различаются.
+
+''Заранее оговорённые средства доступа и утилиты'': мы определяем средства доступа и вспомогательные правила, которые получают необходимую информацию из описания классов и их методов.
+
+Окружение — это кортеж, состоящий из шести элементов:
+
+* класс
+* метод
+* объявленный возвращаемый тип метода.
+* инструкции метода
+* максимальный размер стека операндов
+* список обработчиков исключений
+
+ maxOperandStackLength(Environment, MaxStack) :-
+     Environment = environment(_Class, _Method, _ReturnType,
+                               _Instructions, MaxStack, _Handlers).
+ 
+ 
+ exceptionHandlers(Environment, Handlers) :-
+     Environment = environment(_Class, _Method, _ReturnType,
+                               _Instructions, _, Handlers).
+ 
+ 
+ thisMethodReturnType(Environment, ReturnType) :-
+     Environment = environment(_Class, _Method, ReturnType,
+                               _Instructions, _, _).
+ 
+ 
+ thisClass(Environment, class(ClassName, L)) :-
+     Environment = environment(Class, _Method, _ReturnType,
+                               _Instructions, _, _),
+     classDefiningLoader(Class, L),
+     classClassName(Class, ClassName).
+ 
+ 
+ allInstructions(Environment, Instructions) :-
+     Environment = environment(_Class, _Method, _ReturnType,
+                               Instructions, _, _).
+ 
+ 
+ offsetStackFrame(Environment, Offset, StackFrame) :-
+     allInstructions(Environment, Instructions),
+     member(stackMap(Offset, StackFrame), Instructions).
+ 
+ 
+ currentClassLoader(Environment, Loader) :-
+     thisClass(Environment, class(_, Loader)).
+ 
+ 
+ notMember(_, []).
+ 
+ notMember(X, [A | More]) :- X \= A, notMember(X, More).
+ 
+ 
+ sameRuntimePackage(Class1, Class2) :-
+     classDefiningLoader(Class1, L),
+     classDefiningLoader(Class2, L),
+     samePackageName(Class1, Class2).
+ 
+ 
+ differentRuntimePackage(Class1, Class2) :-
+     classDefiningLoader(Class1, L1),
+     classDefiningLoader(Class2, L2),
+     L1 \= L2.
+ 
+ 
+ differentRuntimePackage(Class1, Class2) :-
+     differentPackageName(Class1, Class2).
+
+<br><br><br><br>
+====== Абстрактные методы и методы Native ======
+
+Абстрактные методы и методы Native считаются корректными по типам, если они не замещают метод <font face=Courier>final</font>.
+
+ methodIsTypeSafe(Class, Method) :-
+     doesNotOverrideFinalMethod(Class, Method),
+     methodAccessFlags(Method, AccessFlags),
+     member(abstract, AccessFlags).
+ 
+ methodIsTypeSafe(Class, Method) :-
+     doesNotOverrideFinalMethod(Class, Method),
+     methodAccessFlags(Method, AccessFlags),
+     member(native, AccessFlags).
+ 
+ 
+ doesNotOverrideFinalMethod(class('java/lang/Object', L), Method) :-
+     isBootstrapLoader(L).
+ 
+ 
+ doesNotOverrideFinalMethod(Class, Method) :-
+     classSuperClassName(Class, SuperclassName),
+     classDefiningLoader(Class, L),
+     loadedClass(SuperclassName, L, Superclass),
+     classMethods(Superclass, MethodList),
+     finalMethodNotOverridden(Method, Superclass, MethodList).
+ 
+ 
+ finalMethodNotOverridden(Method, Superclass, MethodList) :-
+     methodName(Method, Name),
+     methodDescriptor(Method, Descriptor),
+     member(method(_, Name, Descriptor), MethodList),
+     isNotFinal(Method, Superclass).
+ 
+ 
+ finalMethodNotOverridden(Method, Superclass, MethodList) :-
+     methodName(Method, Name),
+     methodDescriptor(Method, Descriptor),
+     notMember(method(_, Name, Descriptor), MethodList),
+     doesNotOverrideFinalMethod(Superclass, Method).
+
+<br><br><br><br>
+====== Проверка кода ======
+
+Не абстрактные и не нативные методы  считаются корректными по типам, если они они имеют код и этот код корректен по типам.
+
+ methodIsTypeSafe(Class, Method) :-
+     doesNotOverrideFinalMethod(Class, Method),
+     methodAccessFlags(Method, AccessFlags),
+     methodAttributes(Method, Attributes),
+     notMember(native, AccessFlags),
+ 
+     notMember(abstract, AccessFlags),
+    member(attribute('Code', _), Attributes),
+    methodWithCodeIsTypeSafe(Class, Method).
+
+Метод с кодом, является безопасным по типам, если возможно объединить код и стек фреймов в один поток, так что каждое стековое соответствие предшествует инструкции, которой оно соответствует, и объеденный поток корректен по типам.
+
+ methodWithCodeIsTypeSafe(Class, Method) :-
+     parseCodeAttribute(Class, Method, FrameSize, MaxStack,
+                        ParsedCode, Handlers, StackMap),
+     mergeStackMapAndCode(StackMap, ParsedCode, MergedCode),
+     methodInitialStackFrame(Class, Method, FrameSize, StackFrame, ReturnType),
+     Environment = environment(Class, Method, ReturnType, MergedCode,
+                               MaxStack, Handlers),
+     handlersAreLegal(Environment),
+     mergedCodeIsTypeSafe(Environment, MergedCode, StackFrame).
+
+Начальное состояние по типам в методе состоит из пустого стека операндов и типов локальных переменных, унаследованных от типа <font face=Courier>this</font> и аргументов, а также соответствующего флага, зависящего от того является ли данны метод <font face=Courier><init></font> методом или нет.
+
+ methodInitialStackFrame(Class, Method, FrameSize, frame(Locals, [], Flags),
+                         ReturnType):-
+     methodDescriptor(Method, Descriptor),
+     parseMethodDescriptor(Descriptor, RawArgs, ReturnType),
+     expandTypeList(RawArgs, Args),
+     methodInitialThisType(Class, Method, ThisList),
+     flags(ThisList, Flags),
+     append(ThisList, Args, ThisArgs),
+     expandToLength(ThisArgs, FrameSize, top, Locals).
+ 
+ flags([uninitializedThis], [flagThisUninit]).
+ flags(X, []) :- X \= [uninitializedThis].
+ 
+ expandToLength(List, Size, _Filler, List) :- length(List, Size).
+ expandToLength(List, Size, Filler, Result) :-
+     length(List, ListLength),
+     ListLength < Size,
+     Delta is Size - ListLength,
+     length(Extra, Delta),
+     checklist(=(Filler), Extra),
+     append(List, Extra, Result).
+
+Для статических методов <font face=Courier>this</font> не определено; список пуст. Для метода экземпляра мы получаем тип <font face=Courier>this</font> и помещаем его в список.
+
+ methodInitialThisType(_Class, Method, []) :-
+     methodAccessFlags(Method, AccessFlags),
+     member(static, AccessFlags),
+     methodName(Method, MethodName),
+     MethodName \= ' <init> '.
+ 
+ methodInitialThisType(Class, Method, [This]) :-
+     methodAccessFlags(Method, AccessFlags),\
+     notMember(static, AccessFlags),\
+     instanceMethodInitialThisType(Class, Method, This).
+
+В методе <font face=Courier><init></font> класса <font face=Courier>Object</font> тип <font face=Courier>this</font> это <font face=Courier>Object</font>. В других <font face=Courier><init></font> методах тип <font face=Courier>this</font> это <font face=Courier>uninitializedThis</font>. В противном случае  тип <font face=Courier>this</font> в методе экземпляра - это <font face=Courier>class</font>(N, L), где N — имя класса, содержащего метода и L — определяющий загрузчик класса.
+
+ instanceMethodInitialThisType(Class, Method, class('java/lang/Object', L)) :-
+     methodName(Method, ' <init> '),
+     classDefiningLoader(Class, L),
+     isBootstrapLoader(L),
+     classClassName(Class, 'java/lang/Object').
+ 
+ 
+ instanceMethodInitialThisType(Class, Method, uninitializedThis) :-
+     methodName(Method, '<init>'),
+     classClassName(Class, ClassName),
+     classDefiningLoader(Class, CurrentLoader),
+     superclassChain(ClassName, CurrentLoader, Chain),
+     Chain \= [].
+ 
+ instanceMethodInitialThisType(Class, Method, class(ClassName, L)) :-
+     methodName(Method, MethodName),
+     MethodName \= '<init>',
+     classDefiningLoader(Class, L),
+     classClassName(Class, ClassName).
+
+Ниже представлены правила для прохождения по потоку кода. Мы предполагаем, что поток является правильно форматированной смесью инструкций и стековых соответствий, таких что стековое соответствие для байткода с индексом N находится непосредственно перед инструкцией N. Правила для построения такого смешанного потока даны ниже в предикате <font face=Courier>mergeStackMapAndCode</font>.
+
+Специальный маркер <font face=Courier>aftergoto</font> используется для обозначения безусловного перехода. Если мы имеем безусловный переход в конце кода, то это означает остановку.
+
+ mergedCodeIsTypeSafe(_Environment, [endOfCode(Offset)], afterGoto).
+
+После безусловного перехода, в случае если мы имеем стековое соответствие дающее состояние типов для следующих инструкций, то мы можем продолжить и выполнить для них проверку типов используя состояние типов из стекового соответствия.
+
+ mergedCodeIsTypeSafe(Environment, [stackMap(Offset, MapFrame) | MoreCode],
+afterGoto):-
+ 
+ mergedCodeIsTypeSafe(Environment, MoreCode, MapFrame).
+
+Если мы имеем стековое соответствие и входящее  состояние типов, то  состояние типов должно иметь возможность быть присвоенным одному из стековых соответствий. Тогда мы продолжим проверку типов остального потока с состоянием типа, находящимся в стековом соответствии.
+
+ mergedCodeIsTypeSafe(Environment, [stackMap(Offset, MapFrame) | MoreCode],            
+                     frame(Locals, OperandStack, Flags)) :-
+    frameIsAssignable(frame(Locals, OperandStack, Flags), MapFrame),
+    mergedCodeIsTypeSafe(Environment, MoreCode, MapFrame).
+
+Допустимо иметь код после безусловного перехода без стекового фрейма для него.
+
+ mergedCodeIsTypeSafe(_Environment, [instruction(_, _) | _MoreCode],
+                     afterGoto) :-
+    write_ln('No stack frame after unconditional branch'),
+    fail.
+
+Объединённый поток кода является безопасным по типам по отношению к входящему состоянию типов T, если он начинается с инструкции I, которая является безопасной по типу к  T и  I удовлетворяет его обработчикам исключений, причём остаток потока безопасен по типу данному состоянию типов, следующему за исполнением  I.
+
+<font face=Courier>NextStackFrame</font> показывает, что будет передаваться следующей инструкции.
+<font face=Courier>ExceptionStackFrame</font> показывает, что передаётся обработчикам исключений.
+
+ mergedCodeIsTypeSafe(Environment, [instruction(Offset, Parse) | MoreCode],
+                      frame(Locals, OperandStack, Flags)) :-
+     instructionIsTypeSafe(Parse, Environment, Offset,
+                           frame(Locals, OperandStack, Flags),
+                           NextStackFrame, ExceptionStackFrame),
+     instructionSatisfiesHandlers(Environment, Offset, ExceptionStackFrame),
+     mergedCodeIsTypeSafe(Environment, MoreCode, NextStackFrame).
+
+Переход к целевому объекту является безопасным по типам, если целевой объект имеет связанный с ним стековый фрейм и текущий стековый фрейм <font face=Courier>StackFrame</font> допустимо присваивать <font face=Courier>Frame</font>.
+
+ targetIsTypeSafe(Environment, StackFrame, Target) :-
+     offsetStackFrame(Environment, Target, Frame),
+     frameIsAssignable(StackFrame, Frame).
+
+<br><br><br><br>
+====== Комбинирование потоков стековых соответствий и инструкций ======
+
+Слияние пустого <font face=Courier>StackMap</font> и списка инструкций приводит к исходному списку инструкций.
+
+ mergeStackMapAndCode([], CodeList, CodeList).
+
+Пусть дан список фреймов стековых соответствий, начинающийся с состояния типа для инструкции по смещению <font face=Courier>Offset</font> и список инструкций, начинающийся со смещения <font face=Courier>Offset</font>. Объединённый список - это вершина списка стека фреймов, за которой следует вершина списка инструкций, за которыми следует объединение оставшихся элементов фрейма и инструкций.
+
+ mergeStackMapAndCode([stackMap(Offset, Map) | RestMap],
+                      [instruction(Offset, Parse) | RestCode],
+                      [stackMap(Offset, Map),
+                        instruction(Offset, Parse) | RestMerge]) :-
+     mergeStackMapAndCode(RestMap, RestCode, RestMerge).
+ 
+В противном случае, пусть дан  список фреймов стековых соответствий, начинающийся с состояния типа для инструкции по смещению <font face=Courier>OffsetM</font> и  список инструкций, начинающийся со смещения <font face=Courier>OffsetP</font>. Тогда, если <font face=Courier>OffsetP</font> < <font face=Courier>OffsetM</font>, то объединённый список состоит из вершины списка инструкций, за которой следует  объединение списка стековых фреймов и оставшегося списка инструкций.
+
+ mergeStackMapAndCode([stackMap(OffsetM, Map) | RestMap],
+                      [instruction(OffsetP, Parse) | RestCode],
+                      [instruction(OffsetP, Parse) | RestMerge]) :-
+     OffsetP < OffsetM,
+     mergeStackMapAndCode([stackMap(OffsetM, Map) | RestMap], RestCode, RestMerge).
+
+В противном случае, объединение двух списков не определено. Так как список инструкций имеет монотонно возрастающие смещения, объединение двух списков не определено до тех пор, пока каждый фрейм стекового соответствия имеет соответствующее смещение инструкции и  фреймы стекового соответствия находятся в возрастающем порядке.
+
+<br><br><br><br>
+====== Обработка исключений ======
+
+Инструкция ''удовлетворяет её обработчикам исключений'', если она удовлетворяет каждому обработчику исключения, который применим к инструкции.
+
+ instructionSatisfiesHandlers(Environment, Offset, ExceptionStackFrame) :-
+     exceptionHandlers(Environment, Handlers),
+     sublist(isApplicableHandler(Offset), Handlers, ApplicableHandlers),
+     checklist(instructionSatisfiesHandler(Environment, ExceptionStackFrame),
+               ApplicableHandlers).
+
+Обработчик исключений ''применим'' к инструкции, если смещение инструкции больше либо равно началу интервала обработчика и меньше конца интервала обработчика.
+
+ isApplicableHandler(Offset, handler(Start, End, _Target, _ClassName)) :-
+     Offset >= Start,
+     Offset < End.
+
+Инструкция ''удовлетворяет'' обработчику исключений, если её входящее состояние типов есть <font face=Courier>StackFrame</font> и цель обработчика исключений (начальная инструкция в коде обработчика) безопасна по типу при предположении, что входящее состояние типов равно T.  Состояние типов T унаследовано от <font face=Courier>StackFrame</font> через замену стека операндов стеком, чей единственный элемент это класс обработчика исключений.
+
+ instructionSatisfiesHandler(Environment, StackFrame, Handler) :-
+     Handler = handler(_, _, Target, _),
+     currentClassLoader(Environment, CurrentLoader),
+     handlerExceptionClass(Handler, ExceptionClass, CurrentLoader),
+     /* The stack consists of just the exception. */
+     StackFrame = frame(Locals, _, Flags),
+     ExcStackFrame = frame(Locals, [ ExceptionClass ], Flags),
+     operandStackHasLegalLength(Environment, ExcStackFrame),
+     targetIsTypeSafe(Environment, ExcStackFrame, Target).
+
+Класс обработчика исключений это <font face=Courier>Throwable</font>, если класс обработчика не задан явно и класс заданный в обработчике в противном случае.
+
+ handlerExceptionClass(handler(_, _, _, 0), class('java/lang/Throwable', BL), _) :-
+     isBootstrapLoader(BL).
+ 
+ handlerExceptionClass(handler(_, _, _, Name), class(Name, L), L) :-
+     Name \= 0.
+
+Обработчик исключений корректен, если его начало (<font face=Courier>Start</font>) меньше чем его конец (<font face=Courier>End</font>), а также существует инструкция, чьё смещение равно <font face=Courier>Start</font>, а также существует инструкция, чьё смещение равно  <font face=Courier>End</font> и класс обработчика исключений допустимо присваивать классу <font face=Courier>Throwable</font>.
+
+ handlersAreLegal(Environment) :-
+     exceptionHandlers(Environment, Handlers),
+     checklist(handlerIsLegal(Environment), Handlers).
+ 
+ handlerIsLegal(Environment, Handler) :-
+     Handler = handler(Start, End, Target, _),
+     Start < End,
+     allInstructions(Environment, Instructions),
+     member(instruction(Start, _), Instructions),
+     offsetStackFrame(Environment, Target, _),
+     instructionsIncludeEnd(Instructions, End),
+     currentClassLoader(Environment, CurrentLoader),
+     handlerExceptionClass(Handler, ExceptionClass, CurrentLoader),
+     isBootstrapLoader(BL),
+     isAssignable(ExceptionClass, class('java/lang/Throwable', BL)).
+ 
+ instructionsIncludeEnd(Instructions, End) :-
+     member(instruction(End, _), Instructions).
+ 
+ instructionsIncludeEnd(Instructions, End) :-
+     member(endOfCode(End), Instructions).
+
+<br><br><br><br>
+===== Инструкции =====
+====== Изоморфные инструкции ======
+
+Множество байткодов имеют правила типов совершенно изоморфные между собой. Если байткод b1 изоморфен другому байт-коду b2, то правило типов для b1 такое же как и для b2.
+
+ instructionIsTypeSafe(Instruction, Environment, Offset, StackFrame,
+                       NextStackFrame, ExceptionStackFrame) :-
+     instructionHasEquivalentTypeRule(Instruction, IsomorphicInstruction),
+     instructionIsTypeSafe(IsomorphicInstruction, Environment, Offset, StackFrame,
+     NextStackFrame, ExceptionStackFrame).
+
+<br><br><br><br>
+====== Манипулирование стеком операндов ======
+
+В этом разделе определены правила корректного манипулирования состоянием типов стека операндов. Манипулирование стеком операндов осложняется тем фактом, что некоторые типы данных занимают два элемента в стеке операндов. Это учтено в предикатах, данных в этом разделе, что позволяет в остальных разделах спецификации абстрагироваться от данного факта.
+
+ canPop(frame(Locals, OperandStack, Flags), Types,
+        frame(Locals, PoppedOperandStack, Flags)) :-
+     popMatchingList(OperandStack, Types, PoppedOperandStack).
+ 
+ popMatchingList(OperandStack, [], OperandStack).
+ 
+ popMatchingList(OperandStack, [P | Rest], NewOperandStack) :-
+     popMatchingType(OperandStack, P, TempOperandStack, _ActualType),
+     popMatchingList(TempOperandStack, Rest, NewOperandStack).
+ 
+ sizeOf(X, 2) :- isAssignable(X, twoWord).
+ sizeOf(X, 1) :- isAssignable(X, oneWord).
+ sizeOf(top, 1).
+
+Считываем определённый тип из стека операндов. Более точно, если логическая вершина стека является подтипом определённого типа <font face=Courier>Type</font>, тогда считываем её. Если тип занимает два элемента в стеке, то логическая вершина стека на самом деле это тип под вершиной, а вершина — это неиспользуемый тип <font face=Courier>top</font>.
+
+ popMatchingType([ActualType | OperandStack], Type, OperandStack, ActualType) :-
+     sizeOf(Type, 1),
+     isAssignable(ActualType, Type).
+ 
+ popMatchingType([top, ActualType | OperandStack], Type, OperandStack, ActualType) :-
+     sizeOf(Type, 2),
+     isAssignable(ActualType, Type).
+
+Записываем логический тип в стек. Точное поведение зависит от размера типа. Если записываемый тип имеет размер 1, то мы просто записываем его в стек. Если записываемый тип имеет размер 2, то мы записываем его, а затем записываем <font face=Courier>top</font>.
+
+ pushOperandStack(OperandStack, 'void', OperandStack).
+ pushOperandStack(OperandStack, Type, [Type | OperandStack]) :-
+     sizeOf(Type, 1).
+ pushOperandStack(OperandStack, Type, [top, Type | OperandStack]) :-
+     sizeOf(Type, 2).
+
+Размер стека операндов не должен превышать объявленного максимума. 
+
+ operandStackHasLegalLength(Environment, OperandStack) :-
+     length(OperandStack, Length),
+     maxOperandStackLength(Environment, MaxStack),
+     Length =< MaxStack.
+
+Тип категории 1 занимает ровно один элемент в стеке. Считывание логического типа категории 1 (<font face=Courier>Type</font>) возможно, если вершина стека это <font face=Courier>Type</font> и <font face=Courier>Type</font> не равен <font face=Courier>top</font> (в противном случае он может означать верхнюю половину типа категории 2). В результате получаем стек, у которого с вершины снят один элемент.
+
+ popCategory1([Type | Rest], Type, Rest) :-
+     Type \= top,
+     sizeOf(Type, 1).
+
+Тип категории 2 занимает два элемента в стеке.  Считывание логического типа категории 2 (<font face=Courier>Type</font>) возможно, если вершина стека это тип равный <font face=Courier>top</font>, а элемент непосредственно ниже — это <font face=Courier>Type</font>. В результате получаем стек, у которого с вершины снято два элемента.
+
+ popCategory2([top, Type | Rest], Type, Rest) :-
+     sizeOf(Type, 2).
+ 
+ canSafelyPush(Environment, InputOperandStack, Type, OutputOperandStack) :-
+     pushOperandStack(InputOperandStack, Type, OutputOperandStack),
+     operandStackHasLegalLength(Environment, OutputOperandStack).
+ 
+ canSafelyPushList(Environment, InputOperandStack, Types, OutputOperandStack) :-
+     canPushList(InputOperandStack, Types, OutputOperandStack),
+     operandStackHasLegalLength(Environment, OutputOperandStack).
+ 
+ canPushList(InputOperandStack, [Type | Rest], OutputOperandStack) :-
+     pushOperandStack(InputOperandStack, Type, InterimOperandStack),
+     canPushList(InterimOperandStack, Rest, OutputOperandStack).
+     canPushList(InputOperandStack, [], InputOperandStack).
+
+<br><br><br><br>
+====== Инструкции загрузки ======
+
+Все инструкции загрузки представляют собой разновидности общего шаблона, в зависимости от типа загружаемого значения.
+
+Загрузка значения с типом <font face=Courier>Type</font> из локальной переменной <font face=Courier>Index</font> является безопасной по типу, если тип локальной переменной это <font face=Courier>ActualType</font>, при этом <font face=Courier>ActualType</font> допустимо присваивать <font face=Courier>Type</font> и запись во входящий стек операндов <font face=Courier>ActualType</font> является допустимым преобразованием типов, которое приводит к новому состоянию типов <font face=Courier>NextStackFrame</font>. После выполнения инструкции загрузки состояние типов будет <font face=Courier>NextStackFrame</font>.
+
+ loadIsTypeSafe(Environment, Index, Type, StackFrame, NextStackFrame) :-
+     StackFrame = frame(Locals, _OperandStack, _Flags),
+     nth0(Index, Locals, ActualType),
+     isAssignable(ActualType, Type),
+     validTypeTransition(Environment, [], ActualType, StackFrame, NextStackFrame).
+
+<br><br><br><br>
+====== Инструкции сохранения ======
+
+Все инструкции сохранения представляют собой разновидности общего шаблона, в зависимости от типа сохраняемого значения.
+
+В общем случае, инструкция сохранения является безопасной по типу, если локальная переменная, на которую она ссылается имеет тип более общий чем <font face=Courier>Type</font>, а вершина стека операндов является подтипом <font face=Courier>Type</font>, где  <font face=Courier>Type</font> — это тип, который призвана сохранять инструкция.
+
+Говоря более точно,  инструкция сохранения является безопасной по типу, если можно считать из стека операндов тип <font face=Courier>ActualType</font>, который «подходит»  <font face=Courier>Type</font> (например, является подтипом <font face=Courier>Type</font>), а затем корректно присвоить этот тип локальной переменной <font face=Courier>Lindex</font>.
+
+ storeIsTypeSafe(_Environment, Index, Type,
+                 frame(Locals, OperandStack, Flags),
+                 frame(NextLocals, NextOperandStack, Flags)) :-
+     popMatchingType(OperandStack, Type, NextOperandStack, ActualType),
+     modifyLocalVariable(Index, ActualType, Locals, NextLocals).
+
+Учитывая локальные переменные <font face=Courier>Locals</font>, изменение <font face=Courier>Index</font>, чтобы он имел тип <font face=Courier>Type</font> приводит к созданию локального списка переменных <font face=Courier>NewLocals</font>. Эти изменения немного запутанные, потому что некоторые значения (и их соответствующие типы) занимают две локальные переменные. Следовательно, изменения <font face=Courier>L<sub>N</sub></font> могут потребовать изменений в <font face=Courier>L<sub>N+1</sub></font> (потому что тип занимает две ячейки: <font face=Courier>N</font> и <font face=Courier>N</font>+1) либо в <font face=Courier>L<sub>N-1</sub></font> (потому что локальное <font face=Courier>N</font> представляет собой верхнюю половину двухсловного значения, начинающегося с  <font face=Courier>N</font>-1 и поэтому локальное <font face=Courier>N</font>-1 должно быть помечено как недействительное) либо и то и другое вместе. Это описано немного ниже. Мы начнём с  <font face=Courier>L<sub>0</sub></font> и будем продолжать.
+
+ modifyLocalVariable(Index, Type, Locals, NewLocals) :-
+     modifyLocalVariable(0, Index, Type, Locals, NewLocals).
+
+Учитывая <font face=Courier>LocalsRest</font>, суффикс списка локальной переменной, начинающийся с индекса I, изменения локальной переменной <font face=Courier>Index</font>, чтобы она имела тип <font face=Courier>Type</font> приводит к созданию списка локальных переменных <font face=Courier>NewLocalsRest</font>.
+
+Если <font face=Courier>I</font> < <font face=Courier>Index</font> - 1, то просто копируем вход в выход и идём далее. Если <font face=Courier>I</font> = <font face=Courier>Index</font>-1, то тип локальной <font face=Courier>I</font> может измениться. Это может произойти, если <font face=Courier>L<sub>I</sub></font> имеет тип размера 2. Когда мы установили <font face=Courier>L<sub>I+1</sub></font> в новый тип (и соответствующее значение), то тип/значение <font face=Courier>L<sub>I</sub></font> может быть помечен как недействительный, так как его верхняя половина будет потеряна.  Затем мы движемся далее.
+
+Когда мы находим переменную и она занимает только одно слово, мы заменяем её на <font face=Courier>Type</font>.
+
+Когда мы находим переменную и она занимает два слова, мы заменяем её тип на  <font face=Courier>Type</font>, а следующее слово на <font face=Courier>top</font>.
+
+ modifyLocalVariable(I, Index, Type,
+                     [Locals1 | LocalsRest], [Locals1 | NextLocalsRest] ) :-
+     I < Index - 1,
+     I1 is I + 1,
+     modifyLocalVariable(I1, Index, Type, LocalsRest, NextLocalsRest).
+ 
+ modifyLocalVariable(I, Index, Type,
+                    [Locals1 | LocalsRest], [NextLocals1 | NextLocalsRest] ) :-
+     I =:= Index - 1,
+     modifyPreIndexVariable(Locals1, NextLocals1),
+     modifyLocalVariable(Index, Index, Type, LocalsRest, NextLocalsRest).
+ 
+ modifyLocalVariable(Index, Index, Type,
+                     [_ | LocalsRest], [Type | LocalsRest]) :-
+     sizeOf(Type, 1).
+ 
+ modifyLocalVariable(Index, Index, Type,
+                     [_, _ | LocalsRest], [Type, top | LocalsRest]) :-
+     sizeOf(Type, 2).
+
+Мы ссылаемся на локальную переменную, чей индекс непосредственно предшествует локальной переменной, тип которой будет изменён на ''переменная предшествующая индексу''. Будущий тип переменной предшествующей индексу с типом <font face=Courier>InputType</font> это <font face=Courier>Result</font>. Если тип <font face=Courier>Type</font>  переменной предшествующей индексу имеет размер 1, то он не меняется. Если тип <font face=Courier>Type</font> переменной предшествующей индексу имеет размер 2, то нам необходимо пометить нижнюю половину его двухсловного значения как неиспользуемую посредством присваивания ей типа <font face=Courier>top</font>.
+
+ modifyPreIndexVariable(Type, Type) :- sizeOf(Type, 1).
+ modifyPreIndexVariable(Type, top) :- sizeOf(Type, 2).
+
+Если дан список типов, то мы получаем список, где каждый тип размера 2 замещён двумя элементами: непосредственно типом и элементом <font face=Courier>top</font>. В таком случае результат соответствует представлению списка набора 32-х битных слов в виртуальной машине Java.
+
+ expandTypeList([], []).
+ 
+ expandTypeList([Item | List], [Item | Result]) :-
+     sizeOf(Item, 1),
+     expandTypeList(List, Result).
+ 
+ expandTypeList([Item | List], [Item, top | Result]) :-
+     sizeOf(Item, 2),
+     expandTypeList(List, Result).
+
+<br><br><br><br>
+====== Список инструкций ======
+
+В общем случае тип правила для инструкции дан относительно окружения <font face=Courier>Environment</font>, которое определяет класс и метод, в которых встречается инструкция и смещение <font face=Courier>Offset</font> внутри метода, по которому расположена инструкция. Правило утверждает входящее состояние типов <font face=Courier>StackFrame</font> удовлетворяет определенным требованиям, тогда:
+
+* Инструкция безопасна по типу.
+
+* Можно доказать, что состояние типов после инструкции, выполнившейся успешно, имеет определённую форму, заданную в <font face=Courier>NextStackFrame</font>, и состояние типов после инструкции, выполнившейся аварийно, дано в <font face=Courier>ExceptionStackFrame</font>.
+
+Мы старались сделать описание правил на естественном языке легко читаемым, интуитивно понятным и кратким. Поэтому в описании не повторяются все концептуальные предположения данные ниже. В частности:
+
+* Явно мы не упоминаем окружение.
+
+* Когда мы говорим о стеке операндов или о локальных переменных, мы ссылаемся на компоненту состояния типов стека операндов или локальных переменных: либо входящее состояние типов либо исходящее.
+
+* Состояние типов после того как инструкция завершается аварийно, почти всегда равно входящему состоянию типов. Мы обсуждаем состояние типов после аварийного завершения инструкции только если оно не равно исходному.
+
+* Мы говорим о записи и считывание типов в стек и из стека операндов. Явно мы не обсуждаем случаи переполнения и антипереполнения стека, но предполагаем, что запись и считывание могут пройти успешно. Формальные правила для работы со стеком операндов гарантируют, что необходимые проверки пройдены. 
+
+* Аналогично, в тексте описана работы только с логическими типами. На практике, некоторые типы занимают более одного слова. Мы абстрагируемся от этих деталей представления в нашем обсуждении, но не в логических правилах которые используют эти типы данных.
+
+Любые неопределённости могут быть разрешены посредством обращения к формальным правилам Пролога.
+
