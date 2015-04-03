@@ -248,7 +248,15 @@ public final class FormatHelper {
     private static String removeSpecialWords(String inText){
         String outText = inText;
         for(String specialWord : SPECIAL_WORDS){
-            String search = "\\b" + specialWord + "\\b";
+            String search = "";
+            if (specialWord.startsWith("<")){
+                search = specialWord;
+            } else {
+                search = "\\b" + specialWord;
+            }
+            if (!specialWord.endsWith(">")){
+                search = search + "\\b";
+            }
             String dest = EMPTY_STRING;
             outText = outText.replaceAll(search, dest);
         }

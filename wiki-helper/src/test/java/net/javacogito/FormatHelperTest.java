@@ -137,4 +137,14 @@ public class FormatHelperTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void addFontCourierTagForSpecialWordsInitTest(){
+        String source = "унаследованных от типа this и аргументов, а также соответствующего флага, зависящего от того является ли данны метод <init> методом или нет.";
+        String expected = "унаследованных от типа <font face=Courier>this</font> и аргументов, а также соответствующего флага, зависящего от того является ли данны метод <init> методом или нет.";
+        String actual = FormatHelper.addFontCourierTagForClassFileStructure(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+
 }
