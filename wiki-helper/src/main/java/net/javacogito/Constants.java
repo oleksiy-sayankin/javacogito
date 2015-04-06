@@ -3,6 +3,13 @@ package net.javacogito;
 
 public final class Constants {
     private Constants(){}
+    public static final String TABLE_HEADER = "{| width=\"90%\" border=\"0\" style=\"border-collapse:collapse; margin-left: 46px;\" |";
+    public static final String ONE_EMPTY_LINE = "<br>";
+    public static final String PIPE = "|";
+    public static final String TABLE_FOOTER = "|}";
+    public static final String NL = "\n";
+    public static final String SYNTAX_HIGHLIGHT_START_PROLOG_TAG = "<syntaxhighlight lang=\"prolog\">";
+    public static final String SYNTAX_HIGHLIGHT_END_TAG = "</syntaxhighlight>";
     public static final String EMPTY_STRING = "";
     public static final String RIGHT_BRACKET = ">";
     public static final String TWO_QUOTES = "''";

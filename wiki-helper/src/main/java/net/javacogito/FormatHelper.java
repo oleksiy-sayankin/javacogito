@@ -343,4 +343,12 @@ public final class FormatHelper {
         outText = outText.replaceAll(search, dest);
         return outText;
     }
+
+    public static String formatPrologCode(String inText){
+        StringBuilder sb = new StringBuilder();
+        sb.append(SYNTAX_HIGHLIGHT_START_PROLOG_TAG).append(NL);
+        sb.append(inText).append(NL);
+        sb.append(SYNTAX_HIGHLIGHT_END_TAG);
+        return sb.toString();
+    }
 }
