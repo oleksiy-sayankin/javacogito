@@ -3,21 +3,23 @@ package net.javacogito;
 
 public final class Constants {
     private Constants(){}
+    public static final String SPAN_START_TAG = "<span style=\"font-size:88%\">";
+    public static final String SPAN_END_TAG = "</span>";
     public static final String TABLE_HEADER = "{| width=\"90%\" border=\"0\" style=\"border-collapse:collapse; margin-left: 46px;\" |";
     public static final String ONE_EMPTY_LINE = "<br>";
     public static final String PIPE = "|";
     public static final String TABLE_FOOTER = "|}";
     public static final String NL = "\n";
-    public static final String SYNTAX_HIGHLIGHT_START_PROLOG_TAG = "<syntaxhighlight lang=\"prolog\">";
+    public static final String SYNTAX_HIGHLIGHT_PROLOG_START_TAG = "<syntaxhighlight lang=\"prolog\">";
     public static final String SYNTAX_HIGHLIGHT_END_TAG = "</syntaxhighlight>";
     public static final String EMPTY_STRING = "";
     public static final String RIGHT_BRACKET = ">";
     public static final String TWO_QUOTES = "''";
     public static final String EXCEPTIONS[] = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE", "JDK",  "release", "ME", "CLDC" ,"Card"};
-    public static final String START_CODE_TAG = "<code>";
-    public static final String END_CODE_TAG = "</code>";
-    public static final String START_FONT_COURIER_TAG = "<font face=Courier>";
-    public static final String END_FONT_COURIER_TAG = "</font>";
+    public static final String CODE_START_TAG = "<code>";
+    public static final String CODE_END_TAG = "</code>";
+    public static final String FONT_COURIER_START_TAG = "<font face=Courier>";
+    public static final String FONT_COURIER_END_TAG = "</font>";
     public static final String[] ADDITIONAL_KEY_WORDS = {
             "null",
             "reference"

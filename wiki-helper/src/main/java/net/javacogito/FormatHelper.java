@@ -25,7 +25,7 @@ public final class FormatHelper {
     public static String addFontCourierTagForSpecialWords(String inText){
         String outText = inText;
         for(String specialWord : SPECIAL_WORDS){
-            String dest = START_FONT_COURIER_TAG + specialWord +END_FONT_COURIER_TAG;
+            String dest = FONT_COURIER_START_TAG + specialWord + FONT_COURIER_END_TAG;
             outText = outText.replaceAll(specialWord, dest);
         }
         return outText;
@@ -35,10 +35,10 @@ public final class FormatHelper {
         String outText = inText;
         List<String> processedUnicode = new ArrayList<String>();
 
-        while (hasUnTaggedUnicode(outText, processedUnicode, START_FONT_COURIER_TAG, END_FONT_COURIER_TAG)) {
-            String unTaggedUnicode = findUnTaggedUnicode(outText, processedUnicode, START_FONT_COURIER_TAG, END_FONT_COURIER_TAG);
+        while (hasUnTaggedUnicode(outText, processedUnicode, FONT_COURIER_START_TAG, FONT_COURIER_END_TAG)) {
+            String unTaggedUnicode = findUnTaggedUnicode(outText, processedUnicode, FONT_COURIER_START_TAG, FONT_COURIER_END_TAG);
             String search = "\\" + unTaggedUnicode;
-            String dest = START_FONT_COURIER_TAG + "\\" + unTaggedUnicode + END_FONT_COURIER_TAG;
+            String dest = FONT_COURIER_START_TAG + "\\" + unTaggedUnicode + FONT_COURIER_END_TAG;
             outText = outText.replaceAll(search, dest);
             processedUnicode.add("\\" + unTaggedUnicode);
         }
@@ -118,10 +118,10 @@ public final class FormatHelper {
     public static String addFontCourierTagForClassFileStructure(String inText){
         String outText = inText;
         List<String> processedEnglishWords = new ArrayList<String>();
-        while (hasUnTaggedEnglishWord(outText, processedEnglishWords, START_FONT_COURIER_TAG, END_FONT_COURIER_TAG)){
-            String unTaggedEnglishWord = findUnTaggedEnglishWord(outText, processedEnglishWords, START_FONT_COURIER_TAG, END_FONT_COURIER_TAG);
-            String search = "\\b" + unTaggedEnglishWord + "\\b" + "(?!" + END_FONT_COURIER_TAG + "|" + RIGHT_BRACKET + ")";
-            String dest = START_FONT_COURIER_TAG + unTaggedEnglishWord + END_FONT_COURIER_TAG;
+        while (hasUnTaggedEnglishWord(outText, processedEnglishWords, FONT_COURIER_START_TAG, FONT_COURIER_END_TAG)){
+            String unTaggedEnglishWord = findUnTaggedEnglishWord(outText, processedEnglishWords, FONT_COURIER_START_TAG, FONT_COURIER_END_TAG);
+            String search = "\\b" + unTaggedEnglishWord + "\\b" + "(?!" + FONT_COURIER_END_TAG + "|" + RIGHT_BRACKET + ")";
+            String dest = FONT_COURIER_START_TAG + unTaggedEnglishWord + FONT_COURIER_END_TAG;
             outText = outText.replaceAll(search, dest);
             processedEnglishWords.add(unTaggedEnglishWord);
         }
@@ -133,10 +133,10 @@ public final class FormatHelper {
     public static String addCodeTagForClassFileStructure(String inText){
         String outText = inText;
         List<String> processedEnglishWords = new ArrayList<String>();
-        while (hasUnTaggedEnglishWord(outText, processedEnglishWords, START_CODE_TAG, END_CODE_TAG)){
-            String unTaggedEnglishWord = findUnTaggedEnglishWord(outText, processedEnglishWords, START_CODE_TAG, END_CODE_TAG);
-            String search = "\\b" + unTaggedEnglishWord + "\\b" + "(?!" + END_CODE_TAG + "|" + RIGHT_BRACKET + ")";
-            String dest = START_CODE_TAG + unTaggedEnglishWord + END_CODE_TAG;
+        while (hasUnTaggedEnglishWord(outText, processedEnglishWords, CODE_START_TAG, CODE_END_TAG)){
+            String unTaggedEnglishWord = findUnTaggedEnglishWord(outText, processedEnglishWords, CODE_START_TAG, CODE_END_TAG);
+            String search = "\\b" + unTaggedEnglishWord + "\\b" + "(?!" + CODE_END_TAG + "|" + RIGHT_BRACKET + ")";
+            String dest = CODE_START_TAG + unTaggedEnglishWord + CODE_END_TAG;
             outText = outText.replaceAll(search, dest);
             processedEnglishWords.add(unTaggedEnglishWord);
         }
@@ -301,7 +301,7 @@ public final class FormatHelper {
         String outText = inText;
         for (String javaKeyWord : Constants.JAVA_KEY_WORDS){
             String search = "\\b" + javaKeyWord + "\\b";
-            String taggedJavaKeyWord = START_CODE_TAG + javaKeyWord + END_CODE_TAG;
+            String taggedJavaKeyWord = CODE_START_TAG + javaKeyWord + CODE_END_TAG;
             outText = outText.replaceAll(search, taggedJavaKeyWord);
         }
         return outText;
@@ -311,7 +311,7 @@ public final class FormatHelper {
         String outText = inText;
         for (String addKeyWord : ADDITIONAL_KEY_WORDS){
             String search = "\\b" + addKeyWord + "\\b";
-            String taggedAddKeyWord = START_CODE_TAG + addKeyWord + END_CODE_TAG;
+            String taggedAddKeyWord = CODE_START_TAG + addKeyWord + CODE_END_TAG;
             outText = outText.replaceAll(search, taggedAddKeyWord);
         }
         return outText;
@@ -346,7 +346,7 @@ public final class FormatHelper {
 
     public static String formatPrologCode(String inText){
         StringBuilder sb = new StringBuilder();
-        sb.append(SYNTAX_HIGHLIGHT_START_PROLOG_TAG).append(NL);
+        sb.append(SYNTAX_HIGHLIGHT_PROLOG_START_TAG).append(NL);
         sb.append(inText).append(NL);
         sb.append(SYNTAX_HIGHLIGHT_END_TAG);
         return sb.toString();
