@@ -1,4 +1,0 @@
-0  aload_0
-1  iload_1
-2  putfield #4	// Поле Example.i I
-5  return
