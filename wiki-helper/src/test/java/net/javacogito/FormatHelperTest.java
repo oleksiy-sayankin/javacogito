@@ -146,5 +146,13 @@ public class FormatHelperTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void makeItalicAlwaysItalicWordsTest(){
+        String source = "инициализирующий загрузчик класса или интерфейса (от англ. initiating loader – прим. перев.).";
+        String expected = "инициализирующий загрузчик класса или интерфейса (от англ. initiating loader – ''прим. перев.'').";
+        String actual = FormatHelper.makeItalicAlwaysItalicWords(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
 
 }

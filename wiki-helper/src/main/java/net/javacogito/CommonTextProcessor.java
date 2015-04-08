@@ -14,6 +14,6 @@ public class CommonTextProcessor implements Processor{
     }
 
     public String process(String inText) {
-        return makeItalicGenericJvmCommands(makeItalicJvmCommands(addFontCourierTagForUnicode(addFontCourierTagForSpecialWords(addFontCourierTagForClassFileStructure(inText)))));
+        return makeItalicAlwaysItalicWords(makeItalicGenericJvmCommands(makeItalicJvmCommands(addFontCourierTagForUnicode(addFontCourierTagForSpecialWords(addFontCourierTagForClassFileStructure(inText))))));
     }
 }

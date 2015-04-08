@@ -351,4 +351,15 @@ public final class FormatHelper {
         sb.append(SYNTAX_HIGHLIGHT_END_TAG);
         return sb.toString();
     }
+
+    public static String makeItalicAlwaysItalicWords(String inText){
+        String outText = inText;
+        for (String alwaysItalicWord : ALWAYS_ITALIC_WORDS){
+            String search = alwaysItalicWord;
+            String quotedJvmCommand = TWO_QUOTES + alwaysItalicWord + TWO_QUOTES;
+            outText = outText.replaceAll(search, quotedJvmCommand);
+        }
+        return outText;
+
+    }
 }

@@ -10,6 +10,7 @@ public final class Constants {
     public static final String PIPE = "|";
     public static final String TABLE_FOOTER = "|}";
     public static final String NL = "\n";
+    public static final String SYNTAX_HIGHLIGHT_JAVA_START_TAG = "<syntaxhighlight lang=\"java\">";
     public static final String SYNTAX_HIGHLIGHT_PROLOG_START_TAG = "<syntaxhighlight lang=\"prolog\">";
     public static final String SYNTAX_HIGHLIGHT_END_TAG = "</syntaxhighlight>";
     public static final String EMPTY_STRING = "";
@@ -20,6 +21,9 @@ public final class Constants {
     public static final String CODE_END_TAG = "</code>";
     public static final String FONT_COURIER_START_TAG = "<font face=Courier>";
     public static final String FONT_COURIER_END_TAG = "</font>";
+    public static final String ALWAYS_ITALIC_WORDS[] = {
+            "прим. перев.",
+    };
     public static final String[] ADDITIONAL_KEY_WORDS = {
             "null",
             "reference"
