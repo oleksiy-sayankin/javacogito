@@ -54,6 +54,7 @@
 <div style="background:#FFC253; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Скоро на сайте</div>
 
 * [[Спецификация виртуальной машины Java]]
+* [[Список инструкций JVM с правилами проверки их безопасности]]
 
 <div style="background:#faf9b2; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Выдержки из статей </div>
 
