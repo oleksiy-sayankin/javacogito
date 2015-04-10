@@ -14,6 +14,15 @@ public class CommonTextProcessor implements Processor{
     }
 
     public String process(String inText) {
-        return makeItalicAlwaysItalicWords(makeItalicGenericJvmCommands(makeItalicJvmCommands(addFontCourierTagForUnicode(addFontCourierTagForSpecialWords(addFontCourierTagForClassFileStructure(inText))))));
+        String outText = addFontCourierTagForClassFileStructure(inText);
+        outText = addFontCourierTagForSpecialWords(outText);
+        outText = addFontCourierTagForUnicode(outText);
+        outText = makeItalicJvmCommands(outText);
+        outText = makeItalicGenericJvmCommands(outText);
+        outText = makeItalicAlwaysItalicWords(outText);
+        outText = formatClassLoaderNames(outText);
+        //outText = makeDoubleEnter(outText);
+        outText = formatSubSupIndexes(outText);
+        return outText;
     }
 }

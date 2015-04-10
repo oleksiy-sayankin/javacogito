@@ -155,4 +155,33 @@ public class FormatHelperTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void formatClassLoaderNamesTest(){
+        String source = "говорят, что L инициирует загрузку C или, что эквивалентно, L – это инициирующий загрузчик C";
+        String expected = "говорят, что <font face=Courier>''L''</font> инициирует загрузку <font face=Courier>''C''</font> или, что эквивалентно, <font face=Courier>''L''</font> – это инициирующий загрузчик <font face=Courier>''C''</font>";
+        String actual = FormatHelper.formatClassLoaderNames(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void addFontCourierTagForClassFileStructureComplexBracketsTest(){
+        String source = "Иногда мы будем обозначать класс или интерфейс с помощью нотации <N, Ld >, где N – это имя класса или интерфейса, а Ld – определяющий загрузчик";
+        String expected = "Иногда мы будем обозначать класс или интерфейс с помощью нотации <N, <font face=Courier>Ld</font> >, где N – это имя класса или интерфейса, а <font face=Courier>Ld</font> – определяющий загрузчик";
+        String actual = FormatHelper.addFontCourierTagForClassFileStructure(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void formatSubSupIndexesTest(){
+        String source = "В противном случае пусть <E,  L1> - это класс или интерфейс,  содержащий метод m, на который ссылается D и пусть L2 будет определяющим загрузчиком для D.";
+        String expected = "В противном случае пусть <E,  <font face=Courier>''L<sub>1</sub>''</font>> - это класс или интерфейс,  содержащий метод m, на который ссылается D и пусть <font face=Courier>''L<sub>2</sub>''</font> будет определяющим загрузчиком для D.";
+        String actual = FormatHelper.formatSubSupIndexes(source);
+        LOGGER.info("actual = " + actual);
+        Assert.assertEquals(expected, actual);
+    }
+
+
 }

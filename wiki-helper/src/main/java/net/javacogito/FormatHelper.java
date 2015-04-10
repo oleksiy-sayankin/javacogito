@@ -356,10 +356,31 @@ public final class FormatHelper {
         String outText = inText;
         for (String alwaysItalicWord : ALWAYS_ITALIC_WORDS){
             String search = alwaysItalicWord;
-            String quotedJvmCommand = TWO_QUOTES + alwaysItalicWord + TWO_QUOTES;
-            outText = outText.replaceAll(search, quotedJvmCommand);
+            String dest = TWO_QUOTES + alwaysItalicWord + TWO_QUOTES;
+            outText = outText.replaceAll(search, dest);
         }
         return outText;
-
     }
+
+    public static String formatClassLoaderNames(String inText){
+        String outText = inText;
+        for (String classLoaderName : CLASS_LOADER_NAMES){
+            String search =  "\\b" + classLoaderName + "\\b";
+            String dest = FONT_COURIER_START_TAG +  TWO_QUOTES + classLoaderName + TWO_QUOTES + FONT_COURIER_END_TAG;
+            outText = outText.replaceAll(search, dest);
+        }
+        return outText;
+    }
+
+    public static String formatSubSupIndexes(String inText){
+        String outText = inText;
+        for (String indexedWord : INDEXED_WORDS.keySet()){
+            String search =  "\\b" + indexedWord + "\\b";
+            String dest = INDEXED_WORDS.get(indexedWord);
+            outText = outText.replaceAll(search, dest);
+        }
+        return outText;
+    }
+
+
 }

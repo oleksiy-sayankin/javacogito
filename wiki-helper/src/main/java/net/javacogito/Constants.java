@@ -1,6 +1,9 @@
 package net.javacogito;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class Constants {
     private Constants(){}
     public static final String SPAN_START_TAG = "<span style=\"font-size:88%\">";
@@ -16,14 +19,38 @@ public final class Constants {
     public static final String EMPTY_STRING = "";
     public static final String RIGHT_BRACKET = ">";
     public static final String TWO_QUOTES = "''";
-    public static final String EXCEPTIONS[] = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE", "JDK",  "release", "ME", "CLDC" ,"Card"};
+    public static final String[] EXCEPTIONS = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE", "JDK",  "release", "ME", "CLDC" ,"Card", "Oracle"};
     public static final String CODE_START_TAG = "<code>";
     public static final String CODE_END_TAG = "</code>";
     public static final String FONT_COURIER_START_TAG = "<font face=Courier>";
     public static final String FONT_COURIER_END_TAG = "</font>";
-    public static final String ALWAYS_ITALIC_WORDS[] = {
+
+    public static final Map<String, String> INDEXED_WORDS = new HashMap<String, String>();
+    static {
+        INDEXED_WORDS.put("L1", "<font face=Courier>''L<sub>1</sub>''</font>");
+        INDEXED_WORDS.put("L2", "<font face=Courier>''L<sub>2</sub>''</font>");
+        INDEXED_WORDS.put("m1", "<font face=Courier>''m<sub>1</sub>''</font>");
+        INDEXED_WORDS.put("m2", "<font face=Courier>''m<sub>2</sub>''</font>");
+        INDEXED_WORDS.put("m3", "<font face=Courier>''m<sub>3</sub>''</font>");
+        INDEXED_WORDS.put("Tr", "<font face=Courier>''T<sub>r</sub>''</font>");
+        INDEXED_WORDS.put("Tf1", "<font face=Courier>''T<sub>f1</sub>''</font>");
+        INDEXED_WORDS.put("Tfn", "<font face=Courier>''T<sub>fn</sub>''</font>");
+        INDEXED_WORDS.put("Tfi", "<font face=Courier>''T<sub>fi</sub>''</font>");
+        INDEXED_WORDS.put("Ti", "<font face=Courier>''T<sub>i</sub>''</font>");
+        INDEXED_WORDS.put("T0", "<font face=Courier>''T<sub>0</sub>''</font>");
+        INDEXED_WORDS.put("TiL1", "<font face=Courier>''T<sub>i</sub><sup>L1</sup>''</font>");
+        INDEXED_WORDS.put("TiL2", "<font face=Courier>''T<sub>i</sub><sup>L2</sup>''</font>");
+    }
+
+
+    public static final String[] CLASS_LOADER_NAMES = {
+            "L", "C", "N", "D", "m", "E", "MN", "R", "f", "T", "A", "o"
+    };
+
+    public static final String[] ALWAYS_ITALIC_WORDS = {
             "прим. перев.",
     };
+
     public static final String[] ADDITIONAL_KEY_WORDS = {
             "null",
             "reference"
