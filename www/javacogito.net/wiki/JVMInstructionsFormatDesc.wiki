@@ -1,0 +1,45 @@
+{| width="100%"
+| style="text-align:left;"  | '''''aaload'''''
+| style="text-align:right;"  | '''''aaload'''''
+|}
+<br>
+{| style="border-collapse:collapse;" 
+| width="150px" style="vertical-align:top;" | '''Операция''' 
+|Загружает ссылку из массива 
+|}
+<br>
+{|
+| width="150px" style="vertical-align:top;" | '''Формат'''
+| 
+{| border="1" style="border-collapse:collapse;" width="400px"
+|''aaload''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;" 
+| width="150px" style="vertical-align:top;" | '''Формы''' 
+|''aaload'' = 50 (0x32) 
+|}
+<br>
+{| style="border-collapse:collapse;" 
+| width="150px" style="vertical-align:top;"| '''Стек операндов''' 
+| ..., ''ссылка на массив'', ''индекс'' → 
+|-
+|
+|
+|-
+|
+| ..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;" 
+| width="150px" style="vertical-align:top;" | '''Описание''' 
+| style="vertical-align:top;"|Значение ''ссылки на массив'' должно быть типа <font face=Courier>reference</font> и должно ссылаться на массив, чьи компоненты также принадлежат типу <font face=Courier>reference</font>. Значение ''индекса'' должно быть типа <font face=Courier>int</font>. Как ''ссылка на массив'' так и ''индекс'' считываются из стека операндов. ''Значение'' типа <font face=Courier>reference</font> считывается из элемента массива с индексом ''индекс'' и записывается в стек операндов.
+ 
+|}
+<br>
+{| style="border-collapse:collapse;" 
+| width="150px" style="vertical-align:top;" | '''Исключения времени выполнения''' 
+| style="vertical-align:top;"|Если значение ''ссылки на массив'' равно <font face=Courier>null</font>, то инструкция ''aaload'' генерирует исключение <font face=Courier>NullPointerException</font>.
+|}
+
