@@ -11,7 +11,7 @@ public class JvmCodeSimpleFormatProcessor implements Processor{
 
     public String process(String inText) {
         StringBuilder sb = new StringBuilder();
-        sb.append(makeItalicJvmCommands(inText));
+        sb.append(makeItalicGenericJvmCommands(makeItalicJvmCommands(inText)));
         return sb.toString();
     }
 }

@@ -392,5 +392,19 @@ public final class FormatHelper {
         return outText;
     }
 
+    public static String replaceThreeDots(String inText){
+        String outText = inText;
+        String search = "…";
+        String dest =  "...";
+        outText = outText.replaceAll(search, dest);
+        return outText;
+    }
 
+    public static String shadePipe(String inText){
+        String outText = inText;
+        String search =  "\\|";
+        String dest =  NO_WIKI_START_TAG + PIPE + NO_WIKI_END_TAG;
+        outText = outText.replaceAll(search, dest);
+        return outText;
+    }
 }

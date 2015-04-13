@@ -8,18 +8,23 @@ public final class Constants {
     private Constants(){}
     public static final String FOUR_EMPTY_LINES = "<br><br><br><br>";
     public static final String TABLE_HEADER_SIMPLE = "{| width=\"100%\"";
+    public static final String TABLE_NEW_ROW = "|-";
     public static final String TABLE_HEADER_BORDER_COLLAPSE = "{| style=\"border-collapse:collapse;\"";
     public static final String TABLE_HEADER_BORDER_BORDER_1 = "{| border=\"1\" style=\"border-collapse:collapse;\" width=\"400px\"";
-    public static final String TABLE_FORMAT_WIDTH_150 = "| width=\"150px\" style=\"vertical-align:top;\" |";
+    public static final String TABLE_FORMAT_WIDTH_150 = "width=\"150px\"";
+    public static final String TABLE_FORMAT_VERTICAL_ALIGN_TOP = " style=\"vertical-align:top;\"";
     public static final String TABLE_LEFT_CELL = "| style=\"text-align:left;\"  | ";
     public static final String TABLE_RIGHT_CELL = "| style=\"text-align:right;\"  | ";
     public static final String BOLD_ITALIC = "'''''";
     public static final String BOLD = "'''";
     public static final String OPERATION = "Операция";
+    public static final String DESCRIPTION = "Описание";
     public static final String FORMAT = "Формат";
     public static final String FORMS = "Формы";
     public static final String OPERAND_STACK = "Стек операндов";
     public static final String RUNTIME_EXCEPTIONS = "Исключения времени выполнения";
+    public static final String LINKING_EXCEPTIONS = "Исключения связывания";
+    public static final String NOTES = "Примечания";
     public static final String SPAN_START_TAG = "<span style=\"font-size:88%\">";
     public static final String SPAN_END_TAG = "</span>";
     public static final String TABLE_HEADER_WITH_MARGIN = "{| width=\"90%\" border=\"0\" style=\"border-collapse:collapse; margin-left: 46px;\" |";
@@ -36,17 +41,27 @@ public final class Constants {
     public static final String[] EXCEPTIONS = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE", "JDK",  "release", "ME", "CLDC" ,"Card", "Oracle"};
     public static final String CODE_START_TAG = "<code>";
     public static final String CODE_END_TAG = "</code>";
+    public static final String NO_WIKI_START_TAG = "<nowiki>";
+    public static final String NO_WIKI_END_TAG = "</nowiki>";
     public static final String FONT_COURIER_START_TAG = "<font face=Courier>";
     public static final String FONT_COURIER_END_TAG = "</font>";
 
     public static final String[] FORCE_ITALIC_WORDS = {
             "ссылка на массив",
             "ссылки на массив",
+            "Ссылка на массив",
             "индекс",
             "индекса",
+            "Индекс",
             "значение",
             "Значение",
-            "значения"
+            "значения",
+            "ссылка на объект",
+            "Ссылка на объект",
+            "байт_индекса1",
+            "байт_индекса2",
+            "число элементов",
+            "длина массива"
     };
 
     public static final Map<String, String> INDEXED_WORDS = new HashMap<String, String>();
