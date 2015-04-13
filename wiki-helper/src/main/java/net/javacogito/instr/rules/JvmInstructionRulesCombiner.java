@@ -1,9 +1,12 @@
-package net.javacogito;
+package net.javacogito.instr.rules;
 
+
+import net.javacogito.Combiner;
+import net.javacogito.Util;
 
 import java.io.IOException;
 
-public class JvmInstructionRulesCombiner {
+public class JvmInstructionRulesCombiner implements Combiner {
     public static void main( String[] args ) throws IOException {
         System.out.println();
         System.out.println();
@@ -19,9 +22,9 @@ public class JvmInstructionRulesCombiner {
         String description = Util.readFile("description.txt");
         String prolog = Util.readFile("prolog.txt");
         StringBuilder sb = new StringBuilder();
-        sb.append(new JvmInstructionHeaderProcessor().process(instruction));
-        sb.append(new JvmInstructionDescProcessor().process(description));
-        sb.append(new JvmInstructionPrologProcessor().process(prolog));
+        sb.append(new JvmInstructionRulesHeaderProcessor().process(instruction));
+        sb.append(new JvmInstructionRulesDescProcessor().process(description));
+        sb.append(new JvmInstructionRulesPrologProcessor().process(prolog));
         return sb.toString();
     }
 }

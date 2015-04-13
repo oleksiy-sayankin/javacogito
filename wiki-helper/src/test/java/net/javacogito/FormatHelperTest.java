@@ -159,7 +159,7 @@ public class FormatHelperTest {
     public void formatClassLoaderNamesTest(){
         String source = "говорят, что L инициирует загрузку C или, что эквивалентно, L – это инициирующий загрузчик C";
         String expected = "говорят, что <font face=Courier>''L''</font> инициирует загрузку <font face=Courier>''C''</font> или, что эквивалентно, <font face=Courier>''L''</font> – это инициирующий загрузчик <font face=Courier>''C''</font>";
-        String actual = FormatHelper.formatClassLoaderNames(source);
+        String actual = FormatHelper.formatForceCourierItalic(source);
         LOGGER.info("actual = " + actual);
         Assert.assertEquals(expected, actual);
     }

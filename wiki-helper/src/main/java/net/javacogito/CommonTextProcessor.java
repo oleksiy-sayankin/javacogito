@@ -20,7 +20,7 @@ public class CommonTextProcessor implements Processor{
         outText = makeItalicJvmCommands(outText);
         outText = makeItalicGenericJvmCommands(outText);
         outText = makeItalicAlwaysItalicWords(outText);
-        outText = formatClassLoaderNames(outText);
+        outText = formatForceCourierItalic(outText);
         //outText = makeDoubleEnter(outText);
         outText = formatSubSupIndexes(outText);
         return outText;

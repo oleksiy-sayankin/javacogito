@@ -278,7 +278,7 @@ public final class FormatHelper {
         String outText = inText;
         for (String jvmCommand : JVM_COMMANDS){
             String search = "\\b" + jvmCommand + "\\b";
-            String quotedJvmCommand = TWO_QUOTES + jvmCommand + TWO_QUOTES;
+            String quotedJvmCommand = ITALIC + jvmCommand + ITALIC;
             outText = outText.replaceAll(search, quotedJvmCommand);
         }
         return outText;
@@ -288,7 +288,7 @@ public final class FormatHelper {
         String outText = inText;
         for (String genericJvmCommand : GENERIC_JVM_COMMANDS){
             String search = genericJvmCommand;
-            String quotedJvmCommand = TWO_QUOTES + genericJvmCommand + TWO_QUOTES;
+            String quotedJvmCommand = ITALIC + genericJvmCommand + ITALIC;
             outText = outText.replaceAll(search, quotedJvmCommand);
         }
         return outText;
@@ -356,17 +356,17 @@ public final class FormatHelper {
         String outText = inText;
         for (String alwaysItalicWord : ALWAYS_ITALIC_WORDS){
             String search = alwaysItalicWord;
-            String dest = TWO_QUOTES + alwaysItalicWord + TWO_QUOTES;
+            String dest = ITALIC + alwaysItalicWord + ITALIC;
             outText = outText.replaceAll(search, dest);
         }
         return outText;
     }
 
-    public static String formatClassLoaderNames(String inText){
+    public static String formatForceCourierItalic(String inText){
         String outText = inText;
-        for (String classLoaderName : CLASS_LOADER_NAMES){
-            String search =  "\\b" + classLoaderName + "\\b";
-            String dest = FONT_COURIER_START_TAG +  TWO_QUOTES + classLoaderName + TWO_QUOTES + FONT_COURIER_END_TAG;
+        for (String forceCourierItalicWord : FORCE_COURIER_ITALIC_WORDS){
+            String search =  "\\b" + forceCourierItalicWord + "\\b";
+            String dest = FONT_COURIER_START_TAG + ITALIC + forceCourierItalicWord + ITALIC + FONT_COURIER_END_TAG;
             outText = outText.replaceAll(search, dest);
         }
         return outText;
@@ -377,6 +377,16 @@ public final class FormatHelper {
         for (String indexedWord : INDEXED_WORDS.keySet()){
             String search =  "\\b" + indexedWord + "\\b";
             String dest = INDEXED_WORDS.get(indexedWord);
+            outText = outText.replaceAll(search, dest);
+        }
+        return outText;
+    }
+
+    public static String formatForceItalic(String inText){
+        String outText = inText;
+        for (String forceItalicWord : FORCE_ITALIC_WORDS){
+            String search = "\\b" + forceItalicWord +"\\b";
+            String dest = ITALIC + forceItalicWord + ITALIC;
             outText = outText.replaceAll(search, dest);
         }
         return outText;

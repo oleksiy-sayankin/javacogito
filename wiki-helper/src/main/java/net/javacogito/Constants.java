@@ -6,9 +6,23 @@ import java.util.Map;
 
 public final class Constants {
     private Constants(){}
+    public static final String FOUR_EMPTY_LINES = "<br><br><br><br>";
+    public static final String TABLE_HEADER_SIMPLE = "{| width=\"100%\"";
+    public static final String TABLE_HEADER_BORDER_COLLAPSE = "{| style=\"border-collapse:collapse;\"";
+    public static final String TABLE_HEADER_BORDER_BORDER_1 = "{| border=\"1\" style=\"border-collapse:collapse;\" width=\"400px\"";
+    public static final String TABLE_FORMAT_WIDTH_150 = "| width=\"150px\" style=\"vertical-align:top;\" |";
+    public static final String TABLE_LEFT_CELL = "| style=\"text-align:left;\"  | ";
+    public static final String TABLE_RIGHT_CELL = "| style=\"text-align:right;\"  | ";
+    public static final String BOLD_ITALIC = "'''''";
+    public static final String BOLD = "'''";
+    public static final String OPERATION = "Операция";
+    public static final String FORMAT = "Формат";
+    public static final String FORMS = "Формы";
+    public static final String OPERAND_STACK = "Стек операндов";
+    public static final String RUNTIME_EXCEPTIONS = "Исключения времени выполнения";
     public static final String SPAN_START_TAG = "<span style=\"font-size:88%\">";
     public static final String SPAN_END_TAG = "</span>";
-    public static final String TABLE_HEADER = "{| width=\"90%\" border=\"0\" style=\"border-collapse:collapse; margin-left: 46px;\" |";
+    public static final String TABLE_HEADER_WITH_MARGIN = "{| width=\"90%\" border=\"0\" style=\"border-collapse:collapse; margin-left: 46px;\" |";
     public static final String ONE_EMPTY_LINE = "<br>";
     public static final String PIPE = "|";
     public static final String TABLE_FOOTER = "|}";
@@ -18,12 +32,22 @@ public final class Constants {
     public static final String SYNTAX_HIGHLIGHT_END_TAG = "</syntaxhighlight>";
     public static final String EMPTY_STRING = "";
     public static final String RIGHT_BRACKET = ">";
-    public static final String TWO_QUOTES = "''";
+    public static final String ITALIC = "''";
     public static final String[] EXCEPTIONS = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE", "JDK",  "release", "ME", "CLDC" ,"Card", "Oracle"};
     public static final String CODE_START_TAG = "<code>";
     public static final String CODE_END_TAG = "</code>";
     public static final String FONT_COURIER_START_TAG = "<font face=Courier>";
     public static final String FONT_COURIER_END_TAG = "</font>";
+
+    public static final String[] FORCE_ITALIC_WORDS = {
+            "ссылка на массив",
+            "ссылки на массив",
+            "индекс",
+            "индекса",
+            "значение",
+            "Значение",
+            "значения"
+    };
 
     public static final Map<String, String> INDEXED_WORDS = new HashMap<String, String>();
     static {
@@ -43,8 +67,8 @@ public final class Constants {
     }
 
 
-    public static final String[] CLASS_LOADER_NAMES = {
-            "L", "C", "N", "D", "m", "E", "MN", "R", "f", "T", "A", "o"
+    public static final String[] FORCE_COURIER_ITALIC_WORDS = {
+            "L", "C", "N", "D", "m", "E", "MN", "R", "f", "T", "A", "o", "S", "SC", "TC"
     };
 
     public static final String[] ALWAYS_ITALIC_WORDS = {
