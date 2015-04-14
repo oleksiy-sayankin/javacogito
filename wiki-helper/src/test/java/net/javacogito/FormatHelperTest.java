@@ -183,5 +183,29 @@ public class FormatHelperTest {
         Assert.assertEquals(expected, actual);
     }
 
+    @Test
+    public void findAllItalicTest(){
+        Dictionary forceItalicPhrase = new Dictionary();
+        forceItalicPhrase.put(new Phrase("ссылка на массив").addForm("ссылки на массив").addForm("Ссылка на массив"));
+        forceItalicPhrase.put(new Phrase("индекс").addForm("индекса").addForm("Индекс"));
+        forceItalicPhrase.put(new Phrase("значение").addForm("Значение").addForm("значения"));
+        forceItalicPhrase.put(new Phrase("ссылка на объект").addForm("Ссылка на объект"));
+        forceItalicPhrase.put(new Phrase("байт_индекса1"));
+        forceItalicPhrase.put(new Phrase("байт_индекса2"));
+        forceItalicPhrase.put(new Phrase("число элементов"));
+        forceItalicPhrase.put(new Phrase("длина массива"));
+
+        String inText = "…, ссылка на массив →\n" + "\n" + "…, длина массива\n";
+
+        Dictionary actual = FormatHelper.findAllItalic(inText);
+
+        Dictionary expected =  new Dictionary();
+        expected.put(new Phrase("ссылка на массив").addForm("ссылки на массив").addForm("Ссылка на массив"));
+        expected.put(new Phrase("длина массива"));
+
+        Assert.assertEquals(expected, actual);
+        LOGGER.info(actual);
+
+    }
 
 }

@@ -384,13 +384,28 @@ public final class FormatHelper {
 
     public static String formatForceItalic(String inText){
         String outText = inText;
-        for (String forceItalicWord : FORCE_ITALIC_WORDS){
-            String search = "\\b" + forceItalicWord +"\\b";
-            String dest = ITALIC + forceItalicWord + ITALIC;
-            outText = outText.replaceAll(search, dest);
+        for (Phrase forceItalicPhrase : FORCE_ITALIC_PHRASES){
+            for (String form : forceItalicPhrase.getForms()) {
+                String search = "\\b" + form + "\\b";
+                String dest = ITALIC + form + ITALIC;
+                outText = outText.replaceAll(search, dest);
+            }
         }
         return outText;
     }
+
+    public static String formatForceItalic(String inText, Dictionary dictionary){
+        String outText = inText;
+        for (Phrase forceItalicPhrase : dictionary){
+            for (String form : forceItalicPhrase.getForms()) {
+                String search = "\\b" + form + "\\b";
+                String dest = ITALIC + form + ITALIC;
+                outText = outText.replaceAll(search, dest);
+            }
+        }
+        return outText;
+    }
+
 
     public static String replaceThreeDots(String inText){
         String outText = inText;
@@ -406,5 +421,15 @@ public final class FormatHelper {
         String dest =  NO_WIKI_START_TAG + PIPE + NO_WIKI_END_TAG;
         outText = outText.replaceAll(search, dest);
         return outText;
+    }
+
+    public static Dictionary findAllItalic(String inText){
+        Dictionary result = new Dictionary();
+        for (Phrase forceItalicPhrase : FORCE_ITALIC_PHRASES){
+            if(forceItalicPhrase.isInText(inText)){
+                result.put(forceItalicPhrase);
+            }
+        }
+        return result;
     }
 }

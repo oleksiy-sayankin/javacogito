@@ -46,23 +46,7 @@ public final class Constants {
     public static final String FONT_COURIER_START_TAG = "<font face=Courier>";
     public static final String FONT_COURIER_END_TAG = "</font>";
 
-    public static final String[] FORCE_ITALIC_WORDS = {
-            "ссылка на массив",
-            "ссылки на массив",
-            "Ссылка на массив",
-            "индекс",
-            "индекса",
-            "Индекс",
-            "значение",
-            "Значение",
-            "значения",
-            "ссылка на объект",
-            "Ссылка на объект",
-            "байт_индекса1",
-            "байт_индекса2",
-            "число элементов",
-            "длина массива"
-    };
+    public static final Dictionary FORCE_ITALIC_PHRASES = new Dictionary();
 
     public static final Map<String, String> INDEXED_WORDS = new HashMap<String, String>();
     static {
@@ -79,6 +63,16 @@ public final class Constants {
         INDEXED_WORDS.put("T0", "<font face=Courier>''T<sub>0</sub>''</font>");
         INDEXED_WORDS.put("TiL1", "<font face=Courier>''T<sub>i</sub><sup>L1</sup>''</font>");
         INDEXED_WORDS.put("TiL2", "<font face=Courier>''T<sub>i</sub><sup>L2</sup>''</font>");
+
+            FORCE_ITALIC_PHRASES.put(new Phrase("ссылка на массив").addForm("ссылки на массив").addForm("Ссылка на массив"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("индекс").addForm("индекса").addForm("Индекс"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("значение").addForm("Значение").addForm("значения"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("ссылка на объект").addForm("Ссылка на объект"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("байт_индекса1"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("байт_индекса2"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("число элементов"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("длина массива"));
+
     }
 
 
