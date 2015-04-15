@@ -38,7 +38,8 @@ public final class Constants {
     public static final String EMPTY_STRING = "";
     public static final String RIGHT_BRACKET = ">";
     public static final String ITALIC = "''";
-    public static final String[] EXCEPTIONS = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE", "JDK",  "release", "ME", "CLDC" ,"Card", "Oracle"};
+    public static final String[] EXCEPTIONS = {"Java", "JLS", "ASCII", "Unicode", "UTF", "NaN", "SE", "JDK",
+            "release", "ME", "CLDC" ,"Card", "Oracle", "IEEE", "FP-strict"};
     public static final String CODE_START_TAG = "<code>";
     public static final String CODE_END_TAG = "</code>";
     public static final String NO_WIKI_START_TAG = "<nowiki>";
@@ -72,12 +73,15 @@ public final class Constants {
             FORCE_ITALIC_PHRASES.put(new Phrase("байт_индекса2"));
             FORCE_ITALIC_PHRASES.put(new Phrase("число элементов"));
             FORCE_ITALIC_PHRASES.put(new Phrase("длина массива"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("результат").addForm("результатом"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("значение1").addForm("значением1"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("значение2").addForm("значением2"));
 
     }
 
 
     public static final String[] FORCE_COURIER_ITALIC_WORDS = {
-            "L", "C", "N", "D", "m", "E", "MN", "R", "f", "T", "A", "o", "S", "SC", "TC"
+            "L", "C", "N", "D", "m", "E", "MN", "R", "f", "T", "A", "o", "S", "SC", "TC", "V"
     };
 
     public static final String[] ALWAYS_ITALIC_WORDS = {
