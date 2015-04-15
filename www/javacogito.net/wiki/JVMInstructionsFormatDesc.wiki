@@ -1357,3 +1357,400 @@
 Несмотря на переполнение, потерю точности ''dmul'' никогда не генерирует исключение времени выполнения.
 |}
 
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dneg'''''
+| style="text-align:right;"  | '''''dneg'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Инвертирует значение типа <font face=Courier>double</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dneg''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dneg''= 119 (0x77)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Значение'' должно принадлежать типу <font face=Courier>double</font>. Оно считывается из стека операндов, и подвергаются набору преобразований (см. §2.8.3), а затем заменяется значением`. Результат – это число типа <font face=Courier>double</font> равное арифметическому отрицанию ''значения''`. Затем ''результат'' записывается в стек операндов.
+
+Для значений типа <font face=Courier>double</font> отрицание не есть то же самое, что и вычитание из нуля. Если <font face=Courier>''x''</font> это  +0.0, то  0.0 - <font face=Courier>''x''</font> равно  +0.0, но  -<font face=Courier>''x''</font> равно  -0.0. Унарный минус лишь инвертирует знак числа типа <font face=Courier>double</font>.
+
+Особые случаи:
+* Если  операнд есть не-число NaN, то ''результат'' также NaN (поскольку у NaN нет знака).
+* Если операнд – бесконечность, то ''результат'' – бесконечность противоположного знака.
+* Если операнд – ноль, то ''результат'' – ноль противоположного знака.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''drem'''''
+| style="text-align:right;"  | '''''drem'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Остаток от деления двух чисел типа <font face=Courier>double</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''drem''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''drem''= 115 (0x73)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>double</font>. Значения считываются из стека операндов и подвергаются набору преобразований (см. §2.8.3) и заменяются  ''значением1''` и ''значением2''`. Результат вычисляется и записывается в стек операндов с типом <font face=Courier>double</font>.
+
+Результат инструкции ''drem'' не совпадает с операцией вычисления остатка для чисел с плавающей точкой, определённой в стандарте IEEE 754. Операция вычисления остатка, заданная в стандарте IEEE 754, вычисляет остаток от «округляющего» деления, а не «урезающего» деления, так что её поведение не аналогично обычной операции целочисленного вычисления остатка. Вместо этого в виртуальной машине Java поведение инструкции ''drem'' определено наподобие инструкций целочисленного вычисления остатка (''irem'' и ''lrem''); инструкцию ''drem'' можно сравнить с библиотечной функцией <font face=Courier>fmod</font> языка <font face=Courier>''C''</font>.
+
+Результат инструкции ''drem'' вычисляется согласно следующим правилам:
+* Если либо ''значение1''` либо  ''значение2''` есть не-число NaN, то ''результат'' есть NaN.
+* Если ни ''значение1''` ни  ''значение2''` не являются не-числами NaN, то знак результата совпадает со знаком делимого.
+* Если делимое есть бесконечность или делитель есть ноль, либо оба числа есть нули, то ''результат'' – не-число  NaN.
+* Если делимое есть конечное ''значение'', а делитель – бесконечность, то ''результат'' (остаток от деления) равен делимому.
+* Если делимое есть ноль, а делитель – конечное ''значение'', то ''результат'' (остаток от деления) равен делимому.
+* В оставшихся случаях, когда операнды не бесконечность, не ноль и не NaN остаток от деления с плавающей точкой делимого значения1` на делитель ''значение2''` определяется следующим отношением: ''результат'' = ''значение1''` - (''значение2''` * q), где q – целое число, имеющее знак минус в случае, если ''значение1''` / ''значение2''` отрицательно и знак плюс, если ''значение1''` / ''значение2''` положительно. Величина коэффициента q равно наибольшему целому не превосходящему частного от деления ''значения1''` на ''значение2''`.
+
+Несмотря на деление на ноль инструкция ''drem'' никогда не генерирует исключение времени выполнения. Переполнение и потеря точности не могут произойти для этой инструкции.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Остаток от деления согласно спецификации IEEE 754 может быть вычислен с помощью метода <font face=Courier>Math</font>.<font face=Courier>IEEEremainder</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dreturn'''''
+| style="text-align:right;"  | '''''dreturn'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Возвращает значение типа <font face=Courier>double</font> из метода
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dreturn''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dreturn''= 175 (0xaf)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+[пусто]
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Текущий метод должен возвращать величину типа <font face=Courier>double</font>. ''Значение'' также должно принадлежать <font face=Courier>double</font>. Если текущий метод объявлен с ключевым словом <font face=Courier>synchronized</font>, то при входе в метод монитор захватывается первоначально (либо повторно, если уже был захвачен до того), а при выходе освобождается, как при выполнении инструкции ''monitorexit'' для текущего потока. Если в ходе выполнения метода не было исключений, ''значение'' считывается из стека операндов текущего фрейма (см. §2.6) и проходит ряд преобразований (см. §2.8.3). Затем преобразованное  ''значение''` записывается в стек операндов фрейма, принадлежащего вызывающему методу. Все остальные ''значения'' стека операндов текущего фрейма теряются.
+
+Затем интерпретатор передаёт управление вызывающему методу, делая текущим соответствующий фрейм.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если реализация виртуальной машины Java не поддерживает правила структурных блокировок описанные в §2.11.10, тогда если текущий метод объявлен как  <font face=Courier>synchronized</font> и текущий поток не является владельцем монитора, захваченного при входе в метод, то при вызове ''dreturn'' будет выброшено исключение <font face=Courier>IllegalMonitorStateException</font>. Это может произойти, если <font face=Courier>synchronized</font>-метод содержит инструкцию ''monitorexit'', а инструкция ''monitorenter'' по объекту синхронизации отсутствует.
+
+С другой стороны, если реализация виртуальной машины Java  поддерживает правила структурных блокировок описанные в §2.11.10, и во время выполнения текущего метода нарушено первое из этих правил, то при вызове ''dreturn'' будет выброшено исключение <font face=Courier>IllegalMonitorStateException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dstore'''''
+| style="text-align:right;"  | '''''dstore'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Считывает значение типа <font face=Courier>double</font> из стека и сохраняет в локальной переменной
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dstore''
+|-
+| style="vertical-align:top;"|''индекс''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dstore''= 57 (0x39)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Индекс'' является беззнаковым байтом. ''Индекс'' и величина ''индекс''+1 должны принадлежать массиву локальных переменных текущего фрейма (см. §2.6). ''Значение''  на вершине стека операндов должно принадлежать типу <font face=Courier>double</font>. Оно считывается из стека операндов, и подвергаются набору преобразований (см. §2.8.3), а затем заменяется значением`. В локальные переменные с индексами ''индекс'' и ''индекс''+1 записывается ''значение''`.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''dstore'' может быть использована совместно с инструкцией ''wide'', когда необходимо задать двухбайтовый беззнаковый индекс локальной переменной.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dstore_<n>'''''
+| style="text-align:right;"  | '''''dstore_<n>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Считывает значение типа <font face=Courier>double</font> из стека и сохраняет в локальной переменной
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dstore_<n>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dstore_0''= 71 (0x47)
+
+''dstore_1''= 72 (0x48)
+
+''dstore_2''= 73 (0x49)
+
+''dstore_3''= 74 (0x4a)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И <n> и величина <n>+1 должны принадлежать массиву локальных переменных текущего фрейма (см. §2.6). ''Значение''  на вершине стека операндов должно принадлежать типу <font face=Courier>double</font>. Оно считывается из стека операндов, и подвергаются набору преобразований (см. §2.8.3), а затем заменяется значением`. В локальные переменные с индексами <n> и <n> +1 записывается ''значение''`.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Каждая из инструкции ''dstore_<n>'' выполняет то же, что и ''dstore'' с явным индексом <n> за исключением того, что операнд <n> задан не явно.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dsub'''''
+| style="text-align:right;"  | '''''dsub'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Вычитает два значения типа <font face=Courier>double</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dsub''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dsub''= 103 (0x67)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>double</font>. Значения считываются из стека операндов и подвергаются набору преобразований (см. §2.8.3) и заменяются на ''значение1''` и ''значение2''`. Результат – это число типа <font face=Courier>double</font> равное ''значение1''`- ''значение2''`. Затем ''результат'' записывается в стек операндов.
+
+Для операндов типа <font face=Courier>double</font> всегда справедливо, что выражение <font face=Courier>''a''</font>-<font face=Courier>''b''</font> даёт такой же ''результат'', как и <font face=Courier>''a''</font>+(-<font face=Courier>''b''</font>). Тем не менее, для инструкции ''dsub'' вычитание ''значения'' из нуля не то же самое, что и отрицание, потому что если <font face=Courier>''x''</font> это +0.0, тогда 0.0-<font face=Courier>''x''</font> равно +0.0, но  -<font face=Courier>''x''</font> равно -0.0.
+
+Несмотря на переполнение, потерю точности ''dsub'' никогда не генерирует исключение времени выполнения.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dup'''''
+| style="text-align:right;"  | '''''dup'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Дублирует значение на вершине стека операндов
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dup''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dup''= 89 (0x59)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+..., ''значение'', ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Копирует ''значение'' на вершине стека операндов и записывает копию на вершину стека.
+
+Инструкция ''dup'' не должна использоваться, если ''значение'' не принадлежит категории 1 вычислимых типов (см. §2.11.1)
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dup_x1'''''
+| style="text-align:right;"  | '''''dup_x1'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Дублирует значение на вершине стека операндов и записывает его двумя значениями ниже в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dup_x1''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dup_x1''= 90 (0x5a)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение2'', ''значение1'' →
+
+..., ''значение1'', ''значение2'', ''значение1''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Копирует ''значение'' на вершине стека операндов и записывает копию двумя значениями ниже в стек.
+
+Инструкция ''dup_x1'' не должна использоваться, если ''значение1'' и ''значение2'' не принадлежат категории 1 вычислимых типов (см. §2.11.1)
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dup_x2'''''
+| style="text-align:right;"  | '''''dup_x2'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Дублирует значение на вершине стека операндов и записывает его двумя или тремя значениями ниже в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dup_x2''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dup_x2''= 91 (0x5b)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|Форма 1:
+
+..., ''значение3'', ''значение2'', ''значение1'' →
+
+..., ''значение1'', ''значение3'', ''значение2'', ''значение1''
+
+где ''значение1'', ''значение2'' и ''значение3'' принадлежат категории 1 вычислимых типов (см. §2.11.1)
+
+
+
+Форма 2:
+
+..., ''значение2'', ''значение1'' →
+
+..., ''значение1'', ''значение2'', ''значение1''
+
+где ''значение1'' принадлежит категории 1 вычислимых типов, а ''значение2'' принадлежит категории 2  (см. §2.11.1)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Копирует ''значение'' на вершине стека операндов и записывает копию двумя или тремя значениями ниже в стек.
+|}
+
