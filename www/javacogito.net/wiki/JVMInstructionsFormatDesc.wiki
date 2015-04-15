@@ -8,7 +8,7 @@
 |Загружает ссылку из массива 
 |}
 <br>
-{|
+{| style="border-collapse:collapse;"
 | width="150px" style="vertical-align:top;" | '''Формат'''
 | 
 {| border="1" style="border-collapse:collapse;" width="400px"
@@ -41,5 +41,1319 @@
 {| style="border-collapse:collapse;" 
 | width="150px" style="vertical-align:top;" | '''Исключения времени выполнения''' 
 | style="vertical-align:top;"|Если значение ''ссылки на массив'' равно <font face=Courier>null</font>, то инструкция ''aaload'' генерирует исключение <font face=Courier>NullPointerException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''aastore'''''
+| style="text-align:right;"  | '''''aastore'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Операция'''
+|Сохраняет ссылку (<font face=Courier>reference</font>) из стека в массив
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+|''aastore''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Формы'''
+|''aastore''= 83 (0x53)
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Стек операндов'''
+|..., ''ссылка на массив'', ''индекс'', ''значение'' →
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Описание'''
+|Значение ''ссылки на массив'' должно быть типа <font face=Courier>reference</font> и должно ссылаться на массив, чьи компоненты также принадлежат типу <font face=Courier>reference</font>. Значение ''индекса'' должно быть типа <font face=Courier>int</font>, ''значение'' должно быть типа <font face=Courier>reference</font>. ''Значение'', ''ссылка на массив'' и ''индекс'' считываются из стека операндов. ''Значение'' типа <font face=Courier>reference</font> сохраняется в элементе массива с ''индекс''ом ''индекс''.
+
+Во время выполнения тип ''значения'' должен быть совместим с типом компонентов массива, на который ссылается ''ссылка на массив''. 
+
+Присваивание ссылочного типа <font face=Courier>''S''</font> (источник) типу <font face=Courier>''T''</font> (приёмник) допустимо тогда и только тогда:
+
+* Если <font face=Courier>''S''</font> - это класс, тогда:
+** Если <font face=Courier>''T''</font> – это класс, то <font face=Courier>''S''</font> должно быть такого же класса, как и <font face=Courier>''T''</font> либо <font face=Courier>''S''</font> должно быть наследником <font face=Courier>''T''</font>;
+** Если <font face=Courier>''T''</font> – это интерфейс, то <font face=Courier>''S''</font> должно реализовывать этот интерфейс;
+* Если <font face=Courier>''S''</font> - это интерфейс, тогда:
+** Если <font face=Courier>''T''</font> – это класс, тогда <font face=Courier>''T''</font> должно быть типа <font face=Courier>Object</font>.
+** Если <font face=Courier>''T''</font> – это интерфейс, то <font face=Courier>''S''</font> должно быть тем же интерфейсом или интерфейсом-предком <font face=Courier>''S''</font>.
+* Если <font face=Courier>''S''</font> – это массив (назовём его <font face=Courier><font face=Courier>''SC''</font></font>[], что значит массив с компонентами типа <font face=Courier><font face=Courier>''SC''</font></font>), тогда:
+** Если <font face=Courier>''T''</font> – это класс, тогда <font face=Courier>''T''</font> должен быть <font face=Courier>Object</font>.
+** Если <font face=Courier>''T''</font> – это интерфейс, тогда <font face=Courier>''T''</font> должно быть одним из интерфейсов, которые реализует массив (см. JLS §4.10.3).
+** Если <font face=Courier>''T''</font> – массив <font face=Courier><font face=Courier>''TC''</font></font>[],  что значит массив с компонентами типа <font face=Courier><font face=Courier>''TC''</font></font>, тогда одно из следующих утверждений должно быть истинным:
+*** <font face=Courier><font face=Courier>''TC''</font></font> и <font face=Courier><font face=Courier>''SC''</font></font> принадлежат одному примитивному типу.
+*** <font face=Courier><font face=Courier>''TC''</font></font> и <font face=Courier><font face=Courier>''SC''</font></font> ссылочные типы и <font face=Courier><font face=Courier>''SC''</font></font> можно присвоить <font face=Courier><font face=Courier>''TC''</font></font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Исключения времени выполнения'''
+|Если ''ссылка на массив'' равна <font face=Courier>null</font>, то инструкция ''aaload'' генерирует исключение <font face=Courier>NullPointerException</font>.
+В противном случае, если ''индекс'' вне границ массива, на который ссылается ''ссылка на массив'', то ''aastore'' генерирует исключение <font face=Courier>ArrayIndexOutOfBoundsException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''aconst_null'''''
+| style="text-align:right;"  | '''''aconst_null'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Операция'''
+|Записывает в стек <font face=Courier>null</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+|''aconst_null''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Формы'''
+|''aconst_null''= 1 (0x1)
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Стек операндов'''
+|... →
+
+..., null
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Описание'''
+|Записывает в стек операндов ссылку на <font face=Courier>null</font> объект.
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Примечания'''
+|Виртуальная машина Java не определяет конкретного значения для <font face=Courier>null</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''aload'''''
+| style="text-align:right;"  | '''''aload'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Операция'''
+|Загружает ссылку из локальной переменной в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+|aload
+|-
+|индекс
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Формы'''
+|''aload'' = 25 (0x19)
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Стек операндов'''
+|..., →
+
+..., ''ссылка на объект''
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Описание'''
+|''Индекс'' представляет собой беззнаковый байт, который определяет локальную переменную текущего фрейма (§2.6). Локальная переменная с указанным индексом должна содержать ''значение'' типа <font face=Courier>reference</font>. ''Ссылка на объект'' из локальной переменной записывается в стек операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Примечания'''
+|Инструкция ''aload'' не может быть использована для записи в стек операндов значений типа <font face=Courier>returnAddress</font> из локальной переменной. Эта асимметрия с инструкцией ''astore'' сделана намеренно. 
+
+Инструкция ''aload'' может быть использована с инструкцией ''wide'' для доступа к локальным переменным, имеющим двухбайтовый индекс.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''aload_<n>'''''
+| style="text-align:right;"  | '''''aload_<n>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Операция'''
+|Загружает ссылку из локальной переменной в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+|''aload_<n>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Формы'''
+|''aload_0''= 42 (0x2a)
+
+''aload_1''= 43 (0x2b)
+
+''aload_2''= 44 (0x2c)
+
+''aload_3''= 45 (0x2d)
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Стек операндов'''
+|..., →
+
+..., ''ссылка на объект''
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Описание'''
+|Значение <n> должно быть индексом локальной переменной текущего фрейма (см. §2.6). Локальная переменная с индексом <n> должна содержать ''значение'' типа <font face=Courier>reference</font>. ''Ссылка на объект'', находящаяся в локальной переменной с индексом <n> записывается в стек операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+| width="150px" style="vertical-align:top;" |'''Примечания'''
+|Инструкция ''aload_<n>'' не может быть использована для записи в стек операндов значений типа <font face=Courier>returnAddress</font> из локальной переменной. Эта асимметрия с инструкцией ''astore_<n>'' сделана намеренно. 
+
+Каждая из инструкций ''aload_<n>''  выполняет то же, что и ''aload'' с явно заданным индексом.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''anewarray'''''
+| style="text-align:right;"  | '''''anewarray'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Создаёт новый массив из ссылок
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''anewarray''
+|-
+| style="vertical-align:top;"|''байт_индекса1''
+|-
+| style="vertical-align:top;"|''байт_индекса2''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''anewarray'' = 189 (0xbd)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''число элементов'' →
+
+..., ''ссылка на массив''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Число элементов должно принадлежать типу <font face=Courier>int</font>. Оно считывается из стека операндов. Число элементов определяет размер массива. Беззнаковые ''байт_индекса1'' и ''байт_индекса2'' используются для построения ''индекса'' массива в константном пуле времени выполнения текущего класса (см. §2.6). ''Значение'' ''индекса'' определяется как (''байт_индекса1'' << 8)<nowiki>|</nowiki>(''байт_индекса2''). Элемент константного пула, на который указывает построенный ''индекс'', должен быть ссылкой на класс, массив или интерфейс. Обозначенный класс, массив или интерфейс разрешается (см. §5.4.3.1) и определяется тип элементов массива. В куче создаётся новый массив, с указанным типом элементов, заданной размерностью. Ссылка на созданный массив записывается в стек операндов. Все элементы инициализируются значениями <font face=Courier>null</font>, которые являются значениями по умолчанию для типа <font face=Courier>reference</font> (см. §2.4)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения связывания'''
+| style="vertical-align:top;"|Во время разрешения символьной ссылки на класс, массив или интерфейс, может быть создано любое исключение, описанное в (§5.4.3.1).
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''число элементов'' меньше нуля, инструкция ''anewarray'' генерирует <font face=Courier>NegativeArraySizeException</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''anewarray'' используется для создания одномерного массива ссылок на объекты или части многомерного массива.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''areturn'''''
+| style="text-align:right;"  | '''''areturn'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Создаёт новый массив из ссылок
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''areturn''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''areturn''= 176 (0xb0)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на объект'' →
+
+[пусто]
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на объект'' должна принадлежать типу <font face=Courier>reference</font> и должна ссылаться на объект, тип которого совместим по присвоению  (см. JLS §5.2) с типом возвращаемого ''значения'', заданным в дескрипторе текущего метода (см. §4.3.3). Если текущий метод объявлен как <font face=Courier>synchronized</font>, то происходит захват (или повторный захват) монитора, при запуске метода, и освобождение монитора при выполнении ''areturn'', так как если бы была выполнена инструкция ''monitorexit'' в текущем потоке. Если в ходе выполнения метода не было сгенерировано исключение, ''ссылка на объект'' считывается из стека операндов текущего фрейма (см. §2.6) и записывается в стек операндов вызывающего метода. Все значения в стеке операндов текущего фрейма теряются. 
+
+Интерпретатор восстанавливает вызывающий фрейм и передаёт управление вызвавшему методу.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|''Ссылка на объект'' должна принадлежать типу <font face=Courier>reference</font> и должна ссылаться на объект, тип которого совместим по присвоению  (см. JLS §5.2) с типом возвращаемого ''значения'', заданным в дескрипторе текущего метода (см. §4.3.3). Если текущий метод объявлен как <font face=Courier>synchronized</font>, то происходит захват (или повторный захват) монитора, при запуске метода, и освобождение монитора при выполнении ''areturn'', так как если бы была выполнена инструкция ''monitorexit'' в текущем потоке. Если в ходе выполнения метода не было сгенерировано исключение, ''ссылка на объект'' считывается из стека операндов текущего фрейма (см. §2.6) и записывается в стек операндов вызывающего метода. Все значения в стеке операндов текущего фрейма теряются. 
+
+Интерпретатор восстанавливает вызывающий фрейм и передаёт управление вызвавшему методу.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''arraylength'''''
+| style="text-align:right;"  | '''''arraylength'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Возвращает длину массива
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''arraylength''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''arraylength''= 190 (0xbe)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на массив'' →
+
+..., ''длина массива''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на массив'' должна принадлежать типу <font face=Courier>reference</font>. Она считывается из стека операндов. Определяется ''длина массива'' по указанной ссылке. Эта ''длина массива'' записывается в стек операндов как значение типа <font face=Courier>int</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на массив'' равна <font face=Courier>null</font>,  ''arraylength'' генерирует <font face=Courier>NullPointerException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''astore'''''
+| style="text-align:right;"  | '''''astore'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Считывает ссылку из стека и сохраняет в локальную переменную
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''astore''
+|-
+| style="vertical-align:top;"|''индекс''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''astore''= 58 (0x3a)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на объект'' →
+
+...,
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Индекс'' представляет собой беззнаковый байт, являющейся индексом локальной переменной текущего фрейма (см. §2.6). ''Ссылка на объект'' на вершине стека операндов должна принадлежать типу <font face=Courier>returnAddress</font> или <font face=Courier>reference</font>. Ссылка считывается из стека операндов и записывается в локальную переменную с заданным индексом.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''astore'' совместно со ссылкой типа <font face=Courier>returnAddress</font> используется для реализации блока <font face=Courier>finally</font> в языке программирования Java (см. §3.13).
+
+Инструкция ''aload'' не может быть использована для загрузки значения типа  <font face=Courier>returnAddress</font> из локальной переменной в стек операндов. Эта асимметрия с ''astore'' сделана намеренно.
+
+Также ''astore'' может быть использована с инструкцией ''wide'', которая расширяет значения индекса локальной переменной до двух байт.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''astore_<n>'''''
+| style="text-align:right;"  | '''''astore_<n>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Считывает ссылку из стека и сохраняет в локальную переменную
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''astore_<n>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''astore_0''= 75 (0x4b)
+
+''astore_1''= 76 (0x4c)
+
+''astore_2''= 77 (0x4d)
+
+''astore_3''= 78 (0x4e)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на объект'' →
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|<n> представляет собой беззнаковый байт, являющейся индексом локальной переменной текущего фрейма (см. §2.6). ''Ссылка на объект'' на вершине стека операндов должна принадлежать типу <font face=Courier>returnAddress</font> или <font face=Courier>reference</font>. Ссылка считывается из стека операндов и записывается в локальную переменную с заданным индексом <n>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''astore_<n>'' совместно со ссылкой типа <font face=Courier>returnAddress</font> используется для реализации блока <font face=Courier>finally</font> в языке программирования Java (см. §3.13).
+
+Инструкция ''aload_<n>'' не может быть использована для загрузки значения типа  <font face=Courier>returnAddress</font> из локальной переменной в стек операндов. Эта асимметрия с ''astore_<n>'' сделана намеренно.
+
+Каждая инструкция ''astore_<n>'' выполняет то же самое, что и инструкция ''astore'' с ''индексом'' равным <n>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''athrow'''''
+| style="text-align:right;"  | '''''athrow'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Выбрасывает исключение
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''athrow''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''athrow''= 191 (0xbf)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на объект''→
+
+''ссылка на объект''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на объект''  должна принадлежать типу <font face=Courier>reference</font> и должна ссылаться на объект класса <font face=Courier>Throwable</font> или его наследника. Она считывается из стека операндов. Затем в текущем методе (см. §2.6) первого подходящего обработчика по алгоритму, указанному в §2.10.
+
+Если обработчик исключения соответствующий ссылке на объект (т.е. соответствующему исключению) был найден, то в нем находится ссылка на первую инструкцию кода, который должен быть выполнен. В регистр <font face=Courier>pc</font> записывается адрес первой инструкции кода, стек операндов текущего фрейма очищается, ''ссылка на объект'' записывается обратно в стек и выполнение продолжается.
+
+Если обработчик не найден в текущем фрейме, текущий фрейм считывается из стека фреймов. Если текущий метод был объявлен как <font face=Courier>synchronized</font>, захваченный при входе в метод монитор отпускается, как если была выполнена инструкция ''monitorexit''. Фрейм вызывающего метода (если таковой существует) становится текущим и исключение выбрасывается повторно. Если такого фрейма нет, происходит выход из текущего потока.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на объект'' равна <font face=Courier>null</font>, инструкция ''athrow'' генерирует <font face=Courier>NullPointerException</font>.
+
+В противном случае, если реализация виртуальной машины Java не поддерживает правила структурной блокировки, описанные в §2.11.10, тогда если метод текущего фрейма объявлен как <font face=Courier>synchronized</font> и текущий поток не является владельцем монитора, захваченного при входе в метод, то генерируется исключение <font face=Courier>IllegalMonitorStateException</font> вместо исключения выброшенного ранее. Это может произойти, если аварийно прерванный <font face=Courier>synchronized</font> метод содержит инструкцию ''monitorexit'', а соответствующей инструкции  ''monitorenter'' для того же объекта синхронизации нет.
+
+Если реализация виртуальной машины Java поддерживает правила структурной блокировки, описанные в §2.11.10 и первое из этих правил нарушено во время вызова метода, тогда ''athrow'' генерирует <font face=Courier>IllegalMonitorStateException</font> вместо выбрасываемого до этого исключения.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Описание стека операндов для инструкции ''athrow'' может сбивать с толку: если обработчик найден в текущем методе, инструкция ''athrow'' очищает стек операндов, а затем записывает в стек ссылку на выбрасываемое исключение. Однако, такое решение вполне приемлемо, поскольку, если соответствующего обработчика в текущем методе не найдено, то исключение будет выброшено далее по цепочке вызовов методов и если обработчик будет найден, стек будет очищен и ссылка на исключение помещена в стек. Все промежуточные фрейм из цепочки вызова методов, в которых обработчик не был найден, также будут очищены.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''baload'''''
+| style="text-align:right;"  | '''''baload'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>byte</font> или <font face=Courier>boolean</font> из массива в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''baload''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''baload'' = 51 (0x33)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на массив'', ''индекс'' →
+
+..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на массив'' должна принадлежать типу <font face=Courier>reference</font> и ссылаться на массив, чьи компоненты являются типами <font face=Courier>byte</font> или <font face=Courier>boolean</font>. ''Индекс'' должен принадлежать типу <font face=Courier>int</font>. Как ''ссылка на массив'', так и  ''индекс'' считываются из стека операндов. ''Значение'' типа <font face=Courier>byte</font> считывается из элемента массива с заданным индексом, расширяется с учётом знака до типа <font face=Courier>int</font> и записывается вершину стека операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на массив'' равна <font face=Courier>null</font>, то ''baload'' генерирует <font face=Courier>NullPointerException</font>.
+
+Если ''индекс'' вне границ массива, то ''baload'' генерирует <font face=Courier>ArrayIndexOutOfBoundsException</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''baload'' используется для получения значений из массивов как типа <font face=Courier>byte</font>, так и типа <font face=Courier>boolean</font>. В реализации виртуальной машины Java компании Oracle массивы значений типа <font face=Courier>boolean</font> (тип <font face=Courier>T_BOOLEAN</font> (см. §2.2)), представлены как массивы, хранящие 8 бит информации на одно значение типа <font face=Courier>boolean</font>. Другие реализации могут использовать упакованные массивы для хранения <font face=Courier>boolean</font>; инструкция ''baload'' также должна использоваться и для доступа к таким массивам.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''bastore'''''
+| style="text-align:right;"  | '''''bastore'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>byte</font> или <font face=Courier>boolean</font> в массив из стека
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''bastore''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''bastore''= 84 (0x54)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на массив'', ''индекс'', ''значение''→
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на массив'' должна принадлежать типу <font face=Courier>reference</font> и ссылаться на массив, чьи компоненты являются типами <font face=Courier>byte</font> или <font face=Courier>boolean</font>. ''Индекс'' должен принадлежать типу <font face=Courier>int</font>. Как ''ссылка на массив'', ''индекс'' так и ''значение'' считываются из стека операндов. ''Значение'', принадлежащее типу <font face=Courier>int</font>, урезается до типа <font face=Courier>byte</font> и записывается в массив, в элемент с заданным индексом.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на массив'' равна <font face=Courier>null</font>, ''bastore'' генерирует <font face=Courier>NullPointerException</font>.
+
+Если ''индекс'' вне границ массива, то ''bastore'' генерирует <font face=Courier>ArrayIndexOutOfBoundsException</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''bastore'' используется для записи в массив значений как типа <font face=Courier>byte</font> так и типа <font face=Courier>boolean</font>. В реализации виртуальной машины компании Oracle массивы значений типа <font face=Courier>boolean</font> (тип <font face=Courier>T_BOOLEAN</font> (см. §2.2)), представлены как массивы, хранящие 8 бит информации на одно значение типа <font face=Courier>boolean</font>. Другие реализации могут использовать упакованные массивы для хранения <font face=Courier>boolean</font>; инструкция ''bastore'' также должна использоваться и для записи значений в такие массивы.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''bipush'''''
+| style="text-align:right;"  | '''''bipush'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Записывает значение типа <font face=Courier>byte</font> в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''bipush''
+|-
+| style="vertical-align:top;"|байт
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''bipush''= 16 (0x10)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., →
+
+..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|С помощью знакового расширения ''значение'' байта преобразуется к типу <font face=Courier>int</font> и записывается в стек операндов.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''caload'''''
+| style="text-align:right;"  | '''''caload'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>char</font> из массива в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''caload''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''caload''= 52 (0x34)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на массив'', ''индекс'' →
+
+..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на массив'' должна принадлежать типу <font face=Courier>reference</font> и ссылаться на массив, чьи компоненты являются типами <font face=Courier>char</font>. ''Индекс'' должен принадлежать типу <font face=Courier>int</font>. Как ''ссылка на массив'', так и  ''индекс'' считываются из стека операндов. ''Значение'' считывается из элемента массива с заданным индексом, расширяется без учёта знака до типа <font face=Courier>int</font> и записывается вершину стека операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на массив'' равна <font face=Courier>null</font>, то ''caload'' генерирует <font face=Courier>NullPointerException</font>.
+
+Если ''индекс'' вне границ массива, то ''caload'' генерирует <font face=Courier>ArrayIndexOutOfBoundsException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''castore'''''
+| style="text-align:right;"  | '''''castore'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>char</font> в массив
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''castore''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''castore''= 85 (0x55)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на массив'', ''индекс'', ''значение'' →
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на массив'' должна принадлежать типу <font face=Courier>reference</font> и ссылаться на массив, чьи компоненты являются типами <font face=Courier>char</font>. ''Индекс'' должен принадлежать типу <font face=Courier>int</font>. Как ''ссылка на массив'', ''индекс'' так и ''значение'' считываются из стека операндов. ''Значение'', принадлежащее типу <font face=Courier>char</font>, урезается до типа <font face=Courier>byte</font> и записывается в массив, в элемент с заданным индексом.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на массив'' равна <font face=Courier>null</font>, ''castore'' генерирует <font face=Courier>NullPointerException</font>.
+
+Если ''индекс'' вне границ массива, то ''castore'' генерирует <font face=Courier>ArrayIndexOutOfBoundsException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''checkcast'''''
+| style="text-align:right;"  | '''''checkcast'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Проверяет, принадлежит ли объект заданному типу
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''checkcast''
+|-
+| style="vertical-align:top;"|''байт_индекса1''
+|-
+| style="vertical-align:top;"|''байт_индекса2''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''checkcast''= 192 (0xc0)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на объект'' →
+
+..., ''ссылка на объект''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на объект'' должна принадлежать типу <font face=Courier>reference</font>. Беззнаковые ''байт_индекса1'' и ''байт_индекса2'' используются для построения индекса массива в константном пуле времени выполнения текущего класса (см. §2.6). Значение индекса определяется как (''байт_индекса1'' << 8)<nowiki>|</nowiki>(''байт_индекса2''). Элемент константного пула, на который указывает построенный индекс, должен быть ссылкой на класс, массив или интерфейс.
+
+Если ''ссылка на объект'' равна <font face=Courier>null</font>, то содержимое стека операндов не меняется.
+
+В противном случае класс, массив или интерфейс разрешается (см. §5.4.3.1). Если ''ссылка на объект'' может быть преобразована к разрешённому ранее классу, массиву или интерфейсу, то стек операндов не меняется. В противном случае инструкция ''checkcast'' генерирует исключение <font face=Courier>ClassCastException</font>.
+
+Если ''ссылка на объект''  не равна <font face=Courier>null</font>, то используются следующие правила для разрешения типов: если <font face=Courier>''S''</font>  - класс, на который  ссылается ''ссылка на объект'', а <font face=Courier>''T''</font> – разрешаемый класс, массив или интерфейс, то ''checkcast'' проверяет следующее:
+* Если <font face=Courier>''S''</font> - это класс, тогда:
+** Если <font face=Courier>''T''</font> – это класс, то <font face=Courier>''S''</font> должно быть такого же класса, как и <font face=Courier>''T''</font> либо <font face=Courier>''S''</font> должно быть наследником <font face=Courier>''T''</font>;
+** Если <font face=Courier>''T''</font> – это интерфейс, то <font face=Courier>''S''</font> должно реализовывать этот интерфейс;
+* Если <font face=Courier>''S''</font> - это интерфейс, тогда:
+** Если <font face=Courier>''T''</font> – это класс, тогда <font face=Courier>''T''</font> должно быть типа <font face=Courier>Object</font>.
+** Если <font face=Courier>''T''</font> – это интерфейс, то <font face=Courier>''S''</font> должно быть тем же интерфейсом или интерфейсом-предком <font face=Courier>''S''</font>.
+* Если <font face=Courier>''S''</font> – это массив (назовём его <font face=Courier><font face=Courier>''SC''</font></font>[], что значит массив с компонентами типа <font face=Courier><font face=Courier>''SC''</font></font>), тогда:
+** Если <font face=Courier>''T''</font> – это класс, тогда <font face=Courier>''T''</font> должен быть <font face=Courier>Object</font>.
+** Если <font face=Courier>''T''</font> – это интерфейс, тогда <font face=Courier>''T''</font> должно быть одним из интерфейсов, которые реализует массив (см. JLS §4.10.3).
+** Если <font face=Courier>''T''</font> – массив <font face=Courier><font face=Courier>''TC''</font></font>[],  что значит массив с компонентами типа <font face=Courier><font face=Courier>''TC''</font></font>, тогда одно из следующих утверждений должно быть истинным:
+*** <font face=Courier><font face=Courier>''TC''</font></font> и <font face=Courier><font face=Courier>''SC''</font></font> принадлежат одному примитивному типу.
+*** <font face=Courier><font face=Courier>''TC''</font></font> и <font face=Courier><font face=Courier>''SC''</font></font> ссылочные типы и <font face=Courier><font face=Courier>''SC''</font></font> можно присвоить <font face=Courier><font face=Courier>''TC''</font></font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения связывания'''
+| style="vertical-align:top;"|Во время разрешения символьной ссылки на класс, массив или интерфейс, может быть создано любое исключение, описанное в (§5.4.3.1).
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на объект'' не может быть преобразована к разрешённому классу, массиву или интерфейсу ''checkcast'' генерирует <font face=Courier>ClassCastException</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''checkcast'' очень похожа на инструкцию ''instanceof''. Они отличаются друг от друга реакцией на <font face=Courier>null</font> (''checkcast'' генерирует исключение, ''instanceof'' записывает код результата в стек) и влиянием на стек операндов.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''d2f'''''
+| style="text-align:right;"  | '''''d2f'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Преобразует <font face=Courier>double</font> к <font face=Courier>float</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''d2f''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''d2f''= 144 (0x90)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Значение'' на вершине стека операндов должно быть типа <font face=Courier>double</font>. Оно считывается из стека операндов и подвергается набору преобразований (см. §2.8.3). Затем ''новое значение'' преобразуется к типу <font face=Courier>float</font> согласно стандарту IEEE 754. Результат записывается в стек операндов.
+
+Там, где инструкция ''d2f'' работает в режиме FP-strict (см. §2.8.2) результат преобразования всегда округляется к ближайшему представимому значению во множестве значений типа <font face=Courier>float</font> (см. §2.3.2)
+
+Там, где инструкция ''d2f'' работает в не режиме FP-strict, результат преобразования  может быть взят расширенного набора значений с плавающей точкой (§2.3.2); оно не обязательно округляется к ближайшему представимому значению во множестве значений типа <font face=Courier>float</font>.
+
+Если ''новое значение'' слишком мало, чтоб быть представленным как <font face=Courier>float</font>, оно преобразуется к нулю типа <font face=Courier>float</font> того же знака. Если ''новое значение'' слишком велико, чтоб быть представленным как <font face=Courier>float</font>, оно преобразуется к бесконечности типа <font face=Courier>float</font> того же знака. Не-число (NaN) типа <font face=Courier>double</font> преобразуется в не-число типа <font face=Courier>float</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''d2f'' выполняет сужающее преобразование примитивных типов, поэтому может преобразуемая величина быть потеряна полностью либо потеряна точность представления.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''d2i'''''
+| style="text-align:right;"  | '''''d2i'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Преобразует <font face=Courier>double</font> к <font face=Courier>int</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''d2i''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''d2i''= 142 (0x8e)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Значение'' на вершине стека операндов должно быть типа <font face=Courier>double</font>. Оно считывается из стека операндов и подвергается набору преобразований (см. §2.8.3). Затем новое ''значение'' преобразуется к типу <font face=Courier>int</font>. Результат записывается в стек операндов.
+* Если новое ''значение'' не-число NaN, ''результат'' преобразования <font face=Courier>int</font> 0.
+* В противном случае, если новое ''значение'' не бесконечность, оно округляется к целочисленному <font face=Courier>''V''</font> согласно IEEE 754 (округление в направлении нуля). Если это целое число представимо в типе <font face=Courier>int</font>, то <font face=Courier>''V''</font> – ''результат'' преобразования.
+* Если число <font face=Courier>''V''</font> не представимо в типе <font face=Courier>int</font> (оно слишком мало или является отрицательной бесконечностью) то ''результатом'' будет наименьшее число представимое в диапазоне <font face=Courier>int</font>. Либо <font face=Courier>''V''</font> не представимо в типе <font face=Courier>int</font>, поскольку оно слишком велико или является положительной бесконечностью, то ''результатом'' будет наибольшее число представимое в диапазоне <font face=Courier>int</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''d2i'' выполняет сужающее преобразование примитивных типов, поэтому может преобразуемая величина быть потеряна полностью либо потеряна точность представления.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''d2l'''''
+| style="text-align:right;"  | '''''d2l'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Преобразует <font face=Courier>double</font> к <font face=Courier>long</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''d2l''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''d2l''= 143 (0x8f)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение''  →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Значение'' на вершине стека операндов должно быть типа <font face=Courier>double</font>. Оно считывается из стека операндов и подвергается набору преобразований (см. §2.8.3). Затем новое ''значение'' преобразуется к типу <font face=Courier>long</font>. Результат записывается в стек операндов.
+* Если новое ''значение'' не-число NaN, ''результат'' преобразования <font face=Courier>long</font> 0.
+* В противном случае, если новое ''значение'' не бесконечность, оно округляется к целочисленному <font face=Courier>''V''</font> согласно IEEE 754 (округление в направлении нуля). Если это целое число представимо в типе <font face=Courier>int</font>, то <font face=Courier>''V''</font> – ''результат'' преобразования.
+* Если число <font face=Courier>''V''</font> не представимо в типе <font face=Courier>long</font> (оно слишком мало или является отрицательной бесконечностью) то ''результатом'' будет наименьшее число представимое в диапазоне <font face=Courier>long</font>. Либо <font face=Courier>''V''</font> не представимо в типе <font face=Courier>long</font>, поскольку оно слишком велико или является положительной бесконечностью, то ''результатом'' будет наибольшее число представимое в диапазоне <font face=Courier>long</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''d2l'' выполняет сужающее преобразование примитивных типов, поэтому может преобразуемая величина быть потеряна полностью либо потеряна точность представления.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dadd'''''
+| style="text-align:right;"  | '''''dadd'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Складывает два числа типа <font face=Courier>double</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dadd''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dadd''= 99 (0x63)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>double</font>. Значения считываются из стека операндов, проходят преобразования (см. §2.8.3) становясь ''значением1''` и ''значением2''`. Результат типа <font face=Courier>double</font> равен сумме ''значение1''` + ''значение2''`. Результат записывается в стек операндов.
+
+Суммирование производится согласно правилам арифметики IEEE:
+Если либо ''значение1''` либо  ''значение2''` есть не-число NaN, то ''результат'' есть NaN.
+* Сумма двух бесконечностей противоположных знаков есть NaN.
+* Сумма двух бесконечностей одинаковых знаков есть бесконечность того же знака.
+* Сумма бесконечности и конечного числа есть бесконечность.
+* Сумма двух нулей противоположных знаков есть положительный ноль.
+* Сумма двух нулей одинаковых знаков есть ноль того же знака.
+* Сумма двух не нулевых конечных значений одинаковой величины есть положительный ноль.
+* В оставшихся случаях, когда ни один из операндов не бесконечность, не ноль и не NaN и ''значения'' имеют один знак или имеют разную величину, сумма вычисляется и округляется к ближайшему представимому значению согласно правилам округления IEEE 754. Если ''результат'' слишком велик, чтобы быть представленным как <font face=Courier>double</font>, мы говорим, что произошло переполнение. В этом случае ''результат'' есть бесконечность соответствующего знака. Если ''результат'' слишком мал, чтобы быть представленным как <font face=Courier>double</font>, мы говорим, что произошла потеря точности. В этом случае ''результат'' есть ноль соответствующего знака.
+
+Инструкция ''dadd'' не генерирует исключение, если происходит переполнение или потеря точности.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''daload'''''
+| style="text-align:right;"  | '''''daload'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>double</font> из массива в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''daload''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''daload''= 49 (0x31)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на массив'', ''индекс'' →
+
+..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на массив'' должна быть типа <font face=Courier>reference</font> и ссылаться на массив, чьи компоненты ''значения'' типа <font face=Courier>double</font>. ''Индекс'' должен принадлежать типу <font face=Courier>int</font>. Как ''ссылка на массив'', так и ''индекс'' считываются из стека операндов. ''Значение'' типа <font face=Courier>double</font> считывается из элемента массива с соответствующим индексом и записывается в стек операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на массив'' равна <font face=Courier>null</font>, то ''daload'' генерирует <font face=Courier>NullPointerException</font>. В противном случае, если ''индекс'' вне границ массива, генерируется исключение <font face=Courier>ArrayIndexOutOfBoundsException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dastore'''''
+| style="text-align:right;"  | '''''dastore'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>double</font> в массив
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dastore''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dastore''= 82 (0x52)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на массив'', ''индекс'', ''значение'' →
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на массив'' должна быть типа <font face=Courier>reference</font> и ссылаться на массив, чьи компоненты ''значения'' типа <font face=Courier>double</font>. ''Индекс'' должен принадлежать типу <font face=Courier>int</font>, ''значение'' должно принадлежать типу <font face=Courier>double</font>. ''Ссылка на массив'', ''индекс'' и ''значение'' считываются из стека операндов. Над значением проводится набор преобразований (см. §2.8.3), в результате которых ''значение''` сохраняется в массиве с заданным индексом.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на массив'' равна <font face=Courier>null</font>, то ''dastore'' генерирует <font face=Courier>NullPointerException</font>. В противном случае, если ''индекс'' вне границ массива, генерируется исключение <font face=Courier>ArrayIndexOutOfBoundsException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dcmp<op>'''''
+| style="text-align:right;"  | '''''dcmp<op>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Сравнивает два значения типа <font face=Courier>double</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dcmp<op>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dcmpg''= 152 (0x98)
+
+''dcmpl''= 151 (0x97)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>double</font>. Значения считываются из стека операндов и подвергаются набору преобразований (см. §2.8.3) и заменяются на ''значение1''` и ''значение2''`. Сравнение значений с плавающей точкой производится следующим образом:
+* Если ''значение1''` больше чем ''значение2''`, то в стек операндов записывается единица с типом <font face=Courier>int</font>.
+* В противном случае, если ''значение1''` равно значению2`, то в стек операндов записывается ноль с типом <font face=Courier>int</font>.
+* В противном случае, если ''значение1''` меньше чем ''значение2''`, то в стек операндов записывается минус единица с типом <font face=Courier>int</font>.
+* В противном случае, по крайней мере, одно ''значение'' (либо ''значение1''`, либо ''значение2''`) есть не-число NaN. В этом случае инструкция ''dcmpg'' записывает 1 с типом <font face=Courier>int</font> в стек операндов, а инструкция ''dcmpl'' записывает -1 с типом <font face=Courier>int</font> в стек операндов.
+
+Сравнение чисел с плавающей точкой выполняется согласно требованиям стандарта <font face=Courier>IEEE754</font>. Все ''значения'', отличные от не-числа NaN упорядочены, причём отрицательная бесконечность меньше чем все числа, а положительная бесконечность больше чем все числа. Положительный и отрицательный ноль считаются равными.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкции ''dcmpg'' и ''dcmpl'' отличаются только своим поведением при сравнении не-чисел NaN. Поскольку NaN не упорядочено, любое сравнения не-числа NaN и значения типа <font face=Courier>double</font> не определено, в случае, когда один либо оба операнда не-числа NaN. С помощью инструкций ''dcmpg'' и ''dcmpl'' любое сравнения чисел типа <font face=Courier>double</font> может быть скомпилировано так, чтобы выдавать результат, совпадающий и при сравнение обычных чисел и при сравнении не-чисел NaN. Более подробную информацию см. в §3.5.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dconst_<d>'''''
+| style="text-align:right;"  | '''''dconst_<d>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Записывает константу типа <font face=Courier>double</font> в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dconst_<d>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dconst_0''= 14 (0xe)
+
+''dconst_1''= 15 (0xf)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|...→
+
+... <d>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Записывает в стек операндов константу <d> (0.0 или 1.0) типа <font face=Courier>double</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''ddiv'''''
+| style="text-align:right;"  | '''''ddiv'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Делит два значения типа <font face=Courier>double</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''ddiv''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''ddiv''= 111 (0x6f)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>double</font>. Значения считываются из стека операндов и подвергаются набору преобразований (см. §2.8.3) и заменяются на ''значение1''` и ''значение2''`. Результат – это число типа <font face=Courier>double</font> равное ''значение1''`/ ''значение2''`. Затем ''результат'' записывается в стек операндов.
+Результат инструкции ''ddiv'' вычисляется согласно правилам арифметики стандарта IEEE:
+* Если либо ''значение1''` либо  ''значение2''` есть не-число NaN, то ''результат'' есть NaN.
+* Если ни ''значение1''` ни  ''значение2''` не являются не-числами NaN, то знак результата деления положительный, если делимое и делитель имеют один знак и отрицательный в противном случае.
+* Деление бесконечности на бесконечность даёт не-число NaN.
+* Деление бесконечности на конечное ''значение'' даёт бесконечность, знак которой определён по правилу, описанному выше.
+* Деление конечного ''значения'' на бесконечность даёт знаковый ноль, знак которого определён по правилу, описанному выше.
+* Деление ноль на ноль даёт не-число NaN; деление ноля на конечное ''значение'' даёт знаковый ноль, знак которого определён по правилу, описанному выше.
+* Деление не нулевого конечного ''значения'' на ноль даёт бесконечность, знак которой определён по правилу, описанному выше.
+* В оставшихся случаях, когда операнды не бесконечность, не ноль и не NaN частное вычисляется и округляется к ближайшему <font face=Courier>double</font>, используя режим округления к ближайшему стандарта IEEE 754. Если величина слишком велика, чтобы быть представленной в диапазоне типа <font face=Courier>double</font>, говорят, что произошло переполнение. В этом случае ''результатом'' является бесконечность соответствующего знака. Если величина слишком мала, чтобы быть представленной в диапазоне типа <font face=Courier>double</font>, говорят, что произошла потеря точности. В этом случае ''результатом'' является ноль соответствующего знака.
+
+Несмотря на переполнение, потерю точности, деление на ноль инструкция ''ddiv'' никогда не генерирует исключение времени выполнения.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dload'''''
+| style="text-align:right;"  | '''''dload'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>double</font>  из локальной переменной в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dload''
+|-
+| style="vertical-align:top;"|''индекс''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dload''= 24 (0x18)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|...→
+
+..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Индекс'' является беззнаковым байтом. ''Индекс'' и величина ''индекс''+1 должны принадлежать массиву локальных переменных текущего фрейма (см. §2.6). Локальная переменная с заданным ''индексом'' должна содержать величину типа <font face=Courier>double</font>. ''Значение'' локальной переменной, с заданным ''индексом'', записывается в стек операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''dload'' может быть использована совместно с инструкцией ''wide'', когда необходимо задать двухбайтовый беззнаковый индекс локальной переменной.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dload_<n>'''''
+| style="text-align:right;"  | '''''dload_<n>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>double</font> из локальной переменной в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dload_<n>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dload_0''= 38 (0x26)
+
+''dload_1''= 39 (0x27)
+
+''dload_2''= 40 (0x28)
+
+''dload_3''= 41 (0x29)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|... →
+
+..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И <n> и величина <n>+1 должны принадлежать массиву локальных переменных текущего фрейма (см. §2.6). Локальная переменная с индексом <n> должна содержать величину типа <font face=Courier>double</font>. ''Значение'' локальной переменной с ''индексом'' <n>, записывается в стек операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Каждая из инструкции ''dload_<n>'' выполняет то же, что и ''dload'' с явным ''индексом'' <n> за исключением того, что операнд <n> задан не явно.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dmul'''''
+| style="text-align:right;"  | '''''dmul'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Умножает два значения типа <font face=Courier>double</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dmul''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dmul''= 107 (0x6b)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>double</font>. Значения считываются из стека операндов и подвергаются набору преобразований (см. §2.8.3) и заменяются на ''значение1''` и ''значение2''`. Результат – это число типа <font face=Courier>double</font> равное ''значение1''`* ''значение2''`. Затем ''результат'' записывается в стек операндов.
+
+Результат инструкции ''dmul'' вычисляется согласно правилам арифметики стандарта IEEE:
+* Если либо ''значение1''` либо  ''значение2''` есть не-число NaN, то ''результат'' есть NaN.
+* Если ни ''значение1''` ни  ''значение2''` не являются не-числами NaN, то знак результата умножения положительный, если операнды имеют один знак и отрицательный в противном случае.
+* Умножение бесконечности на ноль даёт не-число NaN.
+* Умножение бесконечности на конечное ''значение'' даёт бесконечность, знак которой определён по правилу, описанному выше.
+* В оставшихся случаях, когда операнды не бесконечность, не ноль и не NaN произведение вычисляется и округляется к ближайшему <font face=Courier>double</font>, используя режим округления к ближайшему стандарта IEEE 754. Если величина слишком велика, чтобы быть представленной в диапазоне типа <font face=Courier>double</font>, говорят, что произошло переполнение. В этом случае ''результатом'' является бесконечность соответствующего знака. Если величина слишком мала, чтобы быть представленной в диапазоне типа <font face=Courier>double</font>, говорят, что произошла потеря точности. В этом случае ''результатом'' является ноль соответствующего знака.
+
+Несмотря на переполнение, потерю точности ''dmul'' никогда не генерирует исключение времени выполнения.
 |}
 
