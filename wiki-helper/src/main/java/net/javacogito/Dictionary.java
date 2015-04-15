@@ -15,6 +15,10 @@ public final class Dictionary implements Iterable<Phrase>{
         return dictionary.get(mainForm);
     }
 
+    public void putAll(Dictionary other){
+        dictionary.putAll(other.dictionary);
+    }
+
     public Iterator<Phrase> iterator() {
         return dictionary.values().iterator();
     }

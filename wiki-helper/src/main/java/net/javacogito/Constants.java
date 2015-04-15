@@ -74,14 +74,15 @@ public final class Constants {
             FORCE_ITALIC_PHRASES.put(new Phrase("число элементов"));
             FORCE_ITALIC_PHRASES.put(new Phrase("длина массива"));
             FORCE_ITALIC_PHRASES.put(new Phrase("результат").addForm("результатом"));
-            FORCE_ITALIC_PHRASES.put(new Phrase("значение1").addForm("значением1"));
-            FORCE_ITALIC_PHRASES.put(new Phrase("значение2").addForm("значением2"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("значение1").addForm("значением1").addForm("значения1"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("значение2").addForm("значением2").addForm("значения2"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("значение3").addForm("значением3").addForm("значения3"));
 
     }
 
 
     public static final String[] FORCE_COURIER_ITALIC_WORDS = {
-            "L", "C", "N", "D", "m", "E", "MN", "R", "f", "T", "A", "o", "S", "SC", "TC", "V"
+            "L", "C", "N", "D", "m", "E", "MN", "R", "f", "T", "A", "o", "S", "SC", "TC", "V", "x", "a", "b"
     };
 
     public static final String[] ALWAYS_ITALIC_WORDS = {

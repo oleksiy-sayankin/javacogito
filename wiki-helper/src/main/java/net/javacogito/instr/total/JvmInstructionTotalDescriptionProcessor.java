@@ -25,6 +25,7 @@ public class JvmInstructionTotalDescriptionProcessor implements Processor{
 
         String preparedText = new CommonTextProcessor().process(inText);
         Dictionary dictionary = findAllItalic(readOperandStack());
+        dictionary.putAll(findAllItalic(readFormat()));
         preparedText = formatForceItalic(preparedText, dictionary);
         preparedText = shadePipe(preparedText);
 
@@ -47,4 +48,15 @@ public class JvmInstructionTotalDescriptionProcessor implements Processor{
         }
         return operandStack;
     }
+
+    private String readFormat(){
+        String operandStack = EMPTY_STRING;
+        try {
+            operandStack = Util.readFile("format.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return operandStack;
+    }
+
 }
