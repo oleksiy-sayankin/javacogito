@@ -1754,3 +1754,972 @@
 | style="vertical-align:top;"|Копирует ''значение'' на вершине стека операндов и записывает копию двумя или тремя значениями ниже в стек.
 |}
 
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dup2'''''
+| style="text-align:right;"  | '''''dup2'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Дублирует один или два операнда на вершине стека
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dup2''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dup2''= 92 (0x5c)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|Форма 1:
+
+
+... ''значение2'', ''значение1'' →
+
+..., ''значение2'', ''значение1'', ''значение2'', ''значение1''
+
+где ''значение1'', ''значение2''  принадлежат категории 1 вычислимых типов (см. §2.11.1)
+
+
+
+Форма 2:
+
+
+..., ''значение'' →
+
+..., ''значение'', ''значение''
+
+где ''значение'' принадлежит категории 2 вычислимых типов  (см. §2.11.1)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Копирует одно или два значения на вершине стека операндов и записывает копию (одно или два значения) в стек.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dup2_x1'''''
+| style="text-align:right;"  | '''''dup2_x1'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Дублирует один или два операнда на вершине стека и записывает его двумя или тремя значениями ниже в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dup2_x1''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dup2_x1''= 93 (0x5d)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|Форма 1:
+
+
+
+..., ''значение3'', ''значение2'', ''значение1'' →
+
+..., ''значение2'', ''значение1'', ''значение3'', ''значение2'', ''значение1''
+
+где ''значение1'', ''значение2'' и ''значение3'' принадлежат категории 1 вычислимых типов (см. §2.11.1)
+
+
+
+Форма 2:
+
+
+
+..., ''значение2'', ''значение1'' →
+
+..., ''значение1'', ''значение2'', ''значение1''
+
+где ''значение1'' принадлежит категории 2 вычислимых типов, а ''значение2'' принадлежит категории 1  (см. §2.11.1)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Копирует одно или два значения на вершине стека операндов и записывает копию (одно или два значения) в стек ниже на одно или два значения.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''dup2_x2'''''
+| style="text-align:right;"  | '''''dup2_x2'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Дублирует один или два операнда на вершине стека и записывает его двумя, тремя или четырьмя значениями ниже в стек
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''dup2_x2''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''dup2_x2''= 94 (0x5e)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|Форма 1:
+
+
+..., ''значение4'', ''значение3'', ''значение2'', ''значение1'' →
+
+..., ''значение2'', ''значение1'', ''значение4'', ''значение3'', ''значение2'', ''значение1'' 
+
+где ''значение1'', ''значение2'', ''значение3''  и ''значение4'' принадлежат категории 1 вычислимых типов (см. §2.11.1)
+
+
+
+Форма 2:
+
+
+..., ''значение3'', ''значение2'', ''значение1'' →
+
+..., ''значение1'', ''значение3'', ''значение2'', ''значение1''
+
+где ''значение1'' принадлежит категории 2 вычислимых типов, а ''значение2'' и ''значение3'' принадлежат категории 1  (см. §2.11.1)
+
+
+
+Форма 3:
+
+
+..., ''значение3'', ''значение2'', ''значение1'' →
+
+..., ''значение2'', ''значение1'', ''значение3'', ''значение2'', ''значение1''
+
+где ''значение1'' и  ''значение2'' принадлежат категории 1 вычислимых типов, а  ''значение3'' принадлежит категории 1  (см. §2.11.1)
+
+
+
+Форма 4:
+
+
+..., ''значение2'', ''значение1'' →
+
+..., ''значение1'', ''значение2'', ''значение1''
+
+где ''значение1'' и ''значение3'' принадлежат категории 2 вычислимых типов (см. §2.11.1)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Копирует одно или два значения на вершине стека операндов и записывает копию (одно или два значения) в стек.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''f2d'''''
+| style="text-align:right;"  | '''''f2d'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Преобразует значение типа <font face=Courier>float</font> к <font face=Courier>double</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''f2d''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''f2d''= 141 (0x8d)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение''→
+
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Значение'' на вершине стека операндов должно быть типа <font face=Courier>float</font>. Оно считывается из стека операндов и подвергается набору преобразований (см. §2.8.3). Затем новое ''значение'' преобразуется к типу <font face=Courier>double</font>. Результат записывается в стек операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Там, где инструкция ''f2d'' работает в режиме FP-strict (см. §2.8.2), будет выполнено расширение примитивных типов (см. JLS §5.1.2). Поскольку все значения множества чисел с плавающей точкой одинарной точности (см. §2.3.2) однозначно представимы значениями двойной точности, то расширение будет выполнено без потери точности.
+
+Там, где инструкция ''f2d'' работает не в режиме FP-strict, результат преобразования может быть взят из множества значений двойной точности с расширенной экспонентой; он не обязательно округляется к ближайшему представимому значению двойной точности. Однако, если ''значение'' принадлежит множеству одинарной точности с расширенной экспонентой, а результат необходимо представить как значение двойной точности (но не с расширенной экспонентой), то может потребоваться округление ''значения''.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''f2i'''''
+| style="text-align:right;"  | '''''f2i'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Преобразует значение типа <font face=Courier>float</font> к <font face=Courier>int</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''f2i''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''f2i''= 139 (0x8b)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Значение'' на вершине стека операндов должно быть типа <font face=Courier>float</font>. Оно считывается из стека операндов и подвергается набору преобразований (см. §2.8.3). Затем новое ''значение'' преобразуется к типу <font face=Courier>int</font>. Результат записывается в стек операндов.
+* Если новое ''значение'' не-число NaN, ''результат'' преобразования <font face=Courier>int</font> 0.
+* В противном случае, если новое ''значение'' не бесконечность, оно округляется к целочисленному <font face=Courier>''V''</font> согласно IEEE 754 (округление в направлении нуля). Если это целое число представимо в типе <font face=Courier>int</font>, то <font face=Courier>''V''</font> – ''результат'' преобразования.
+* Если число <font face=Courier>''V''</font> не представимо в типе <font face=Courier>int</font> (оно слишком мало или является отрицательной бесконечностью) то ''результатом'' будет наименьшее число представимое в диапазоне <font face=Courier>int</font>. Либо <font face=Courier>''V''</font> не представимо в типе <font face=Courier>int</font>, поскольку оно слишком велико или является положительной бесконечностью, то ''результатом'' будет наибольшее число представимое в диапазоне <font face=Courier>int</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''f2i'' выполняет сужающее преобразование примитивных типов, поэтому преобразуемая величина может быть потеряна полностью либо потеряна точность представления.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''f2l'''''
+| style="text-align:right;"  | '''''f2l'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Преобразует значение типа <font face=Courier>float</font> к <font face=Courier>long</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''f2l''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''f2l''= 140 (0x8c)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Значение'' на вершине стека операндов должно быть типа <font face=Courier>float</font>. Оно считывается из стека операндов и подвергается набору преобразований (см. §2.8.3). Затем новое ''значение'' преобразуется к типу <font face=Courier>long</font>. Результат записывается в стек операндов.
+* Если новое ''значение'' не-число NaN, ''результат'' преобразования <font face=Courier>long</font> 0.
+* В противном случае, если новое ''значение'' не бесконечность, оно округляется к целочисленному <font face=Courier>''V''</font> согласно IEEE 754 (округление в направлении нуля). Если это целое число представимо в типе <font face=Courier>long</font>, то <font face=Courier>''V''</font> – ''результат'' преобразования.
+* Если число <font face=Courier>''V''</font> не представимо в типе <font face=Courier>long</font> (оно слишком мало или является отрицательной бесконечностью) то ''результатом'' будет наименьшее число представимое в диапазоне <font face=Courier>long</font>. Либо <font face=Courier>''V''</font> не представимо в типе <font face=Courier>long</font>, поскольку оно слишком велико или является положительной бесконечностью, то ''результатом'' будет наибольшее число представимое в диапазоне <font face=Courier>long</font>.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''f2l'' выполняет сужающее преобразование примитивных типов, поэтому преобразуемая величина может быть потеряна полностью либо потеряна точность представления.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fadd'''''
+| style="text-align:right;"  | '''''fadd'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Складывает два значения типа <font face=Courier>float</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fadd''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fadd''= 98 (0x62)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>float</font>. Значения считываются из стека операндов, проходят преобразования (см. §2.8.3) становясь ''значением1''` и ''значением2''`. Результат типа <font face=Courier>float</font> равен сумме ''значение1''` + ''значение2''`. Результат записывается в стек операндов. 
+
+Суммирование производится согласно правилам арифметики IEEE:
+* Если либо ''значение1''` либо  ''значение2''` есть не-число NaN, то ''результат'' есть NaN.
+* Сумма двух бесконечностей противоположных знаков есть NaN.
+* Сумма двух бесконечностей одинаковых знаков есть бесконечность того же знака.
+* Сумма бесконечности и конечного числа есть бесконечность.
+* Сумма двух нулей противоположных знаков есть положительный ноль.
+* Сумма двух нулей одинаковых знаков есть ноль того же знака.
+* Сумма двух не нулевых конечных значений одинаковой величины есть положительный ноль.
+* В оставшихся случаях, когда ни один из операндов не бесконечность, не ноль и не NaN и ''значения'' имеют один знак или имеют разную величину, сумма вычисляется и округляется к ближайшему представимому значению согласно правилам округления IEEE 754. Если ''результат'' слишком велик, чтобы быть представленным как <font face=Courier>float</font>, мы говорим, что произошло переполнение. В этом случае ''результат'' есть бесконечность соответствующего знака. Если ''результат'' слишком мал, чтобы быть представленным как <font face=Courier>float</font>, мы говорим, что произошла потеря точности. В этом случае ''результат'' есть ноль соответствующего знака.
+
+Инструкция ''fadd'' не генерирует исключение, если происходит переполнение или потеря точности.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''faload'''''
+| style="text-align:right;"  | '''''faload'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Записывает в стек значение из массива типа <font face=Courier>float</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''faload''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''faload''= 48 (0x30)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на массив'', ''индекс'' →
+
+
+..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на массив'' должна быть типа <font face=Courier>reference</font> и ссылаться на массив, чьи компоненты ''значения'' типа <font face=Courier>float</font>. ''Индекс'' должен принадлежать типу <font face=Courier>int</font>. Как ''ссылка на массив'', так и ''индекс'' считываются из стека операндов. ''Значение'' типа <font face=Courier>float</font> считывается из элемента массива с соответствующим индексом и записывается в стек операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на массив'' равна <font face=Courier>null</font>, то ''faload'' генерирует <font face=Courier>NullPointerException</font>. В противном случае, если ''индекс'' вне границ массива, генерируется исключение <font face=Courier>ArrayIndexOutOfBoundsException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fastore'''''
+| style="text-align:right;"  | '''''fastore'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Записывает значение типа <font face=Courier>float</font>  в массив
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fastore''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fastore''= 81 (0x51)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''ссылка на массив'', ''индекс'', ''значение'' →
+
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Ссылка на массив'' должна быть типа <font face=Courier>reference</font> и ссылаться на массив, чьи компоненты ''значения'' типа <font face=Courier>float</font>. ''Индекс'' должен принадлежать типу <font face=Courier>int</font>, ''значение'' должно принадлежать типу <font face=Courier>float</font>. ''Ссылка на массив'', ''индекс'' и ''значение'' считываются из стека операндов. Над значением проводится набор преобразований (см. §2.8.3), в результате которых ''значение''` сохраняется в массиве с заданным индексом.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если ''ссылка на массив'' равна <font face=Courier>null</font>, то ''fastore'' генерирует <font face=Courier>NullPointerException</font>. В противном случае, если ''индекс'' вне границ массива, генерируется исключение <font face=Courier>ArrayIndexOutOfBoundsException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fcmp<op>'''''
+| style="text-align:right;"  | '''''fcmp<op>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Сравнивает два значение типа <font face=Courier>float</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fcmp<op>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fcmpg''= 150 (0x96)
+
+''fcmpl''= 149 (0x95)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>float</font>. Значения считываются из стека операндов и подвергаются набору преобразований (см. §2.8.3) и заменяются на ''значение1''` и ''значение2''`. 
+
+Сравнение значений с плавающей точкой производится следующим образом:
+
+* Если ''значение1''` больше чем ''значение2''`, то в стек операндов записывается единица с типом <font face=Courier>int</font>.
+* В противном случае, если ''значение1''` равно значению2`, то в стек операндов записывается ноль с типом <font face=Courier>int</font>.
+* В противном случае, если ''значение1''` меньше чем ''значение2''`, то в стек операндов записывается минус единица с типом <font face=Courier>int</font>.
+* В противном случае, по крайней мере, одно ''значение'' (либо ''значение1''`, либо ''значение2''`) есть не-число NaN. В этом случае инструкция ''fcmpg'' записывает 1 с типом <font face=Courier>int</font> в стек операндов, а инструкция ''fcmpl'' записывает -1 с типом <font face=Courier>int</font> в стек операндов.
+
+Сравнение чисел с плавающей точкой выполняется согласно требованиям стандарта <font face=Courier>IEEE754</font>. Все ''значения'', отличные от не-числа NaN упорядочены, причем отрицательная бесконечность меньше чем все числа, а положительная бесконечность больше чем все числа. Положительный и отрицательный ноль считаются равными.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкции ''fcmpg'' и ''fcmpl'' отличаются только своим поведением при сравнении не-чисел NaN. Поскольку NaN не упорядочено, любое сравнения не-числа NaN и значения типа <font face=Courier>float</font> не определено, в случае, когда один либо оба операнда не-числа NaN. С помощью инструкций ''fcmpg'' и ''fcmpl'' любое сравнения чисел типа <font face=Courier>float</font> может быть скомпилировано так, чтобы выдавать результат, совпадающий и при сравнение обычных чисел и при сравнении не-чисел NaN. Более подробную информацию см. в §3.5.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fconst_<f>'''''
+| style="text-align:right;"  | '''''fconst_<f>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Записывает в стек константу типа <font face=Courier>float</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fconst_<f>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fconst_0''= 11 (0xb)
+
+''fconst_1''= 12 (0xc)
+
+''fconst_2''= 13 (0xd)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|... →
+
+
+..., <f>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Записывает константу <<font face=Courier>''f''</font>> типа <font face=Courier>float</font>  (0.0, 1.0 или 2.0) в стек операндов.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fdiv'''''
+| style="text-align:right;"  | '''''fdiv'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Делит два значение типа <font face=Courier>float</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fdiv''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fdiv''= 110 (0x6e)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>float</font>. Значения считываются из стека операндов и подвергаются набору преобразований (см. §2.8.3) и заменяются на ''значение1''` и ''значение2''`. 
+
+''Результат'' – это число типа <font face=Courier>float</font> равное ''значение1''`/ ''значение2''`. Затем ''результат'' записывается в стек операндов. 
+
+''Результат'' инструкции ''fdiv'' вычисляется согласно правилам арифметики стандарта IEEE:
+* Если либо ''значение1''` либо  ''значение2''` есть не-число NaN, то ''результат'' есть NaN.
+* Если ни ''значение1''` ни  ''значение2''` не являются не-числами NaN, то знак результата деления положительный, если делимое и делитель имеют один знак и отрицательный в противном случае.
+* Деление бесконечности на бесконечность даёт не-число NaN.
+* Деление бесконечности на конечное ''значение'' даёт бесконечность, знак которой определён по правилу, описанному выше.
+* Деление конечного ''значения'' на бесконечность даёт знаковый ноль, знак которого определён по правилу, описанному выше.
+* Деление ноль на ноль даёт не-число NaN; деление ноля на конечное ''значение'' даёт знаковый ноль, знак которого определён по правилу, описанному выше.
+* Деление не нулевого конечного ''значения'' на ноль дает бесконечность, знак которой определён по правилу, описанному выше.
+* В оставшихся случаях, когда операнды не бесконечность, не ноль и не NaN частное вычисляется и округляется к ближайшему <font face=Courier>float</font>, используя режим округления к ближайшему стандарта IEEE 754. Если величина слишком велика, чтобы быть представленной в диапазоне типа <font face=Courier>float</font>, говорят, что произошло переполнение. В этом случае ''результатом'' является бесконечность соответствующего знака. Если величина слишком мала, чтобы быть представленной в диапазоне типа <font face=Courier>float</font>, говорят, что произошла потеря точности. В этом случае ''результатом'' является ноль соответствующего знака. 
+
+Несмотря на переполнение, потерю точности, деление на ноль инструкция ''fdiv'' никогда не генерирует исключение времени выполнения.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fload'''''
+| style="text-align:right;"  | '''''fload'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Записывает в стек значение типа <font face=Courier>float</font> из локальной переменной
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fload''
+|-
+| style="vertical-align:top;"|''индекс''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fload''= 23 (0x17)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|...→
+
+
+..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Индекс'' является беззнаковым байтом. ''Индекс'' должен принадлежать массиву локальных переменных текущего фрейма (см. §2.6). Локальная переменная с заданным индексом должна содержать величину типа <font face=Courier>float</font>. ''Значение'' локальной переменной, с заданным индексом, записывается в стек операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''fload'' может быть использована совместно с инструкцией ''wide'', когда необходимо задать двухбайтовый беззнаковый индекс локальной переменной.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fload_<n>'''''
+| style="text-align:right;"  | '''''fload_<n>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Записывает в стек значение типа <font face=Courier>float</font> из локальной переменной
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fload_<n>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fload_0''= 34 (0x22)
+
+''fload_1''= 35 (0x23)
+
+''fload_2''= 36 (0x24)
+
+''fload_3''= 37 (0x25)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|...→
+
+
+..., ''значение''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|<n> должно принадлежать массиву локальных переменных текущего фрейма (см. §2.6). Локальная переменная <n> должна содержать величину типа <font face=Courier>float</font>. ''Значение'' локальной переменной <n>, записывается в стек операндов.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Каждая из инструкции ''fload_<n>'' выполняет то же, что и ''fload'' с явным индексом <n> за исключением того, что операнд <n> задан не явно.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fmul'''''
+| style="text-align:right;"  | '''''fmul'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Умножает два значения типа <font face=Courier>float</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fmul''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fmul''= 106 (0x6a)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>float</font>. Значения считываются из стека операндов и подвергаются набору преобразований (см. §2.8.3) и заменяются на ''значение1''` и ''значение2''`. 
+
+''Результат'' – это число типа <font face=Courier>float</font> равное ''значение1''`* ''значение2''`. Затем ''результат'' записывается в стек операндов. 
+
+''Результат'' инструкции ''fmul'' вычисляется согласно правилам арифметики стандарта IEEE:
+* Если либо ''значение1''` либо  ''значение2''` есть не-число NaN, то ''результат'' есть NaN.
+* Если ни ''значение1''` ни  ''значение2''` не являются не-числами NaN, то знак результата умножения положительный, если операнды имеют один знак и отрицательный в противном случае.
+* Умножение бесконечности на ноль даёт не-число NaN.
+* Умножение бесконечности на конечное ''значение'' даёт бесконечность, знак которой определён по правилу, описанному выше.
+* В оставшихся случаях, когда операнды не бесконечность, не ноль и не NaN произведение вычисляется и округляется к ближайшему <font face=Courier>float</font>, используя режим округления к ближайшему стандарта IEEE 754. Если величина слишком велика, чтобы быть представленной в диапазоне типа <font face=Courier>float</font>, говорят, что произошло переполнение. В этом случае ''результатом'' является бесконечность соответствующего знака. Если величина слишком мала, чтобы быть представленной в диапазоне типа <font face=Courier>float</font>, говорят, что произошла потеря точности. В этом случае ''результатом'' является ноль соответствующего знака. 
+
+Несмотря на переполнение, потерю точности ''fmul'' никогда не генерирует исключение времени выполнения.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fneg'''''
+| style="text-align:right;"  | '''''fneg'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Инвертирует значение типа <font face=Courier>float</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fneg''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fneg''= 118 (0x76)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Значение'' должно принадлежать типу <font face=Courier>float</font>. Оно считывается из стека операндов, и подвергаются набору преобразований (см. §2.8.3), а затем заменяется значением`. ''Результат'' – это число типа <font face=Courier>float</font> равное арифметическому отрицанию ''значения''`. Затем ''результат'' записывается в стек операндов. 
+
+Для значений типа <font face=Courier>float</font> отрицание не есть то же самое, что и вычитание из нуля. Если <font face=Courier>''x''</font> это  +0.0, то  0.0 - <font face=Courier>''x''</font> равно  +0.0, но  -<font face=Courier>''x''</font> равно  -0.0. Унарный минус лишь инвертирует знак числа типа <font face=Courier>float</font>.
+
+Особые случаи:
+* Если  операнд есть не-число NaN, то ''результат'' также NaN (поскольку у NaN нет знака).
+* Если операнд – бесконечность, то ''результат'' – бесконечность противоположного знака.
+* Если операнд – ноль, то ''результат'' – ноль противоположного знака.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''frem'''''
+| style="text-align:right;"  | '''''frem'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Остаток от деления двух значений типа <font face=Courier>float</font>
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''frem''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''frem''= 114 (0x72)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение1'', ''значение2'' →
+
+
+..., ''результат''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|И ''значение1'' и ''значение2'' должны принадлежать типу <font face=Courier>float</font>. Значения считываются из стека операндов и подвергаются набору преобразований (см. §2.8.3) и заменяются  ''значением1''` и ''значением2''`. 
+
+''Результат'' вычисляется и записывается в стек операндов с типом <font face=Courier>float</font>.
+
+''Результат'' инструкции ''frem'' не совпадает с операцией вычисления остатка для чисел с плавающей точкой, определённой в стандарте IEEE 754. Операция вычисления остатка, заданная в стандарте IEEE 754, вычисляет остаток от «округляющего» деления, а не «урезающего» деления, так что ее поведение не аналогично обычной операции целочисленного вычисления остатка. Вместо этого в виртуальной машине Java поведение инструкции ''frem'' определено наподобие инструкций целочисленного вычисления остатка (''irem'' и ''lrem''); инструкцию ''frem'' можно сравнить с библиотечной функцией <font face=Courier>fmod</font> языка <font face=Courier>''C''</font>.
+
+''Результат'' инструкции ''frem'' вычисляется согласно следующим правилам:
+* Если либо ''значение1''` либо  ''значение2''` есть не-число NaN, то ''результат'' есть NaN.
+* Если ни ''значение1''` ни  ''значение2''` не являются не-числами NaN, то знак результата совпадает со знаком делимого.
+* Если делимое есть бесконечность или делитель есть ноль, либо оба числа есть нули, то ''результат'' – не-число  NaN.
+* Если делимое есть конечное ''значение'', а делитель – бесконечность, то ''результат'' (остаток от деления) равен делимому.
+* Если делимое есть ноль, а делитель – конечное ''значение'', то ''результат'' (остаток от деления) равен делимому.
+* В оставшихся случаях, когда операнды не бесконечность, не ноль и не NaN остаток от деления с плавающей точкой делимого ''значения1''` на делитель ''значение2''` определяется следующим отношением: ''результат'' = ''значение1''` - (''значение2''` * q), где q – целое число, имеющее знак минус в случае, если ''значение1''` / ''значение2''` отрицательно и знак плюс, если ''значение1''` / ''значение2''` положительно. Величина коэффициента q равно наибольшему целому не превосходящему частного от деления ''значения1''` на ''значение2''`.
+
+Несмотря на деление на ноль инструкция ''frem'' никогда не генерирует исключение времени выполнения. Переполнение и потеря точности не могут произойти для этой инструкции.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Остаток от деления согласно спецификации IEEE 754 может быть вычислен с помощью метода <font face=Courier>Math</font>.<font face=Courier>IEEEremainder</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''freturn'''''
+| style="text-align:right;"  | '''''freturn'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Возвращает значение <font face=Courier>float</font> из метода
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''freturn''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''freturn''= 174 (0xae)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+
+[пусто]
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|Текущий метод должен возвращать величину типа <font face=Courier>float</font>. ''Значение'' также должно принадлежать <font face=Courier>float</font>. Если текущий метод объявлен с ключевым словом <font face=Courier>synchronized</font>, то при входе в метод монитор захватывается первоначально (либо повторно, если уже был захвачен до того), а при выходе освобождается, как при выполнении инструкции ''monitorexit'' для текущего потока. Если в ходе выполнения метода не было исключений, ''значение'' считывается из стека операндов текущего фрейма (см. §2.6) и проходит ряд преобразований (см. §2.8.3). Затем преобразованное  ''значение''` записывается в стек операндов фрейма, принадлежащего вызывающему методу. Все остальные ''значения'' стека операндов текущего фрейма теряются.
+
+Затем интерпретатор передаёт управление вызывающему методу, делая текущим соответствующий фрейм.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Исключения времени выполнения'''
+| style="vertical-align:top;"|Если реализация виртуальной машины Java не поддерживает правила структурных блокировок описанные в §2.11.10, тогда если текущий метод объявлен как  <font face=Courier>synchronized</font> и текущий поток не является владельцем монитора, захваченного при входе в метод, то при вызове ''freturn'' будет выброшено исключение <font face=Courier>IllegalMonitorStateException</font>. Это может произойти, если <font face=Courier>synchronized</font>-метод содержит инструкцию ''monitorexit'', а инструкция ''monitorenter'' по объекту синхронизации отсутствует.
+
+С другой стороны, если реализация виртуальной машины Java  поддерживает правила структурных блокировок описанные в §2.11.10, и во время выполнения текущего метода нарушено первое из этих правил, то при вызове ''freturn'' будет выброшено исключение <font face=Courier>IllegalMonitorStateException</font>.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fstore'''''
+| style="text-align:right;"  | '''''fstore'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>float</font>  из стека в локальную переменную
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fstore''
+|-
+| style="vertical-align:top;"|''индекс''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fstore''= 56 (0x38)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|''Индекс'' является беззнаковым байтом и должен принадлежать массиву локальных переменных текущего фрейма (см. §2.6). ''Значение''  на вершине стека операндов должно принадлежать типу <font face=Courier>float</font>. Оно считывается из стека операндов, и подвергаются набору преобразований (см. §2.8.3), а затем заменяется значением`. В локальную переменную с индексом ''индекс'' записывается ''значение''`.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Инструкция ''fstore'' может быть использована совместно с инструкцией ''wide'', когда необходимо задать двухбайтовый беззнаковый индекс локальной переменной.
+|}
+
+<br><br><br><br>
+{| width="100%"
+| style="text-align:left;"  | '''''fstore_<n>'''''
+| style="text-align:right;"  | '''''fstore_<n>'''''
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Операция'''
+| style="vertical-align:top;"|Загружает значение типа <font face=Courier>float</font>  из стека в локальную переменную
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формат'''
+|
+{| border="1" style="border-collapse:collapse;" width="400px"
+| style="vertical-align:top;"|''fstore_<n>''
+|}
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Формы'''
+| style="vertical-align:top;"|''fstore_0''= 67 (0x43)
+
+''fstore_1''= 68 (0x44)
+
+''fstore_2''= 69 (0x45)
+
+''fstore_3''= 70 (0x46)
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Стек операндов'''
+| style="vertical-align:top;"|..., ''значение'' →
+
+
+...
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Описание'''
+| style="vertical-align:top;"|<n> должно принадлежать массиву локальных переменных текущего фрейма (см. §2.6). ''Значение''  на вершине стека операндов должно принадлежать типу <font face=Courier>float</font>. Оно считывается из стека операндов, и подвергаются набору преобразований (см. §2.8.3), а затем заменяется значением`. В локальную переменную с индексом <n> записывается ''значение''`.
+|}
+<br>
+{| style="border-collapse:collapse;"
+|width="150px" style="vertical-align:top;"|'''Примечания'''
+| style="vertical-align:top;"|Каждая из инструкции ''fstore_<n>'' выполняет то же, что и ''fstore'' с явным индексом <n> за исключением того, что операнд <n> задан не явно.
+|}
+
