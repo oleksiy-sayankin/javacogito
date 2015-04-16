@@ -73,10 +73,11 @@ public final class Constants {
             FORCE_ITALIC_PHRASES.put(new Phrase("байт_индекса2"));
             FORCE_ITALIC_PHRASES.put(new Phrase("число элементов"));
             FORCE_ITALIC_PHRASES.put(new Phrase("длина массива"));
-            FORCE_ITALIC_PHRASES.put(new Phrase("результат").addForm("результатом"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("результат").addForm("результатом").addForm("Результат"));
             FORCE_ITALIC_PHRASES.put(new Phrase("значение1").addForm("значением1").addForm("значения1"));
             FORCE_ITALIC_PHRASES.put(new Phrase("значение2").addForm("значением2").addForm("значения2"));
             FORCE_ITALIC_PHRASES.put(new Phrase("значение3").addForm("значением3").addForm("значения3"));
+            FORCE_ITALIC_PHRASES.put(new Phrase("значение4").addForm("значением4").addForm("значения4"));
 
     }
 

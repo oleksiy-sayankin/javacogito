@@ -6,17 +6,10 @@ import net.javacogito.Processor;
 import static net.javacogito.Constants.*;
 import static net.javacogito.FormatHelper.formatForceItalic;
 
-public class JvmInstructionTotalRuntimeExProcessor implements Processor{
-    public String process(String inText) {
-        if (inText == null){
-            return EMPTY_STRING;
-        }
+public class JvmInstructionTotalRuntimeExProcessor extends JvmInstructionTotalCommonProcessor{
 
-        inText = inText.trim();
-
-        if (EMPTY_STRING.equals(inText)){
-            return EMPTY_STRING;
-        }
+    @Override
+    protected String processText(String inText) {
         String preparedText = new CommonTextProcessor().process(inText);
         preparedText = formatForceItalic(preparedText);
 

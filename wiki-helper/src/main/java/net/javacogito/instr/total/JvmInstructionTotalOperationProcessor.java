@@ -4,18 +4,10 @@ import net.javacogito.CommonTextProcessor;
 import net.javacogito.Processor;
 import static net.javacogito.Constants.*;
 
-public class JvmInstructionTotalOperationProcessor implements Processor{
-    public String process(String inText) {
-        if (inText == null){
-            return EMPTY_STRING;
-        }
+public class JvmInstructionTotalOperationProcessor extends JvmInstructionTotalCommonProcessor{
 
-        inText = inText.trim();
-
-        if (EMPTY_STRING.equals(inText)){
-            return EMPTY_STRING;
-        }
-
+    @Override
+    protected String processText(String inText) {
         String preparedText = new CommonTextProcessor().process(inText);
 
         StringBuilder sb = new StringBuilder();

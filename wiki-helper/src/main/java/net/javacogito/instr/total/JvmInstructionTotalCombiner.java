@@ -17,25 +17,26 @@ public class JvmInstructionTotalCombiner implements Combiner {
     }
 
     public String combine() throws IOException {
-        String mnemonic = Util.readFile("mnemonic.txt");
-        String operation = Util.readFile("operation.txt");
-        String format = Util.readFile("format.txt");
-        String forms = Util.readFile("forms.txt");
-        String operandStack = Util.readFile("operand_stack.txt");
-        String description = Util.readFile("description.txt");
-        String linkingEx = Util.readFile("linking_ex.txt");
-        String runtimeEx = Util.readFile("runtime_ex.txt");
-        String notes = Util.readFile("notes.txt");
+        TotalDescription td = JvmInstructionTotalDistributor.getTotalDescription("in.txt");
+        String mnemonic = td.getMnemonic();
+        String operation = td.getOperation();
+        String format = td.getFormat();
+        String forms = td.getForms();
+        String operandStack = td.getOperandStack();
+        String description = td.getDescription();
+        String linkingEx = td.getLinkingEx();
+        String runtimeEx = td.getRuntimeEx();
+        String notes = td.getNotes();
         StringBuilder sb = new StringBuilder();
         sb.append(new JvmInstructionTotalMnemonicProcessor().process(mnemonic));
         sb.append(new JvmInstructionTotalOperationProcessor().process(operation));
         sb.append(new JvmInstructionTotalFormatProcessor().process(format));
         sb.append(new JvmInstructionTotalFormsProcessor().process(forms));
         sb.append(new JvmInstructionTotalOperandStackProcessor().process(operandStack));
-        sb.append(new JvmInstructionTotalDescriptionProcessor().process(description));
-        sb.append(new JvmInstructionTotalLinkingExProcessor().process(linkingEx));
-        sb.append(new JvmInstructionTotalRuntimeExProcessor().process(runtimeEx));
-        sb.append(new JvmInstructionTotalNotesProcessor().process(notes));
+        sb.append(new JvmInstructionTotalDescriptionProcessor().addItalic(operandStack).addItalic(format).process(description));
+        sb.append(new JvmInstructionTotalLinkingExProcessor().addItalic(operandStack).addItalic(format).process(linkingEx));
+        sb.append(new JvmInstructionTotalRuntimeExProcessor().addItalic(operandStack).addItalic(format).process(runtimeEx));
+        sb.append(new JvmInstructionTotalNotesProcessor().addItalic(operandStack).addItalic(format).process(notes));
         return sb.toString();
     }
 }

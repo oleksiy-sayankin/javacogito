@@ -6,18 +6,10 @@ import net.javacogito.Processor;
 import static net.javacogito.Constants.*;
 import static net.javacogito.FormatHelper.*;
 
-public class JvmInstructionTotalFormatProcessor implements Processor{
-    public String process(String inText) {
-        if (inText == null){
-            return EMPTY_STRING;
-        }
+public class JvmInstructionTotalFormatProcessor extends JvmInstructionTotalCommonProcessor{
 
-        inText = inText.trim();
-
-        if (EMPTY_STRING.equals(inText)){
-            return EMPTY_STRING;
-        }
-
+    @Override
+    protected String processText(String inText) {
         String preparedText = new JvmCodeSimpleFormatProcessor().process(inText);
         preparedText = formatForceItalic(preparedText);
 

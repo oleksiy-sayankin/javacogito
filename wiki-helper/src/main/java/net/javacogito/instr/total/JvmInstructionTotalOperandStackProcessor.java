@@ -5,18 +5,10 @@ import net.javacogito.Processor;
 import static net.javacogito.Constants.*;
 import static net.javacogito.FormatHelper.*;
 
-public class JvmInstructionTotalOperandStackProcessor implements Processor{
-    public String process(String inText) {
-        if (inText == null){
-            return EMPTY_STRING;
-        }
+public class JvmInstructionTotalOperandStackProcessor extends JvmInstructionTotalCommonProcessor{
 
-        inText = inText.trim();
-
-        if (EMPTY_STRING.equals(inText)){
-            return EMPTY_STRING;
-        }
-
+    @Override
+    protected String processText(String inText) {
         String preparedText = formatForceItalic(inText);
         preparedText = replaceThreeDots(preparedText);
 

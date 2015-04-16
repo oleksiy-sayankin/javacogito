@@ -10,22 +10,13 @@ import java.io.IOException;
 
 import static net.javacogito.Constants.*;
 import static net.javacogito.FormatHelper.*;
+import static net.javacogito.FormatHelper.findAllItalic;
 
-public class JvmInstructionTotalDescriptionProcessor implements Processor{
-    public String process(String inText) {
-        if (inText == null){
-            return EMPTY_STRING;
-        }
+public class JvmInstructionTotalDescriptionProcessor extends JvmInstructionTotalCommonProcessor{
 
-        inText = inText.trim();
-
-        if (EMPTY_STRING.equals(inText)){
-            return EMPTY_STRING;
-        }
-
+    @Override
+    protected String processText(String inText) {
         String preparedText = new CommonTextProcessor().process(inText);
-        Dictionary dictionary = findAllItalic(readOperandStack());
-        dictionary.putAll(findAllItalic(readFormat()));
         preparedText = formatForceItalic(preparedText, dictionary);
         preparedText = shadePipe(preparedText);
 
@@ -38,25 +29,4 @@ public class JvmInstructionTotalDescriptionProcessor implements Processor{
 
         return sb.toString();
     }
-
-    private String readOperandStack(){
-        String operandStack = EMPTY_STRING;
-        try {
-            operandStack = Util.readFile("operand_stack.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return operandStack;
-    }
-
-    private String readFormat(){
-        String operandStack = EMPTY_STRING;
-        try {
-            operandStack = Util.readFile("format.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return operandStack;
-    }
-
 }
