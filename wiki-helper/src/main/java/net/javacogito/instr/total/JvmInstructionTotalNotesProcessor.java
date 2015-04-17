@@ -4,12 +4,14 @@ package net.javacogito.instr.total;
 import net.javacogito.CommonTextProcessor;
 import net.javacogito.Processor;
 import static net.javacogito.Constants.*;
+import static net.javacogito.FormatHelper.formatForceItalic;
 
 public class JvmInstructionTotalNotesProcessor extends JvmInstructionTotalCommonProcessor{
 
     @Override
     protected String processText(String inText) {
         String preparedText = new CommonTextProcessor().process(inText);
+        preparedText = formatForceItalic(preparedText, dictionary);
 
         StringBuilder sb = new StringBuilder();
         sb.append(ONE_EMPTY_LINE).append(NL);
