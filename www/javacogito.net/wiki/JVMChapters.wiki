@@ -6929,3 +6929,1024 @@ new InputStream(new Foo(), new InputStream("foo"))
 
 [[Список инструкций JVM с детальным описанием формата и действий, которые они выполняют]]
 
+<br><br><br><br>
+== ГЛАВА 7 Таблица инструкций по возрастанию их байт-кодов ==
+
+Эта глава содержит таблицу соответствия между мнемоническими инструкциями и их байт-кодами (включая зарезервированные байт-коды, см. §6.2) виртуальной машины Java. 
+Байт-код со значением 186 не использовался  до Java SE 7.
+
+
+{| border="1" style="border-collapse:collapse" width="100%"
+| colspan="3"  style="text-align:center;"| '''Константы'''
+| colspan="3"  style="text-align:center;"| '''Загрузка'''
+| colspan="3"  style="text-align:center;"| '''Выгрузка'''
+|-
+| <font face=Courier>00</font>
+| <font face=Courier>(0x00)</font>
+| ''nop''
+| <font face=Courier>21</font>
+| <font face=Courier>(0x15)</font>
+| ''iload''
+| <font face=Courier>54</font>
+| <font face=Courier>(0x36)</font>
+| ''istore''
+|-
+| <font face=Courier>01</font>
+| <font face=Courier>(0x01)</font>
+| ''aconst_null''
+| <font face=Courier>22</font>
+| <font face=Courier>(0x16)</font>
+| ''lload''
+| <font face=Courier>55</font>
+| <font face=Courier>(0x37)</font>
+| ''lstore''
+|-
+| <font face=Courier>02</font>
+| <font face=Courier>(0x02)</font>
+| ''iconst_m1''
+| <font face=Courier>23</font>
+| <font face=Courier>(0x17)</font>
+| ''fload''
+| <font face=Courier>56</font>
+| <font face=Courier>(0x38)</font>
+| ''fstore''
+|-
+| <font face=Courier>03</font>
+| <font face=Courier>(0x03)</font>
+| ''iconst_0''
+| <font face=Courier>24</font>
+| <font face=Courier>(0x18)</font>
+| ''dload''
+| <font face=Courier>57</font>
+| <font face=Courier>(0x39)</font>
+| ''dstore''
+|-
+| <font face=Courier>04</font>
+| <font face=Courier>(0x04)</font>
+| ''iconst_1''
+| <font face=Courier>25</font>
+| <font face=Courier>(0x19)</font>
+| ''aload''
+| <font face=Courier>58</font>
+| <font face=Courier>(0x3a)</font>
+| ''astore''
+|-
+| <font face=Courier>05</font>
+| <font face=Courier>(0x05)</font>
+| ''iconst_2''
+| <font face=Courier>26</font>
+| <font face=Courier>(0x1a)</font>
+| ''iload_0''
+| <font face=Courier>59</font>
+| <font face=Courier>(0x3b)</font>
+| ''istore_0''
+|-
+| <font face=Courier>06</font>
+| <font face=Courier>(0x06)</font>
+| ''iconst_3''
+| <font face=Courier>27</font>
+| <font face=Courier>(0x1b)</font>
+| ''iload_1''
+| <font face=Courier>60</font>
+| <font face=Courier>(0x3c)</font>
+| ''istore_1''
+|-
+| <font face=Courier>07</font>
+| <font face=Courier>(0x07)</font>
+| ''iconst_4''
+| <font face=Courier>28</font>
+| <font face=Courier>(0x1c)</font>
+| ''iload_2''
+| <font face=Courier>61</font>
+| <font face=Courier>(0x3d)</font>
+| ''istore_2''
+|-
+| <font face=Courier>08</font>
+| <font face=Courier>(0x08)</font>
+| ''iconst_5''
+| <font face=Courier>29</font>
+| <font face=Courier>(0x1d)</font>
+| ''iload_3''
+| <font face=Courier>62</font>
+| <font face=Courier>(0x3e)</font>
+| ''istore_3''
+|-
+| <font face=Courier>09</font>
+| <font face=Courier>(0x09)</font>
+| ''lconst_0''
+| <font face=Courier>30</font>
+| <font face=Courier>(0x1e)</font>
+| ''lload_0''
+| <font face=Courier>63</font>
+| <font face=Courier>(0x3f)</font>
+| ''lstore_0''
+|-
+| <font face=Courier>10</font>
+| <font face=Courier>(0x0a)</font>
+| ''lconst_1''
+| <font face=Courier>31</font>
+| <font face=Courier>(0x1f)</font>
+| ''lload_1''
+| <font face=Courier>64</font>
+| <font face=Courier>(0x40)</font>
+| ''lstore_1''
+|-
+| <font face=Courier>11</font>
+| <font face=Courier>(0x0b)</font>
+| ''fconst_0''
+| <font face=Courier>32</font>
+| <font face=Courier>(0x20)</font>
+| ''lload_2''
+| <font face=Courier>65</font>
+| <font face=Courier>(0x41)</font>
+| ''lstore_2''
+|-
+| <font face=Courier>12</font>
+| <font face=Courier>(0x0c)</font>
+| ''fconst_1''
+| <font face=Courier>33</font>
+| <font face=Courier>(0x21)</font>
+| ''lload_3''
+| <font face=Courier>66</font>
+| <font face=Courier>(0x42)</font>
+| ''lstore_3''
+|-
+| <font face=Courier>13</font>
+| <font face=Courier>(0x0d)</font>
+| ''fconst_2''
+| <font face=Courier>34</font>
+| <font face=Courier>(0x22)</font>
+| ''fload_0''
+| <font face=Courier>67</font>
+| <font face=Courier>(0x43)</font>
+| ''fstore_0''
+|-
+| <font face=Courier>14</font>
+| <font face=Courier>(0x0e)</font>
+| ''dconst_0''
+| <font face=Courier>35</font>
+| <font face=Courier>(0x23)</font>
+| ''fload_1''
+| <font face=Courier>68</font>
+| <font face=Courier>(0x44)</font>
+| ''fstore_1''
+|-
+| <font face=Courier>15</font>
+| <font face=Courier>(0x0f)</font>
+| ''dconst_1''
+| <font face=Courier>36</font>
+| <font face=Courier>(0x24)</font>
+| ''fload_2''
+| <font face=Courier>69</font>
+| <font face=Courier>(0x45)</font>
+| ''fstore_2''
+|-
+| <font face=Courier>16</font>
+| <font face=Courier>(0x10)</font>
+| ''bipush''
+| <font face=Courier>37</font>
+| <font face=Courier>(0x25)</font>
+| ''fload_3''
+| <font face=Courier>70</font>
+| <font face=Courier>(0x46)</font>
+| ''fstore_3''
+|-
+| <font face=Courier>17</font>
+| <font face=Courier>(0x11)</font>
+| ''sipush''
+| <font face=Courier>38</font>
+| <font face=Courier>(0x26)</font>
+| ''dload_0''
+| <font face=Courier>71</font>
+| <font face=Courier>(0x47)</font>
+| ''dstore_0''
+|-
+| <font face=Courier>18</font>
+| <font face=Courier>(0x12)</font>
+| ''ldc''
+| <font face=Courier>39</font>
+| <font face=Courier>(0x27)</font>
+| ''dload_1''
+| <font face=Courier>72</font>
+| <font face=Courier>(0x48)</font>
+| ''dstore_1''
+|-
+| <font face=Courier>19</font>
+| <font face=Courier>(0x13)</font>
+| ''ldc_w''
+| <font face=Courier>40</font>
+| <font face=Courier>(0x28)</font>
+| ''dload_2''
+| <font face=Courier>73</font>
+| <font face=Courier>(0x49)</font>
+| ''dstore_2''
+|-
+| <font face=Courier>20</font>
+| <font face=Courier>(0x14)</font>
+| ''ldc2_w''
+| <font face=Courier>41</font>
+| <font face=Courier>(0x29)</font>
+| ''dload_3''
+| <font face=Courier>74</font>
+| <font face=Courier>(0x4a)</font>
+| ''dstore_3''
+|-
+|
+|
+|
+| <font face=Courier>42</font>
+| <font face=Courier>(0x2a)</font>
+| ''aload_0''
+| <font face=Courier>75</font>
+| <font face=Courier>(0x4b)</font>
+| ''astore_0''
+|-
+|
+|
+|
+| <font face=Courier>43</font>
+| <font face=Courier>(0x2b)</font>
+| ''aload_1''
+| <font face=Courier>76</font>
+| <font face=Courier>(0x4c)</font>
+| ''astore_1''
+|-
+|
+|
+|
+| <font face=Courier>44</font>
+| <font face=Courier>(0x2c)</font>
+| ''aload_2''
+| <font face=Courier>77</font>
+| <font face=Courier>(0x4d)</font>
+| ''astore_2''
+|-
+|
+|
+|
+| <font face=Courier>45</font>
+| <font face=Courier>(0x2d)</font>
+| ''aload_3''
+| <font face=Courier>78</font>
+| <font face=Courier>(0x4e)</font>
+| ''astore_3''
+|-
+|
+|
+|
+| <font face=Courier>46</font>
+| <font face=Courier>(0x2e)</font>
+| ''iaload''
+| <font face=Courier>79</font>
+| <font face=Courier>(0x4f)</font>
+| ''iastore''
+|-
+|
+|
+|
+| <font face=Courier>47</font>
+| <font face=Courier>(0x2f)</font>
+| ''laload''
+| <font face=Courier>80</font>
+| <font face=Courier>(0x50)</font>
+| ''lastore''
+|-
+|
+|
+|
+| <font face=Courier>48</font>
+| <font face=Courier>(0x30)</font>
+| ''faload''
+| <font face=Courier>81</font>
+| <font face=Courier>(0x51)</font>
+| ''fastore''
+|-
+|
+|
+|
+| <font face=Courier>49</font>
+| <font face=Courier>(0x31)</font>
+| ''daload''
+| <font face=Courier>82</font>
+| <font face=Courier>(0x52)</font>
+| ''dastore''
+|-
+|
+|
+|
+| <font face=Courier>50</font>
+| <font face=Courier>(0x32)</font>
+| ''aaload''
+| <font face=Courier>83</font>
+| <font face=Courier>(0x53)</font>
+| ''aastore''
+|-
+|
+|
+|
+| <font face=Courier>51</font>
+| <font face=Courier>(0x33)</font>
+| ''baload''
+| <font face=Courier>84</font>
+| <font face=Courier>(0x54)</font>
+| ''bastore''
+|-
+|
+|
+|
+| <font face=Courier>52</font>
+| <font face=Courier>(0x34)</font>
+| ''caload''
+| <font face=Courier>85</font>
+| <font face=Courier>(0x55)</font>
+| ''castore''
+|-
+|
+|
+|
+| <font face=Courier>53</font>
+| <font face=Courier>(0x35)</font>
+| ''saload''
+| <font face=Courier>86</font>
+| <font face=Courier>(0x56)</font>
+| ''sastore''
+|-
+| colspan="3" style="text-align:center;"| '''Стек'''
+| colspan="3" style="text-align:center;"| '''Математические'''
+| colspan="3" style="text-align:center;"| '''Преобразования типов'''
+|-
+| <font face=Courier>87</font>
+| <font face=Courier>(0x57)</font>
+| ''pop''
+| <font face=Courier>96</font>
+| <font face=Courier>(0x60)</font>
+| ''iadd''
+| <font face=Courier>133</font>
+| <font face=Courier>(0x85)</font>
+| ''i2l''
+|-
+| <font face=Courier>88</font>
+| <font face=Courier>(0x58)</font>
+| ''pop2''
+| <font face=Courier>97</font>
+| <font face=Courier>(0x61)</font>
+| ''ladd''
+| <font face=Courier>134</font>
+| <font face=Courier>(0x86)</font>
+| ''i2f''
+|-
+| <font face=Courier>89</font>
+| <font face=Courier>(0x59)</font>
+| ''dup''
+| <font face=Courier>98</font>
+| <font face=Courier>(0x62)</font>
+| ''fadd''
+| <font face=Courier>135</font>
+| <font face=Courier>(0x87)</font>
+| ''i2d''
+|-
+| <font face=Courier>90</font>
+| <font face=Courier>(0x5a)</font>
+| ''dup_x1''
+| <font face=Courier>99</font>
+| <font face=Courier>(0x63)</font>
+| ''dadd''
+| <font face=Courier>136</font>
+| <font face=Courier>(0x88)</font>
+| ''l2i''
+|-
+| <font face=Courier>91</font>
+| <font face=Courier>(0x5b)</font>
+| ''dup_x2''
+| <font face=Courier>100</font>
+| <font face=Courier>(0x64)</font>
+| ''isub''
+| <font face=Courier>137</font>
+| <font face=Courier>(0x89)</font>
+| ''l2f''
+|-
+| <font face=Courier>92</font>
+| <font face=Courier>(0x5c)</font>
+| ''dup2''
+| <font face=Courier>101</font>
+| <font face=Courier>(0x65)</font>
+| ''lsub''
+| <font face=Courier>138</font>
+| <font face=Courier>(0x8a)</font>
+| ''l2d''
+|-
+| <font face=Courier>93</font>
+| <font face=Courier>(0x5d)</font>
+| ''dup2_x1''
+| <font face=Courier>102</font>
+| <font face=Courier>(0x66)</font>
+| ''fsub''
+| <font face=Courier>139</font>
+| <font face=Courier>(0x8b)</font>
+| ''f2i''
+|-
+| <font face=Courier>94</font>
+| <font face=Courier>(0x5e)</font>
+| ''dup2_x2''
+| <font face=Courier>103</font>
+| <font face=Courier>(0x67)</font>
+| ''dsub''
+| <font face=Courier>140</font>
+| <font face=Courier>(0x8c)</font>
+| ''f2l''
+|-
+| <font face=Courier>95</font>
+| <font face=Courier>(0x5f)</font>
+| ''swap''
+| <font face=Courier>104</font>
+| <font face=Courier>(0x68)</font>
+| ''imul''
+| <font face=Courier>141</font>
+| <font face=Courier>(0x8d)</font>
+| ''f2d''
+|-
+|
+|
+|
+| <font face=Courier>105</font>
+| <font face=Courier>(0x69)</font>
+| ''lmul''
+| <font face=Courier>142</font>
+| <font face=Courier>(0x8e)</font>
+| ''d2i''
+|-
+|
+|
+|
+| <font face=Courier>106</font>
+| <font face=Courier>(0x6a)</font>
+| ''fmul''
+| <font face=Courier>143</font>
+| <font face=Courier>(0x8f)</font>
+| ''d2l''
+|-
+|
+|
+|
+| <font face=Courier>107</font>
+| <font face=Courier>(0x6b)</font>
+| ''dmul''
+| <font face=Courier>144</font>
+| <font face=Courier>(0x90)</font>
+| ''d2f''
+|-
+|
+|
+|
+| <font face=Courier>108</font>
+| <font face=Courier>(0x6c)</font>
+| ''idiv''
+| <font face=Courier>145</font>
+| <font face=Courier>(0x91)</font>
+| ''i2b''
+|-
+|
+|
+|
+| <font face=Courier>109</font>
+| <font face=Courier>(0x6d)</font>
+| ''ldiv''
+| <font face=Courier>146</font>
+| <font face=Courier>(0x92)</font>
+| ''i2c''
+|-
+|
+|
+|
+| <font face=Courier>110</font>
+| <font face=Courier>(0x6e)</font>
+| ''fdiv''
+| <font face=Courier>147</font>
+| <font face=Courier>(0x93)</font>
+| ''i2s''
+|-
+|
+|
+|
+| <font face=Courier>111</font>
+| <font face=Courier>(0x6f)</font>
+| ''ddiv''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>112</font>
+| <font face=Courier>(0x70)</font>
+| ''irem''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>113</font>
+| <font face=Courier>(0x71)</font>
+| ''lrem''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>114</font>
+| <font face=Courier>(0x72)</font>
+| ''frem''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>115</font>
+| <font face=Courier>(0x73)</font>
+| ''drem''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>116</font>
+| <font face=Courier>(0x74)</font>
+| ''ineg''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>117</font>
+| <font face=Courier>(0x75)</font>
+| ''lneg''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>118</font>
+| <font face=Courier>(0x76)</font>
+| ''fneg''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>119</font>
+| <font face=Courier>(0x77)</font>
+| ''dneg''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>120</font>
+| <font face=Courier>(0x78)</font>
+| ''ishl''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>121</font>
+| <font face=Courier>(0x79)</font>
+| ''lshl''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>122</font>
+| <font face=Courier>(0x7a)</font>
+| ''ishr''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>123</font>
+| <font face=Courier>(0x7b)</font>
+| ''lshr''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>124</font>
+| <font face=Courier>(0x7c)</font>
+| ''iushr''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>125</font>
+| <font face=Courier>(0x7d)</font>
+| ''lushr''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>126</font>
+| <font face=Courier>(0x7e)</font>
+| ''iand''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>127</font>
+| <font face=Courier>(0x7f)</font>
+| ''land''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>128</font>
+| <font face=Courier>(0x80)</font>
+| ''ior''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>129</font>
+| <font face=Courier>(0x81)</font>
+| ''lor''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>130</font>
+| <font face=Courier>(0x82)</font>
+| ''ixor''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>131</font>
+| <font face=Courier>(0x83)</font>
+| ''lxor''
+|
+|
+|
+|-
+|
+|
+|
+| <font face=Courier>132</font>
+| <font face=Courier>(0x84)</font>
+| ''iinc''
+|
+|
+|
+|-
+| colspan="5" style="text-align:center;"| '''Сравнения'''
+| colspan="4" style="text-align:center;"| '''Работа со ссылками'''
+|-
+| <font face=Courier>148</font>
+| <font face=Courier>(0x94)</font>
+| ''lcmp''
+|
+|
+| <font face=Courier>178</font>
+| <font face=Courier>(0xb2)</font>
+| ''getstatic''
+|
+|-
+| <font face=Courier>149</font>
+| <font face=Courier>(0x95)</font>
+| ''fcmpl''
+|
+|
+| <font face=Courier>179</font>
+| <font face=Courier>(0xb3)</font>
+| ''putstatic''
+|
+|-
+| <font face=Courier>150</font>
+| <font face=Courier>(0x96)</font>
+| ''fcmpg''
+|
+|
+| <font face=Courier>180</font>
+| <font face=Courier>(0xb4)</font>
+| ''getfield''
+|
+|-
+| <font face=Courier>151</font>
+| <font face=Courier>(0x97)</font>
+| ''dcmpl''
+|
+|
+| <font face=Courier>181</font>
+| <font face=Courier>(0xb5)</font>
+| ''putfield''
+|
+|-
+| <font face=Courier>152</font>
+| <font face=Courier>(0x98)</font>
+| ''dcmpg''
+|
+|
+| <font face=Courier>182</font>
+| <font face=Courier>(0xb6)</font>
+| ''invokevirtual''
+|
+|-
+| <font face=Courier>153</font>
+| <font face=Courier>(0x99)</font>
+| ''ifeq''
+|
+|
+| <font face=Courier>183</font>
+| <font face=Courier>(0xb7)</font>
+| ''invokespecial''
+|
+|-
+| <font face=Courier>154</font>
+| <font face=Courier>(0x9a)</font>
+| ''ifne''
+|
+|
+| <font face=Courier>184</font>
+| <font face=Courier>(0xb8)</font>
+| ''invokestatic''
+|
+|-
+| <font face=Courier>155</font>
+| <font face=Courier>(0x9b)</font>
+| ''iflt''
+|
+|
+| <font face=Courier>185</font>
+| <font face=Courier>(0xb9)</font>
+| ''invokeinterface''
+|
+|-
+| <font face=Courier>156</font>
+| <font face=Courier>(0x9c)</font>
+| ''ifge''
+|
+|
+| <font face=Courier>186</font>
+| <font face=Courier>(0xba)</font>
+| ''invokedynamic''
+|
+|-
+| <font face=Courier>157</font>
+| <font face=Courier>(0x9d)</font>
+| ''ifgt''
+|
+|
+| <font face=Courier>187</font>
+| <font face=Courier>(0xbb)</font>
+| ''new''
+|
+|-
+| <font face=Courier>158</font>
+| <font face=Courier>(0x9e)</font>
+| ''ifle''
+|
+|
+| <font face=Courier>188</font>
+| <font face=Courier>(0xbc)</font>
+| ''newarray''
+|
+|-
+| <font face=Courier>159</font>
+| <font face=Courier>(0x9f)</font>
+| ''if_icmpeq''
+|
+|
+| <font face=Courier>189</font>
+| <font face=Courier>(0xbd)</font>
+| ''anewarray''
+|
+|-
+| <font face=Courier>160</font>
+| <font face=Courier>(0xa0)</font>
+| ''if_icmpne''
+|
+|
+| <font face=Courier>190</font>
+| <font face=Courier>(0xbe)</font>
+| ''arraylength''
+|
+|-
+| <font face=Courier>161</font>
+| <font face=Courier>(0xa1)</font>
+| ''if_icmplt''
+|
+|
+| <font face=Courier>191</font>
+| <font face=Courier>(0xbf)</font>
+| ''athrow''
+|
+|-
+| <font face=Courier>162</font>
+| <font face=Courier>(0xa2)</font>
+| ''if_icmpge''
+|
+|
+| <font face=Courier>192</font>
+| <font face=Courier>(0xc0)</font>
+| ''checkcast''
+|
+|-
+| <font face=Courier>163</font>
+| <font face=Courier>(0xa3)</font>
+| ''if_icmpgt''
+|
+|
+| <font face=Courier>193</font>
+| <font face=Courier>(0xc1)</font>
+| ''instanceof''
+|
+|-
+| <font face=Courier>164</font>
+| <font face=Courier>(0xa4)</font>
+| ''if_icmple''
+|
+|
+| <font face=Courier>194</font>
+| <font face=Courier>(0xc2)</font>
+| ''monitorenter''
+|
+|-
+| <font face=Courier>165</font>
+| <font face=Courier>(0xa5)</font>
+| ''if_acmpeq''
+|
+|
+| <font face=Courier>195</font>
+| <font face=Courier>(0xc3)</font>
+| ''monitorexit''
+|
+|-
+| <font face=Courier>166</font>
+| <font face=Courier>(0xa6)</font>
+| ''if_acmpne''
+|
+|
+| colspan="4" style="text-align:center;"| '''Дополнительно'''
+|-
+| colspan="4" style="text-align:center;"| '''Передача управления'''
+|
+| <font face=Courier>196</font>
+| <font face=Courier>(0xc4)</font>
+| ''wide''
+|
+|-
+| <font face=Courier>167</font>
+| <font face=Courier>(0xa7)</font>
+| ''goto''
+|
+|
+| <font face=Courier>197</font>
+| <font face=Courier>(0xc5)</font>
+| ''multianewarray''
+|
+|-
+| <font face=Courier>168</font>
+| <font face=Courier>(0xa8)</font>
+| ''jsr''
+|
+|
+| <font face=Courier>198</font>
+| <font face=Courier>(0xc6)</font>
+| ''ifnull''
+|
+|-
+| <font face=Courier>169</font>
+| <font face=Courier>(0xa9)</font>
+| ''ret''
+|
+|
+| <font face=Courier>199</font>
+| <font face=Courier>(0xc7)</font>
+| ''ifnonnull''
+|
+|-
+| <font face=Courier>170</font>
+| <font face=Courier>(0xaa)</font>
+| ''tableswitch''
+|
+|
+| <font face=Courier>200</font>
+| <font face=Courier>(0xc8)</font>
+| ''goto_w''
+|
+|-
+| <font face=Courier>171</font>
+| <font face=Courier>(0xab)</font>
+| ''lookupswitch''
+|
+|
+| <font face=Courier>201</font>
+| <font face=Courier>(0xc9)</font>
+| ''jsr_w''
+|
+|-
+| <font face=Courier>172</font>
+| <font face=Courier>(0xac)</font>
+| ''ireturn''
+|
+|
+| colspan="4" style="text-align:center;"| '''Зарезервировано'''
+|-
+| <font face=Courier>173</font>
+| <font face=Courier>(0xad)</font>
+| ''lreturn''
+|
+|
+| <font face=Courier>202</font>
+| <font face=Courier>(0xca)</font>
+| ''breakpoint''
+|
+|-
+| <font face=Courier>174</font>
+| <font face=Courier>(0xae)</font>
+| ''freturn''
+|
+|
+| <font face=Courier>254</font>
+| <font face=Courier>(0xfe)</font>
+| ''impdep1''
+|
+|-
+| <font face=Courier>175</font>
+| <font face=Courier>(0xaf)</font>
+| ''dreturn''
+|
+|
+| <font face=Courier>255</font>
+| <font face=Courier>(0xff)</font>
+| ''impdep2''
+|
+|-
+| <font face=Courier>176</font>
+| <font face=Courier>(0xb0)</font>
+| ''areturn''
+|
+|
+|
+|
+|
+|
+|-
+| <font face=Courier>177</font>
+| <font face=Courier>(0xb1)</font>
+| ''return''
+|
+|
+|
+|
+|
+|
+|}
+
