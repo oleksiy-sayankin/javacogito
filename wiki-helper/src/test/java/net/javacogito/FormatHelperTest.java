@@ -208,4 +208,52 @@ public class FormatHelperTest {
 
     }
 
+    @Test
+    public void formatHex(){
+        String inText = "7  (0x07)  iconst_4 (0x2f) laload";
+        String expected = "7  <font face=Courier>(0x07)</font>  iconst_4 <font face=Courier>(0x2f)</font> laload";
+        String actual = FormatHelper.formatHex(inText);
+        Assert.assertEquals(expected, actual);
+        LOGGER.info(actual);
+    }
+
+
+    @Test
+    public void formatDec(){
+        String inText = "| 49\n" +
+                "| (0x31)\n" +
+                "| ''daload''" +
+                "| 117\n" +
+                "| (0x75)\n" +
+                "| ''lneg''\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|-\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "| 118\n" +
+                "| (0x76)\n" +
+                "| ''fneg''";
+        String expected = "| <font face=Courier>49</font>\n" +
+                "| (0x31)\n" +
+                "| ''daload''| <font face=Courier>117</font>\n" +
+                "| (0x75)\n" +
+                "| ''lneg''\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|-\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "| <font face=Courier>118</font>\n" +
+                "| (0x76)\n" +
+                "| ''fneg''";
+        String actual = FormatHelper.formatDec(inText);
+        Assert.assertEquals(expected, actual);
+        LOGGER.info(actual);
+    }
+
 }

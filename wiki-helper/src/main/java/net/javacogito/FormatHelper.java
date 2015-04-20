@@ -432,4 +432,31 @@ public final class FormatHelper {
         }
         return result;
     }
+
+    public static String formatHex(String inText){
+        String outText = inText;
+        for(int i = 0; i <= 255; i++){
+            String search = "\\(0x" + String.format("%02x", i) + "\\)";
+            String dest = FONT_COURIER_START_TAG + "(0x" + String.format("%02x", i) + ")" + FONT_COURIER_END_TAG;
+            outText = outText.replaceAll(search, dest);
+
+        }
+        return outText;
+    }
+
+    public static String formatDec(String inText){
+        String outText = inText;
+        for(int i = 0; i <= 99; i++){
+            String search =  " " + String.format("%02d", i) + "\\b";
+            String dest = " " + FONT_COURIER_START_TAG + String.format("%02d", i) + FONT_COURIER_END_TAG;
+            outText = outText.replaceAll(search, dest);
+        }
+        for(int i = 100; i <= 255; i++){
+            String search =  " " + Integer.toString(i) + "\\b";
+            String dest = " " + FONT_COURIER_START_TAG + Integer.toString(i) + FONT_COURIER_END_TAG;
+            outText = outText.replaceAll(search, dest);
+        }
+        return outText;
+    }
+
 }
