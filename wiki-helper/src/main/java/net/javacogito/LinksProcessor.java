@@ -30,7 +30,7 @@ public class LinksProcessor implements Processor{
         outText = removeJls(outText);
 
         for (Map.Entry<String, String> entry : contents.entrySet()){
-            String search = entry.getKey() + "(?![.][0-9])";
+            String search = entry.getKey() + "(?![.][0-9])\\b";
             String dest = LINK_START_TAG + JVM_SPEC + HASH + entry.getValue() + PIPE + entry.getKey() + LINK_END_TAG;
             outText = outText.replaceAll(search, dest);
         }
