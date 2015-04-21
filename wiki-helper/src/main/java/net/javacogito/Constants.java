@@ -46,6 +46,12 @@ public final class Constants {
     public static final String NO_WIKI_END_TAG = "</nowiki>";
     public static final String FONT_COURIER_START_TAG = "<font face=Courier>";
     public static final String FONT_COURIER_END_TAG = "</font>";
+    public static final String PARAGRAPH = "§";
+    public static final String SPACE = " ";
+    public static final String HASH = "#";
+    public static final String LINK_START_TAG = "[[";
+    public static final String LINK_END_TAG = "]]";
+    public static final String JVM_SPEC = "Спецификация виртуальной машины Java";
 
     public static final Dictionary FORCE_ITALIC_PHRASES = new Dictionary();
 
