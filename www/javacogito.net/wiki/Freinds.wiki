@@ -1,0 +1,13 @@
+{| border="0" style="border-collapse:collapse"|
+| [[File:CyberVisionLogo.png]]
+| http://www.cybervisiontech.com 
+|-
+| [[File:QuizfullLogo.png]]
+| http://www.quizful.net/test
+|-
+| [[File:StackoverflowLogo.png]]
+| http://stackoverflow.com
+|}
+
+
+[[Категория:JavaCogito]]

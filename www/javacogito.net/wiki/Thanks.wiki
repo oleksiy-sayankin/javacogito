@@ -1,0 +1,5 @@
+Руководство проекта и администрация сайта выражает благодарность:
+* Компании [http://www.cybervisiontech.com CyberVisionTech] [[File:CyberVisionLogo.png|frameless|50px]] за предоставленную техническую базу для разработки сайта.
+* Сайту [http://provizorii.ru/ Provizorii] [[File:ProvizoriiLogo.png|frameless|50px]] за идеи в разработке структуры данного сайта.
+
+[[Категория:JavaCogito]]

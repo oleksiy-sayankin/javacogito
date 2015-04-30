@@ -1,3 +1,5 @@
+'''Спецификация виртуальной машины Java''' - перевод с английского на русский язык документа ''The JavaTM Virtual Machine Specification Java SE 7 Edition'' (авторы Tim Lindholm, Frank Yellin, Gilad Bracha, Alex Buckley), опубликованного 2012-07-27.
+
 __TOC__
 
 
@@ -7951,3 +7953,4 @@ new InputStream(new Foo(), new InputStream("foo"))
 |
 |}
 
+[[Категория:Переводы на русский язык]]

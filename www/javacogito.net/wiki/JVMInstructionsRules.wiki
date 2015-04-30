@@ -1,3 +1,6 @@
+'''Список инструкций JVM с правилами проверки их безопасности''' - перевод на русский язык главы [[Спецификация виртуальной машины Java|Спецификации виртуальной машины Java]].
+
+
 {| width="100%"
 | style="text-align:left;"  | '''''aaload'''''
 | style="text-align:right;"  | '''''aaload'''''
@@ -4144,3 +4147,5 @@ nth1OperandStackIs(I, frame(_Locals, OperandStack, _Flags), Element) :-
 </syntaxhighlight>
 |}
 <br>
+
+[[Категория:Переводы на русский язык]]
