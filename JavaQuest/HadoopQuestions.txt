@@ -542,13 +542,13 @@
 Вопрос №43: Экземпляр класса Configuration (из пакета org.apache.hadoop.conf) представляет собой коллекцию конфигурационных свойств и их значений. Как задать неизменяемое (final) свойство?
 ---------------------------------------------------------------------------------
 Тип: CheckBox
-Вариант1: Записать в *xml файле с настройками
+Вариант1: Записать в conf.xml файле с настройками и вызвать метод addResource("conf.xml") экземпляра Configuration
 <property>
     <name>propertyName</name>
     <value>propertyValue</value>
     <final>true</final>
 </property>
-Вариант2: Записать в *xml файле с настройками
+Вариант2: Записать в *xml файле с настройками и вызвать метод readConf("conf.xml") экземпляра Configuration
 <property>
     <name>propertyName</name>
     <value>propertyValue</value>
@@ -558,3 +558,122 @@
 Вариант4: Неизменяемое свойство в объекте Configuration задать невозможно
 Правильный ответ: 1
 Пояснение:
+
+
+---------------------------------------------------------------------------------
+Вопрос №44:  В следующем фрагменте кода используется класс Configuration (из пакета org.apache.hadoop.conf). Чему будет равно значение свойства property, определённого в двух конфигурационных файлах conf-1.xml и conf-2.xml
+
+conf-1.xml:
+<configuration>
+    <property>
+        <name>property</name>
+        <value>AAA</value>
+        <type>final</type>
+    </property>
+</configuration>
+
+conf-2.xml:
+<configuration>
+    <property>
+        <name>property</name>
+        <value>BBB</value>
+    </property>
+</configuration>
+
+после выполнения следующего фрагмента кода:
+
+public class App {
+    public static void main( String[] args ){
+        Configuration conf = new Configuration();
+        conf.addResource("conf-1.xml");
+        conf.addResource("conf-2.xml");
+        System.out.println(conf.get("property"));
+    }
+}
+---------------------------------------------------------------------------------
+Тип: Radio
+Вариант1: AAA
+Вариант2: BBB
+Вариант3: Ни один из указанных вариантов
+Правильный ответ:2
+Пояснение: Тэга <type>final</type> не существует. При выплонении строки conf.addResource("conf-2.xml"); значение property станет равным BBB. Для задания неизменяемых свойств используется тэг <final></final> со значением true строчными (маленькими) литерами.
+
+
+
+---------------------------------------------------------------------------------
+Вопрос №45:  В следующем фрагменте кода используется класс Configuration (из пакета org.apache.hadoop.conf). Чему будет равно значение свойства property, определённого в двух конфигурационных файлах conf-1.xml и conf-2.xml
+
+conf-1.xml:
+<configuration>
+    <property>
+        <name>property</name>
+        <value>AAA</value>
+        <final>true</final>
+    </property>
+</configuration>
+
+conf-2.xml:
+<configuration>
+    <property>
+        <name>property</name>
+        <value>BBB</value>
+    </property>
+</configuration>
+
+после выполнения следующего фрагмента кода:
+
+public class App {
+    public static void main( String[] args ){
+        Configuration conf = new Configuration();
+        conf.addResource("conf-1.xml");
+        conf.addResource("conf-2.xml");
+        System.out.println(conf.get("property"));
+    }
+}
+---------------------------------------------------------------------------------
+Тип: Radio
+Вариант1: AAA
+Вариант2: BBB
+Вариант3: Ни один из указанных вариантов
+Правильный ответ:1
+Пояснение: Для задания неизменяемых свойств используется тэг <final></final> со значением true строчными (маленькими) литерами. При выплонении строки conf.addResource("conf-2.xml"); перезаписи свойства property не происходит
+
+
+---------------------------------------------------------------------------------
+Вопрос №46:  В следующем фрагменте кода используется класс Configuration (из пакета org.apache.hadoop.conf). Чему будет равно значение свойства property, определённого в двух конфигурационных файлах conf-1.xml и conf-2.xml
+
+conf-1.xml:
+<configuration>
+    <property>
+        <name>property</name>
+        <value>AAA</value>
+        <final>TrUE</final>
+    </property>
+</configuration>
+
+conf-2.xml:
+<configuration>
+    <property>
+        <name>property</name>
+        <value>BBB</value>
+    </property>
+</configuration>
+
+после выполнения следующего фрагмента кода:
+
+public class App {
+    public static void main( String[] args ){
+        Configuration conf = new Configuration();
+        conf.addResource("conf-1.xml");
+        conf.addResource("conf-2.xml");
+        System.out.println(conf.get("property"));
+    }
+}
+---------------------------------------------------------------------------------
+Тип: Radio
+Вариант1: AAA
+Вариант2: BBB
+Вариант3: Ни один из указанных вариантов
+Правильный ответ:2
+Пояснение: Для задания неизменяемых свойств используется тэг <final></final> со значением true строчными (маленькими) литерами. Значение TrUE, заданное в вопросе, интерпретируется как false и происходит перезапись значения свойства в строке conf.addResource("conf-2.xml");. 
+
