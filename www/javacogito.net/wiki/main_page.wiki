@@ -41,7 +41,9 @@
 
 Ещё можно посмотреть [[Служебная:Newpages|новосозданные статьи]]:
 
-<div style="background:lightgreen; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Новые оригинальные статьи на другие темы</div>
+<div style="background:lightgreen; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Новые оригинальные статьи и переводы на другие темы</div>
+
+* [[Способы исправления java.lang.NoClassDefFoundError в Java J2EE]]
 
 <div style="background:#ddcef2; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Полезно почитать</div>
 

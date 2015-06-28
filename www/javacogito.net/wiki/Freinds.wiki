@@ -7,6 +7,9 @@
 |-
 | [[File:StackoverflowLogo.png]]
 | http://stackoverflow.com
+|-
+| [[File:Javarevisited.png]]
+| http://javarevisited.blogspot.com/
 |}
 
 

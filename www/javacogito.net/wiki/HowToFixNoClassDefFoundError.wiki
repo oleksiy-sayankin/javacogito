@@ -1,0 +1,131 @@
+'''Способы исправления java.lang.NoClassDefFoundError в Java J2EE''' - перевод статьи, опубликованной в блоге Джейвина Пола (Javin Paul). Оригинальная статья тут: http://javarevisited.blogspot.com/2011/06/noclassdeffounderror-exception-in.html
+<br><br><br>
+Перевод: [[Саянкин Алексей Александрович | Саянкин А.А.]]
+
+__TOC__
+
+<br><br><br><br>
+== Введение ==
+
+Я знаю насколько неприятно видеть исключение <font face=Courier>java.lang.NoClassDefFoundError</font> в потоке "<font face=Courier>main</font>". Я видел его несколько раз и провёл довольно много времени прежде всего пытаясь понять, что пошло не так, какого класса не хватает и так далее. Во-первых, я путал между собой <font face=Courier>java.lang.ClassNotfoundException</font> и <font face=Courier>NoClassDefFoundError</font>, хотя на самом деле это два совершенно разных исключения, и моей второй ошибкой было использование метода «научного тыка» для решения проблемы <font face=Courier>java.lang.NoClassDefFoundError</font> вместо ясного понимания почему ошибка <font face=Courier>NoClassDefFoundError</font> случилась, какая истинная причина стоит за ней и как её убрать, разрешив проблему. В этой статье по Java я исправлю подобные ошибки, открою некоторые секреты ошибки <font face=Courier>NoClassDefFoundError</font> в Java и поделюсь своим опытом решения подобной проблемы.
+	
+Ошибка <font face=Courier>NoClassDefFoundError</font> не является чем-то, что не может быть устранено или что-то что очень трудно устраняемо — нет, <font face=Courier>NoClassDefFoundError</font> всего лишь проявление другой, более глубинной ошибки, что сбивает с толку большинство Java разработчиков. Это наиболее распространённая ошибка в Java разработке наряду с <font face=Courier>java.lang.OutOfMemoroyError: Java heap space</font> и <font face=Courier>java.lang.OutOfMemoryError: PermGen space</font>. Тем не менее давайте посмотрим почему в Java происходит <font face=Courier>NoClassDefFoundError</font> и что делать, чтобы исправить <font face=Courier>NoClassDefFoundError</font> в Java.
+
+<br><br><br><br>
+== В чём причина <font face=Courier>NoClassDefFoundError</font> в Java? ==
+
+<font face=Courier>NoClassDefFoundError</font> в Java происходит тогда, когда виртуальная машина Java во время исполнения кода не  может найти определённый класс, который был доступен во время компиляции. Например, если мы вызываем метод из класса или обращаемся к статическому члену класса и этот класс не доступен во время выполнения, то  виртуальная машина Java выбрасывает <font face=Courier>NoClassDefFoundError</font>. Важно понимать, что эта ошибка отличается от исключения <font face=Courier>ClassNotFoundException</font>, которое происходит при попытке загрузки класса во время выполнения, причём важно что имя этого класса было определено только во время выполнения, но не во время компиляции кода. Многие Java разработчики путают эти две ошибки и приходят в тупик при попытке разрешить вопрос.
+	
+Коротко говоря  <font face=Courier>NoClassDefFoundError</font> происходит, если класс присутствовал во время компиляции, но не доступен в <font face=Courier>classpath</font> во время исполнения. Обычно в этом случае в увидите следующую строку в журнале ошибок:
+
+<font face=Courier>Exception in thread "main" java.lang.NoClassDefFoundError</font>
+
+Фраза <font face=Courier>Exception in thread "main"</font> означает, что именно поток "<font face=Courier>main</font>" не может найти определённый класс. Вместо "<font face=Courier>main</font>" может быть любой поток, так что не волнуйтесь. Разница между тем, когда это ошибка возникает в потоке "<font face=Courier>main</font>" и в другом потоке в том, что при возникновении в потоке "<font face=Courier>main</font>"  программа останавливается, а при возникновении в другом потоке, напротив, продолжает выполнения после ошибки.
+
+<br><br><br><br>
+== Разница между <font face=Courier>java.lang.NoClassDefFoundError</font> и <font face=Courier>ClassNotFoundException</font> в Java ==
+
+Часто мы путаемся в <font face=Courier>java.lang.ClassNotFoundException</font> и <font face=Courier>java.lang.NoClassDefFoundError</font>, и хотя обе эти ошибки связаны с Java <font face=Courier>Classpath</font>, они совершенно отличаются друг от друга. <font face=Courier>ClassNotFoundException</font> возникает тогда, когда  виртуальная машина Java пытается динамически загрузить класс во время исполнения, то есть вы формируете имя класса во время исполнения а затем виртуальная машина Java пытается загрузить его, и если класс не найден в Java <font face=Courier>Classpath</font>, она выбрасывает <font face=Courier>java.lang.ClassNotFoundException</font>. В то время как в случае с <font face=Courier>NoClassDefFoundError</font> проблемный класс присутствовал во время компиляции и поэтому программа успешно скомпилировалась, но по некоторой причине отсутствует во время исполнения. На мой взгляд решить <font face=Courier>NoClassDefFoundError</font> легче чем <font face=Courier>ClassNotFoundException</font>, поскольку вы точно знаете что класс присутствовал во время сборки, но, в общем случае это сильно зависит от среды разработки. Если вы работаете с J2EE окружением, вы можете получить <font face=Courier>NoClassDefFoundError</font> даже если класс присутствует, поскольку он может быть невидимым для соответствующего загрузчика классов.
+
+<br><br><br><br>
+== Как исправить <font face=Courier>java.lang.NoClassDefFoundError</font> в Java ==
+
+Очевидная причина <font face=Courier>NoClassDefFoundError</font> состоит в том, что определённый класс не доступен в <font face=Courier>Classpath</font>, так что нам нужно добавить его в <font face=Courier>Classpath</font> или понят почему его нет в <font face=Courier>Classpath</font>, хотя мы ожидаем его там найти. Для этого могут быть несколько причин:
+
+# Класс отсутствует в Java <font face=Courier>Classpath</font>.
+# Возможно вы запускаете свою программу с помощью команды <font face=Courier>jar</font> и класс не определён в атрибуте <font face=Courier>ClassPath</font> файла манифеста.
+# Какой-либо запускающий скрипт перезаписывает значение переменной окружения <font face=Courier>Classpath</font>.
+# Поскольку <font face=Courier>NoClassDefFoundError</font> является наследником <font face=Courier>java.lang.LinkageError</font>, то она может произойти если одна из зависимостей, например нативная библиотека, не может быть найдена. 
+# Проверьте наличие ошибки <font face=Courier>java.lang.ExceptionInInitializerError</font> в вашем журнале ошибок. <font face=Courier>NoClassDefFoundError</font> по причине неудачной статической инициализации — достаточно распространённый случай. 
+# Если вы работаете со средой J2EE, то видимость класса, среди загрузчиков классов может также привести к <font face=Courier>java.lang.NoClassDefFoundError</font>. Примеры и сценарии ошибки более подробно смотрите ниже. 
+
+Сейчас мы рассмотрим несколько примеров в и сценариев, когда <font face=Courier>java.lang.NoClassDefFoundError</font> возникает и как её устранять. Это поможет вам найти истинные причины <font face=Courier>NoClassDefFoundError</font> в Java приложениях.
+
+<br><br><br><br>
+== <font face=Courier>NoClassDefFoundError</font> в Java. Примеры и сценарии == 
+
+Ниже представлены основные сценарии получения <font face=Courier>NoClassDefFoundError</font> в Java:
+
+* Простой пример <font face=Courier>NoClassDefFoundError</font> — это когда класс принадлежит отсутствующему JAR файлу, или  JAR файл не был добавлен в <font face=Courier>classpath</font>, или имя  JAR файла было изменено (как это было в моём случае: коллега поменял имя <font face=Courier>tibco.jar</font> на <font face=Courier>tibco_v3.jar</font> и программы выбросила <font face=Courier>java.lang.NoClassDefFoundError</font>, а я разбирался, что пошло не так).
+* Искомого класса попросту нет в <font face=Courier>Classpath</font>. Короткого и надёжного пути понять почему это произошло нет. По крайней мере вы можете распечатать <font face=Courier>System.getproperty("java.classpath")</font> и понять с каким реальным <font face=Courier>classpath</font>  работает ваша программа. 
+* Попробуйте запустить программу с явной опцией <font face=Courier>-classpath</font>, где укажите тот <font face=Courier>classpath</font>, который по вашему мнению сработает, и если в этом случае программа заработает, то это хороший знак, что кто-то перезатирает ваш  <font face=Courier>classpath</font>.
+* Поскольку <font face=Courier>NoClassDefFoundError</font> также и <font face=Courier>LinkageError</font>, которая возникает из-за зависимости от другого класса, вы можете получить <font face=Courier>java.lang.NoClassDefFoundError</font> если ваша программа зависит от нативной библиотеки, а соответствующая dll отсутствует. Помните, эту ошибку может также вызвать <font face=Courier>java.lang.UnsatisfiedLinkError: no dll in java.library.path Exception Java</font>. Чтобы решить эту проблему храните ваши dll совместно с  JAR.
+* Если вы используете файл сборки ANT для создания JAR архива и файла манифеста, то имеет смысл проверить скрипт сборки  ANT получает правильное значение <font face=Courier>classpath</font> и добавляет его в файл <font face=Courier>manifest.mf</font>.
+* Недостаток привилегий для JAR файла может также привести к <font face=Courier>NoClassDefFoundError</font> в Java. Если вы запускаете ваше приложение в многопользовательской операционной системе подобной Linux, то вы должны использовать один и тот же id пользователя для всех ресурсов вашего приложения: JAR файлов, библиотек и файлов конфигурации. Если вы используете библиотеку, общую для нескольких приложений, запускаемых под разными пользователями, то возможно вы столкнётесь недостатком привилегий. Например, JAR файл принадлежит какому-то другому пользователю и недоступен вашему приложению.   
+* Опечатка в XML конфигурации также может привести к <font face=Courier>NoClassDefFoundError</font> в Java. Большинство программных платформ вроде Spring и Struts используют XML конфигурации для определения бинов. Случайно перепутав имя бина, вы можете получить <font face=Courier>java.lang.NoClassDefFoundError</font> при загрузке другого класса, который зависит от бина. Это случается довольно часто в программных платформах Spring MVC и Apache Struts, где вы получаете тонны ошибок <font face=Courier>Exception in thread "main" java.lang.NoClassDefFoundError</font> во время установки WAR или EAR файла.
+* Другой пример <font face=Courier>java.lang.NoClassDefFoundError</font> возникает в случае, когда ваш скомпилированный класс, заданный в определённом пакете, не присутствует в том же пакете при загрузке в <font face=Courier>Japplet</font>.
+* <font face=Courier>java.lang.NoClassDefFoundError</font> может быть вызвана наличием нескольких загрузчиков классов в среде разработки J2EE. Поскольку J2EE не ссылается на стандартную структуру загрузчиков классов и зависит от того как разные производители, такие как Tomcat, WebLogic, WebSphere загружают разные компоненты, такие как WAR файл или EJB-JAR файл. Для того, чтобы исправить ошибку <font face=Courier>NoClassDefFoundError</font> в приложении J2EE необходимо знание того, как загрузчик классов работает в Java. 
+::Вкратце напомним, что загрузчик классов использует три основных принципа в своей работе: делегирование, видимость и уникальность. 
+::*Делегирование означает, что каждый запрос на загрузку класса делегируется родительскому загрузчику классов. 
+::*Видимость означает возможность найти классы загруженные загрузчиком классов: все дочерние загрузчики классов могут видеть классы, загруженные родительским загрузчиком, но родительский загрузчик не может видеть класс, загруженный дочерним. 
+::*Уникальность гарантирует, что класс, загруженный родительским загрузчиком, не загружается повторно дочерним загрузчиком. 
+::Теперь предположим что класс, например <font face=Courier>User</font>, присутствует в обоих файлах — в WAR файле и EJB-JAR файле.  Пусть  EJB-JAR файл загружается  WAR загрузчиком классов. Отметим также что WAR загрузчик классов, является дочерним по отношению к EJB-JAR загрузчику классов. В этом случае, когда код в EJB-JAR ссылается на класс <font face=Courier>User</font>, загрузчик классов, загрузивший весь EJB класс, не может найти класс User, поскольку его уже загрузил его дочерний WAR загрузчик. В результате мы получаем <font face=Courier>java.lang.NoClassDefFoundError</font> для класса <font face=Courier>User</font>. 
+::Также если класс присутствует в обоих JAR файлах и вы вызываете метод equals() для сравнения двух объектов этих классов, то он приведёт к <font face=Courier>ClassCastException</font> поскольку объекты, сознанные из загруженного двумя разными загрузчиками одного и того же класса, считаются разными.
+* Иногда встречается ошибка <font face=Courier>java.lang.NoClassDefFoundError: com/sun/tools/javac/Main</font>. Она означает, что либо <font face=Courier>Classpath</font>, <font face=Courier>PATH</font> или <font face=Courier>JAVA_HOME</font> заданы неверно, либо установка JDK была выполнена неправильно, что может быть исправлено повторной установкой JDK. Если вы видите подобную ошибку попытайтесь переустановить  JDK. 
+* Java программа также может выбросить <font face=Courier>java.lang.NoClassDefFoundError</font> во время процесса связывания. В качестве примера подобного сценария просто удалите после компиляции класс <font face=Courier>User</font> в примере, связанном с исключением в статическом инициализирующем блоке и запустите программу. В этом случае вы сразу получите <font face=Courier>java.lang.NoClassDefFoundError</font> без <font face=Courier>java.lang.ExceptionInInitializerError</font> и при этом <font face=Courier>NoClassDefFoundError</font> печатает имя класса как <font face=Courier>testing/User</font>, то есть класс <font face=Courier>User</font> из пакета <font face=Courier>testing</font>. Обратите внимание на этот пример, поскольку в данном случае первопричина ошибки — отсутствие файла <font face=Courier>User.class</font>.
+
+<syntaxhighlight lang="java">
+java.lang.NoClassDefFoundError: testing/User
+at testing.NoClassDefFoundErrorDueToStaticInitFailure.main(NoClassDef
+FoundErrorDueToStaticInitFailure.java:23)
+</syntaxhighlight>
+
+<br><br><br><br>
+=== <font face=Courier>NoClassDefFoundError</font> в Java из-за исключения в статическом инициализирующем блоке === 
+
+	Это другая частая причина <font face=Courier>java.lang.NoClassDefFoundError</font>, когда ваш класс выполняет некоторую статическую инициализацию в статическом блоке. Например, многие синглетоны инициализируют себя в статическом блоке, чтобы получить преимущества потоко-безопасности, предоставляемые виртуальной машиной  Java во время процесса инициализации класса. Если в этом случае, если статический блок выбросит исключение, то класс, ссылающийся на этот синглетон, выбросит <font face=Courier>NoclassDefFoundError</font> в Java. При просмотре вашего журнала ошибок вы должны внимательно следить, не возникла ли ошибка <font face=Courier>java.lang.ExceptionInInitializerError</font>, поскольку она может привести к <font face=Courier>java.lang.NoClassDefFoundError: Could not initialize class</font> в другом месте. Как и в примере кода ниже во время загрузки и инициализации класс <font face=Courier>User</font> выбрасывает исключение из статического инициализирующего блока, что приводит к <font face=Courier>ExceptionInInitializerError</font> во время первой загрузки класса <font face=Courier>User</font> при вызове <font face=Courier>new User()</font>. Дальше все остальные вызовы <font face=Courier>new User()</font> завершаются <font face=Courier>java.lang.NoClassDefFoundError</font>.  Ситуация становится намного хуже если исходную ошибку <font face=Courier>ExceptionInInitializerError</font>, являющуюся первопричиной, скрывает последующий код.
+
+<syntaxhighlight lang="java">
+/**
+* Java program to demonstrate how failure of static
+initialization subsequently cause
+* java.lang.NoClassDefFoundError in Java.
+* @author Javin Paul
+*/
+public class NoClassDefFoundErrorDueToStaticInitFailure {
+    public static void main(String args[]){
+        List<User> users = new ArrayList<User>(2);
+        for(int i=0; i<2; i++){
+        try{
+            users.add(new User(String.valueOf(i))); //will throwNoClassDefFoundError
+        }catch(Throwable t){
+            t.printStackTrace();
+            }
+        }
+    }
+}
+
+class User{
+private static String USER_ID = getUserId();
+public User(String id){
+    this.USER_ID = id;
+}
+private static String getUserId() {
+    throw new RuntimeException("UserId Not found");
+    }
+}
+</syntaxhighlight>
+
+Вывод
+
+<syntaxhighlight lang="java">
+java.lang.ExceptionInInitializerError
+at
+testing.NoClassDefFoundErrorDueToStaticInitFailure.main(NoClassDef
+FoundErrorDueToStaticInitFailure.java:23)
+Caused by: java.lang.RuntimeException: UserId Not found
+at
+testing.User.getUserId(NoClassDefFoundErrorDueToStaticInitFailure.
+java:41)
+at
+testing.User.<clinit>(NoClassDefFoundErrorDueToStaticInitFailure.j
+ava:35)
+... 1 more
+java.lang.NoClassDefFoundError: Could not initialize class
+testing.User
+attesting.NoClassDefFoundErrorDueToStaticInitFailure.main(NoClassDef
+FoundErrorDueToStaticInitFailure.java:23)
+</syntaxhighlight>
+
+[[Категория:Переводы на русский язык]]
+
