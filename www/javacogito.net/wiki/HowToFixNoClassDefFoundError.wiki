@@ -71,10 +71,151 @@ __TOC__
 *Видимость означает возможность найти классы загруженные загрузчиком классов: все дочерние загрузчики классов могут видеть классы, загруженные родительским загрузчиком, но родительский загрузчик не может видеть класс, загруженный дочерним. 
 *Уникальность гарантирует, что класс, загруженный родительским загрузчиком, не загружается повторно дочерним загрузчиком. 
 
-Теперь предположим что класс, например <font face=Courier>User</font>, присутствует в обоих файлах — в WAR файле и EJB-JAR файле.  Пусть  EJB-JAR файл загружается  WAR загрузчиком классов. Отметим также что WAR загрузчик классов, является дочерним по отношению к EJB-JAR загрузчику классов. В этом случае, когда код в EJB-JAR ссылается на класс <font face=Courier>User</font>, загрузчик классов, загрузивший весь EJB класс, не может найти класс <font face=Courier>User</font>, поскольку его уже загрузил его дочерний WAR загрузчик. В результате мы получаем <font face=Courier>java.lang.NoClassDefFoundError</font> для класса <font face=Courier>User</font>. 
+Каждый экземпляр загрузчика классов имеет связанный с ним родительский загрузчик классов. Предположим, загрузчик классов вашего приложения должен загрузить класс A. Первым делом загрузчик классов попытается делегировать поиск класса A своему родительскому загрузчику. Вы можете пройтись по длинной цепочке родительских загрузчиков пока не дойдёте стартового загрузчика виртуальной машины Java. 
 
+Так в чём же тут проблема? Если класс  A найден и загружен каким-нибудь родительским загрузчиком, это значит, что дочерний загрузчик загружать его уже не будет, а вы, возможно именно этого и ждёте, что и приводит к <font face=Courier>NoClassDefFoundError</font>. 
+
+[[File:ClassLoaderDelegation.png]]
+
+При попытке загрузки класса дочерний загрузчик (Web App #1) делегирует загрузку родительскому загрузчику (Java EE App #1), который в свою очередь делегирует её системному стартовому загрузчику JVM. Если системный стартовый загрузчик не может загрузить класс, он возвращает управление родительскому загрузчику и так далее по цепочке по класс не будет загружен каким-либо загрузчиком.
+
+Рассмотрим простой пример, приводящий к  <font face=Courier>NoClassDefFoundError</font> из-за разной видимости классов между дочерним и родительским загрузчиками. Сделаем свой загрузчик <font face=Courier>MyClassLoader</font>, наследник от <font face=Courier>java.lang.ClassLoader</font> такой, чтоб он загружал классы с расширением <font face=Courier>.test</font> вместо <font face=Courier>.class</font>, находящиеся в пакете <font face=Courier>net.javacogito</font>. Отметим, что стандартный загрузчик по умолчанию загружает данные только из файлов с расширением <font face=Courier>.class</font>, так что загрузить <font face=Courier>Bar.test</font> он не сможет. Схема дальнейшей работы такая:
+
+* JVM загружает класс <font face=Courier>Bar</font> из файла <font face=Courier>Bar.test</font>. 
+* Класс <font face=Courier>Bar</font> печатает свой загрузчик классов. Это <font face=Courier>MyClassLoader</font>.
+* JVM загружает класс<font face=Courier>Foo</font> из файла <font face=Courier>Foo.class</font>.
+* Класс <font face=Courier>Foo</font> печатает свой загрузчик классов. Это <font face=Courier>sun.misc.Launcher.AppClassLoader</font>.
+* Класс <font face=Courier>Foo</font> вызывает статический метод <font face=Courier>printClassLoader()</font> у класса <font face=Courier>Bar</font>.
+
+В этот момент JVM выдаёт <font face=Courier>NoClassDefFoundError</font>, не смотря на то, что <font face=Courier>Bar</font> был загружен ранее, поскольку родительский загрузчик <font face=Courier>AppClassLoader</font> не видит классы, загруженные дочерним загрузчиком <font face=Courier>MyClassLoader</font>.
+
+[[File:ClassLoadingDelegationExample.png]]
+
+Исходный код. Класс <font face=Courier>Bar</font>.
+
+<syntaxhighlight lang="java">
+package net.javacogito;
+public class Bar {
+    public static void printClassLoader() {
+        System.out.println("Bar ClassLoader: " + Bar.class.getClassLoader());
+    }
+}
+</syntaxhighlight>
+
+Класс <font face=Courier>Foo</font>.
+
+<syntaxhighlight lang="java">
+package net.javacogito;
+public class Foo {
+    public static  void printBarClassLoader(){
+        Bar.printClassLoader();
+    }
+    public static void printClassLoader() {
+        System.out.println("Foo ClassLoader: " + Foo.class.getClassLoader());
+    }
+}
+</syntaxhighlight>
+
+Класс <font face=Courier>MyClassLoader</font>.
+
+<syntaxhighlight lang="java">
+package net.javacogito;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+public class MyClassLoader extends ClassLoader{
+    public MyClassLoader(ClassLoader parent) {
+        super(parent);
+    }
+    @Override
+    public Class loadClass(String name) throws ClassNotFoundException {
+        System.out.println("Loading Class '" + name + "'");
+        if (name.startsWith("net.javacogito")) {
+            System.out.println("Loading Class using MyClassLoader");
+            return getClass(name);
+        }
+        return super.loadClass(name);
+    }
+    private Class getClass(String name) throws ClassNotFoundException {
+        String file = name.replace('.', File.separatorChar) + ".test";
+        byte[] b = null;
+        try {
+            b = loadClassFileData(file);
+            Class c = defineClass(name, b, 0, b.length);
+            resolveClass(c);
+            return c;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private byte[] loadClassFileData(String name) throws IOException {
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(name);
+        int size = stream.available();
+        byte buff[] = new byte[size];
+        DataInputStream in = new DataInputStream(stream);
+        in.readFully(buff);
+        in.close();
+        return buff;
+    }
+}
+</syntaxhighlight>
+
+Класс <font face=Courier>Runner</font>.
+
+<syntaxhighlight lang="java">
+package net.javacogito;
+import java.lang.reflect.Method;
+public class Runner {
+    public static void main(String[] args) throws Exception{
+        MyClassLoader myClassLoader = new MyClassLoader(Runner.class.getClassLoader());
+        Class clazz = myClassLoader.loadClass("net.javacogito.Bar");
+        Method printClassLoader = clazz.getMethod("printClassLoader");
+        printClassLoader.invoke(null, new Object[0]);
+        Foo.printClassLoader();
+        Foo.printBarClassLoader();
+    }
+}
+</syntaxhighlight>
+
+Порядок запуска.
+
+<syntaxhighlight lang="bash">cd src/main/java
+javac net/javacogito/Runner.java 
+mv net/javacogito/Bar.class net/javacogito/Bar.test
+java net.javacogito.Runner 
+</syntaxhighlight>
+
+Результат запуска.
+
+<syntaxhighlight lang="bash">
+Loading Class 'net.javacogito.Bar'
+Loading Class using MyClassLoader
+Loading Class 'java.lang.Object'
+Loading Class 'java.lang.System'
+Loading Class 'java.lang.StringBuilder'
+Loading Class 'java.lang.Class'
+Loading Class 'java.io.PrintStream'
+Bar ClassLoader: net.javacogito.MyClassLoader@527c6768
+Foo ClassLoader: sun.misc.Launcher$AppClassLoader@3326b249
+Exception in thread "main" java.lang.NoClassDefFoundError: net/javacogito/Bar
+        at net.javacogito.Foo.printBarClassLoader(Foo.java:5)
+        at net.javacogito.Runner.main(Runner.java:16)
+Caused by: java.lang.ClassNotFoundException: net.javacogito.Bar
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+        at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+        ... 2 more
+</syntaxhighlight>
+
+Из результатов запуска видно, что <font face=Courier>MyClassLoader</font> загрузил класс <font face=Courier>Bar</font>, а <font face=Courier>AppClassLoader</font> (наследник абстрактно класса <font face=Courier>java.lang.ClassLoader</font>) загрузил класс <font face=Courier>Foo</font>. Класс <font face=Courier>Bar</font> присутствует в файловой системе и JVM его загрузила, но родительский загрузчик <font face=Courier>ClassLoader</font> не видит его, что и приводит к <font face=Courier>NoClassDefFoundError</font>.
 
 <br><br><br><br>
+
 == <font face=Courier>NoClassDefFoundError</font> в Java из-за исключения в статическом инициализирующем блоке == 
 
 Исключения в статическом инициализирующем блоке - другая частая причина <font face=Courier>java.lang.NoClassDefFoundError</font>. Ваш класс выполняет некоторую статическую инициализацию в статическом блоке. Например, многие синглетоны инициализируют себя в статическом блоке, чтобы получить преимущества потоко-безопасности, предоставляемые виртуальной машиной  Java во время процесса инициализации класса. В этом случае, если статический блок выбросит исключение, то класс, ссылающийся на этот синглетон, выбросит <font face=Courier>NoclassDefFoundError</font> в Java. При просмотре вашего журнала ошибок вы должны внимательно следить, не возникла ли ошибка <font face=Courier>java.lang.ExceptionInInitializerError</font>, поскольку она может привести к <font face=Courier>java.lang.NoClassDefFoundError: Could not initialize class</font> в другом месте. Как и в примере кода ниже во время загрузки и инициализации класс <font face=Courier>User</font> выбрасывает исключение из статического инициализирующего блока, что приводит к <font face=Courier>ExceptionInInitializerError</font> во время первой загрузки класса <font face=Courier>User</font> при вызове <font face=Courier>new User()</font>. Дальше все остальные вызовы <font face=Courier>new User()</font> завершаются <font face=Courier>java.lang.NoClassDefFoundError</font>.  Ситуация становится намного хуже, если исходную ошибку <font face=Courier>ExceptionInInitializerError</font>, являющуюся первопричиной, скрывает последующий код.
@@ -109,9 +250,9 @@ private static String getUserId() {
 }
 </syntaxhighlight>
 
-Вывод
+Результат запуска.
 
-<syntaxhighlight lang="java">
+<syntaxhighlight lang="bash">
 java.lang.ExceptionInInitializerError
 at testing.NoClassDefFoundErrorDueToStaticInitFailure.main(NoClassDef
 FoundErrorDueToStaticInitFailure.java:23)
@@ -133,4 +274,3 @@ FoundErrorDueToStaticInitFailure.java:23)
 # http://www.javacodegeeks.com/2012/06/javalangnoclassdeffounderror-how-to.html
 
 [[Категория:Переводы на русский язык]]
-
