@@ -44,6 +44,7 @@
 <div style="background:lightgreen; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Новые оригинальные статьи и переводы на другие темы</div>
 
 * [[Способы исправления java.lang.NoClassDefFoundError в Java J2EE]]
+* [[Платформа Apache Hadoop YARN]]
 
 <div style="background:#ddcef2; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Полезно почитать</div>
 
@@ -72,7 +73,7 @@
 
 Компиляция операторов <font face=Courier>for</font> была показана нами выше (см. [[Спецификация виртуальной машины Java#Использование констант, локальных переменных и управляющих структур|§3.2]]). Большинство конструкций передачи управления языка Java (<font face=Courier>if</font>-<font face=Courier>then</font>-<font face=Courier>else</font>, <font face=Courier>do</font>, <font face=Courier>while</font>, <font face=Courier>break</font> и <font face=Courier>continue</font>) компилируется в байт-код тривиальным образом. Компиляция оператора <font face=Courier>switch</font> описана в отдельном разделе (см. [[Спецификация виртуальной машины Java#Компилирование операторов switch|§3.10]]), компиляция исключений – в разделе [[Спецификация виртуальной машины Java#Генерация и обработка исключений|§3.12]], операторов <font face=Courier>finally</font> – в [[Спецификация виртуальной машины Java#Компиляция инструкции finally|§3.13]].
 
-В качестве дальнейшего примера рассмотрим цикл <font face=Courier>while</font>; его компиляция достаточно тривиальна; однако есть некоторые нюансы при компиляции разных типов данных, используемых в операции сравнения в цикле. Как обычно, тип <font face=Courier>int</font> наиболее поддерживаемый из всех типов, например:
+В качестве дальнейшего примера рассмотрим цикл <font face=Courier>while</font>; его компиляция достаточно тривиальна; однако есть некоторые нюансы при компиляции разных типов данных используемых в операции сравнения в цикле. Как обычно тип <font face=Courier>int</font> наиболее поддерживаемый из всех типов, например:
 
 <syntaxhighlight lang="java">void whileInt() {
     int i = 0;
