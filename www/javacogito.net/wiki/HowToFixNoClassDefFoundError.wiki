@@ -44,7 +44,7 @@ __TOC__
 
 # Класс не задан непосредственно в самой переменной <font face=Courier>Classpath</font>.
 #* Распечатайте значение <font face=Courier>System.getproperty("java.classpath")</font> в Java программе.
-#* Проверьте, не перезаписывает ли значение переменной окружения <font face=Courier>Classpath</font>, скрипт, запускающий приложение. Запустите программу с явной опцией <font face=Courier>-classpath</font>, где укажите тот <font face=Courier>classpath</font>, который по вашему мнению сработает, и если в этом случае программа заработает, то это хороший знак, что кто-то перезатирает ваш  <font face=Courier>classpath</font>.
+#* Проверьте, не перезаписывает ли значение переменной окружения <font face=Courier>Classpath</font> скрипт, запускающий приложение. Запустите программу с явной опцией <font face=Courier>-classpath</font>, где укажите тот <font face=Courier>classpath</font>, который по вашему мнению сработает, и если в этом случае программа заработает, то это хороший знак, что кто-то перезатирает ваш  <font face=Courier>classpath</font>.
 # Класс отсутствует по местоположению, указанному в переменной <font face=Courier>Classpath</font>.
 #* Проверьте, не удалил ли кто-то ваш jar-файл, или быть может переименовал его.
 # Загрузчик классов не имеет прав на чтение файла, указанного в переменной <font face=Courier>Classpath</font>, на уровне операционной системы.
@@ -55,7 +55,7 @@ __TOC__
 #* Храните ваши dll совместно с jar-файлами.
 # Виртуальная машина Java не смогла завершить статическую инициализацию класса. 
 #* Проверьте наличие ошибки <font face=Courier>java.lang.ExceptionInInitializerError</font> в вашем журнале ошибок. 
-# Родительский загрузчик классов не видит класс, поскольку тот был уже загружен дочерним загрузчиком. Если вы работаете со средой J2EE, то неверная настройка видимости класса, среди загрузчиков классов может также привести к <font face=Courier>java.lang.NoClassDefFoundError</font>. 
+# Родительский загрузчик классов не видит класс, поскольку тот был уже загружен дочерним загрузчиком. Если вы работаете со средой J2EE, то неверная настройка видимости класса среди загрузчиков классов может также привести к <font face=Courier>java.lang.NoClassDefFoundError</font>. 
 # Опечатка в XML конфигурации также может привести к <font face=Courier>NoClassDefFoundError</font> в Java. Большинство программных платформ вроде Spring и Struts используют XML конфигурации для определения бинов. Случайно перепутав имя бина, вы можете получить <font face=Courier>java.lang.NoClassDefFoundError</font> при загрузке другого класса, который зависит от бина. Это случается довольно часто в программных платформах Spring MVC и Apache Struts, где вы получаете тонны ошибок <font face=Courier>Exception in thread "main" java.lang.NoClassDefFoundError</font> во время установки WAR или EAR файла. 
 # Переменные окружения или JDK установлены неверно.
 #* Проверьте переменные <font face=Courier>PATH</font> и <font face=Courier>JAVA_HOME</font>.
@@ -71,25 +71,29 @@ __TOC__
 *Видимость означает возможность найти классы загруженные загрузчиком классов: все дочерние загрузчики классов могут видеть классы, загруженные родительским загрузчиком, но родительский загрузчик не может видеть класс, загруженный дочерним. 
 *Уникальность гарантирует, что класс, загруженный родительским загрузчиком, не загружается повторно дочерним загрузчиком. 
 
-Каждый экземпляр загрузчика классов имеет связанный с ним родительский загрузчик классов. Предположим, загрузчик классов вашего приложения должен загрузить класс A. Первым делом загрузчик классов попытается делегировать поиск класса A своему родительскому загрузчику. Вы можете пройтись по длинной цепочке родительских загрузчиков пока не дойдёте стартового загрузчика виртуальной машины Java. 
+Каждый экземпляр загрузчика классов имеет связанный с ним родительский загрузчик классов. Предположим, загрузчик классов вашего приложения должен загрузить класс <font face=Courier>A</font>. Первым делом загрузчик классов  вашего приложения попытается ''делегировать'' поиск класса <font face=Courier>A</font> своему родительскому загрузчику, прежде чем сам попытается его загрузить. Вы можете пройтись по длинной цепочке родительских загрузчиков пока не дойдёте стартового загрузчика виртуальной машины Java. 
 
-Так в чём же тут проблема? Если класс  A найден и загружен каким-нибудь родительским загрузчиком, это значит, что дочерний загрузчик загружать его уже не будет, а вы, возможно именно этого и ждёте, что и приводит к <font face=Courier>NoClassDefFoundError</font>. 
+Так в чём же тут проблема? Если класс <font face=Courier>A</font> найден и загружен каким-нибудь родительским загрузчиком это значит, что дочерний загрузчик загружать его уже не будет, а вы, возможно, именно этого и ждёте, что и приводит к <font face=Courier>NoClassDefFoundError</font>. 
 
-[[File:ClassLoaderDelegation.png]]
+Для лучшего понимания изобразим весь процесс загрузки в контексте платформы Java EE. 
 
-При попытке загрузки класса дочерний загрузчик (Web App #1) делегирует загрузку родительскому загрузчику (Java EE App #1), который в свою очередь делегирует её системному стартовому загрузчику JVM. Если системный стартовый загрузчик не может загрузить класс, он возвращает управление родительскому загрузчику и так далее по цепочке по класс не будет загружен каким-либо загрузчиком.
+[[File:ClassLoaderDelegation.png | Схема делегирования загрузки в контексте платформы Java EE]]
+
+Как вы можете видеть при попытке загрузки класса дочерний загрузчик (Web App #1) делегирует загрузку родительскому загрузчику (Java EE App #1), который в свою очередь делегирует её системному стартовому загрузчику JVM. Если системный стартовый загрузчик не может загрузить класс, он возвращает управление родительскому загрузчику и так далее по цепочке по класс не будет загружен каким-либо загрузчиком.
 
 Рассмотрим простой пример, приводящий к  <font face=Courier>NoClassDefFoundError</font> из-за разной видимости классов между дочерним и родительским загрузчиками. Сделаем свой загрузчик <font face=Courier>MyClassLoader</font>, наследник от <font face=Courier>java.lang.ClassLoader</font> такой, чтоб он загружал классы с расширением <font face=Courier>.test</font> вместо <font face=Courier>.class</font>, находящиеся в пакете <font face=Courier>net.javacogito</font>. Отметим, что стандартный загрузчик по умолчанию загружает данные только из файлов с расширением <font face=Courier>.class</font>, так что загрузить <font face=Courier>Bar.test</font> он не сможет. Схема дальнейшей работы такая:
 
-* JVM загружает класс <font face=Courier>Bar</font> из файла <font face=Courier>Bar.test</font>. 
-* Класс <font face=Courier>Bar</font> печатает свой загрузчик классов. Это <font face=Courier>MyClassLoader</font>.
-* JVM загружает класс<font face=Courier>Foo</font> из файла <font face=Courier>Foo.class</font>.
-* Класс <font face=Courier>Foo</font> печатает свой загрузчик классов. Это <font face=Courier>sun.misc.Launcher.AppClassLoader</font>.
-* Класс <font face=Courier>Foo</font> вызывает статический метод <font face=Courier>printClassLoader()</font> у класса <font face=Courier>Bar</font>.
+# JVM загружает класс <font face=Courier>Bar</font> из файла <font face=Courier>Bar.test</font>. 
+# Класс <font face=Courier>Bar</font> печатает свой загрузчик классов. Это <font face=Courier>MyClassLoader</font>.
+# JVM загружает класс <font face=Courier>Foo</font> из файла <font face=Courier> Foo.class</font>.
+# Класс <font face=Courier>Foo</font> печатает свой загрузчик классов. Это <font face=Courier>sun.misc.Launcher.AppClassLoader</font>.
+# Класс <font face=Courier>Foo</font> вызывает статический метод <font face=Courier>printClassLoader()</font> у класса <font face=Courier>Bar</font>.
 
 В этот момент JVM выдаёт <font face=Courier>NoClassDefFoundError</font>, не смотря на то, что <font face=Courier>Bar</font> был загружен ранее, поскольку родительский загрузчик <font face=Courier>AppClassLoader</font> не видит классы, загруженные дочерним загрузчиком <font face=Courier>MyClassLoader</font>.
 
-[[File:ClassLoadingDelegationExample.png]]
+Ниже на рисунке изображена схема делегирования загрузки, приводящая к <font face=Courier>NoClassDefFoundError</font>.
+
+[[File:ClassLoadingDelegationExample.png | Схема делегирования загрузки]]
 
 Исходный код. Класс <font face=Courier>Bar</font>.
 
@@ -218,7 +222,7 @@ Caused by: java.lang.ClassNotFoundException: net.javacogito.Bar
 
 == <font face=Courier>NoClassDefFoundError</font> в Java из-за исключения в статическом инициализирующем блоке == 
 
-Исключения в статическом инициализирующем блоке - другая частая причина <font face=Courier>java.lang.NoClassDefFoundError</font>. Ваш класс выполняет некоторую статическую инициализацию в статическом блоке. Например, многие синглетоны инициализируют себя в статическом блоке, чтобы получить преимущества потоко-безопасности, предоставляемые виртуальной машиной  Java во время процесса инициализации класса. В этом случае, если статический блок выбросит исключение, то класс, ссылающийся на этот синглетон, выбросит <font face=Courier>NoclassDefFoundError</font> в Java. При просмотре вашего журнала ошибок вы должны внимательно следить, не возникла ли ошибка <font face=Courier>java.lang.ExceptionInInitializerError</font>, поскольку она может привести к <font face=Courier>java.lang.NoClassDefFoundError: Could not initialize class</font> в другом месте. Как и в примере кода ниже во время загрузки и инициализации класс <font face=Courier>User</font> выбрасывает исключение из статического инициализирующего блока, что приводит к <font face=Courier>ExceptionInInitializerError</font> во время первой загрузки класса <font face=Courier>User</font> при вызове <font face=Courier>new User()</font>. Дальше все остальные вызовы <font face=Courier>new User()</font> завершаются <font face=Courier>java.lang.NoClassDefFoundError</font>.  Ситуация становится намного хуже, если исходную ошибку <font face=Courier>ExceptionInInitializerError</font>, являющуюся первопричиной, скрывает последующий код.
+Исключения в статическом инициализирующем блоке - другая частая причина <font face=Courier>java.lang.NoClassDefFoundError</font>. Ваш класс выполняет некоторую статическую инициализацию в статическом блоке. Например, многие синглетоны инициализируют себя в статическом блоке, чтобы получить преимущества потоко-безопасности, предоставляемые виртуальной машиной  Java во время процесса инициализации класса. В этом случае, если статический блок выбросит исключение, то класс, ссылающийся на этот синглетон, выбросит <font face=Courier>NoclassDefFoundError</font> в Java. При просмотре вашего журнала ошибок вы должны внимательно следить, не возникла ли ошибка <font face=Courier>java.lang.ExceptionInInitializerError</font>, поскольку она может привести к <font face=Courier>java.lang.NoClassDefFoundError: Could not initialize class</font> в другом месте. Как и в примере кода ниже, во время загрузки и инициализации класс <font face=Courier>User</font> выбрасывает исключение из статического инициализирующего блока, что приводит к <font face=Courier>ExceptionInInitializerError</font> во время первой загрузки класса <font face=Courier>User</font> при вызове <font face=Courier>new User()</font>. Дальше все остальные вызовы <font face=Courier>new User()</font> завершаются <font face=Courier>java.lang.NoClassDefFoundError</font>.  Ситуация становится намного хуже, если исходную ошибку <font face=Courier>ExceptionInInitializerError</font>, являющуюся первопричиной, скрывает последующий код.
 
 <syntaxhighlight lang="java">
 /**
