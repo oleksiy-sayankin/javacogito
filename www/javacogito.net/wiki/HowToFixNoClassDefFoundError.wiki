@@ -225,7 +225,7 @@ Caused by: java.lang.ClassNotFoundException: net.javacogito.Bar
         ... 2 more
 </syntaxhighlight>
 
-Из результатов запуска видно, что <font face=Courier>MyClassLoader</font> загрузил класс <font face=Courier>Bar</font>, а <font face=Courier>AppClassLoader</font> (наследник абстрактно класса <font face=Courier>java.lang.ClassLoader</font>) загрузил класс <font face=Courier>Foo</font>. Класс <font face=Courier>Bar</font> присутствует в файловой системе и JVM его загрузила, но родительский загрузчик <font face=Courier>ClassLoader</font> не видит его, что и приводит к <font face=Courier>NoClassDefFoundError</font>.
+Из результатов запуска видно, что <font face=Courier>MyClassLoader</font> загрузил класс <font face=Courier>Bar</font>, а <font face=Courier>AppClassLoader</font> (наследник абстрактного класса <font face=Courier>java.lang.ClassLoader</font>) загрузил класс <font face=Courier>Foo</font>. Класс <font face=Courier>Bar</font> присутствует в файловой системе и JVM его загрузила, но родительский загрузчик <font face=Courier>ClassLoader</font> не видит его, что и приводит к <font face=Courier>NoClassDefFoundError</font>.
 
 <br><br><br><br>
 
