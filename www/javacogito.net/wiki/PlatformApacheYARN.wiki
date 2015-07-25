@@ -2,6 +2,17 @@
 
 __TOC__
 
+
+<br><br><br><br>
+'''Предисловие переводчика'''
+
+-----
+Данная статья представляет перевод оригинальных публикаций следующих авторов:
+* Арун Мёрфи (Arun Murthy) [http://hortonworks.com/blog/apache-hadoop-yarn-background-and-an-overview/ Apache Hadoop YARN – Background & Overview], [http://hortonworks.com/blog/apache-hadoop-yarn-concepts-and-applications/ Apache Hadoop YARN – Concepts & Applications];
+* Винод Кумар Вавилапалли (Vinod Kumar Vavilapalli) [http://hortonworks.com/blog/apache-hadoop-yarn-resourcemanager/ Apache Hadoop YARN – ResourceManager], [http://hortonworks.com/blog/apache-hadoop-yarn-nodemanager/ Apache Hadoop YARN – NodeManager].
+
+
+
 <br><br><br><br>
 = Apache Hadoop YARN – предыстория и обзор =
 

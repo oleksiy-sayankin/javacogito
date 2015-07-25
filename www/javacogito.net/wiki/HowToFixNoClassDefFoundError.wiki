@@ -7,9 +7,14 @@ __TOC__
 '''Предисловие переводчика'''
 
 -----
+Данная статья представляет перевод оригинальных публикаций следующих авторов:
+
+* Джэйвин Пол (Javin Paul) [http://javarevisited.blogspot.com/2011/07/classnotfoundexception-vs.html Difference between ClassNotFoundException vs NoClassDefFoundError in Java], [http://javarevisited.blogspot.com/2011/06/noclassdeffounderror-exception-in.html 3 ways to solve java.lang.NoClassDefFoundError in Java J2EE];
+* Пьер Хьюго Шарбоне (Pierre Hugues Charbonneau) [http://www.javacodegeeks.com/2012/06/javalangnoclassdeffounderror-how-to.html java.lang.NoClassDefFoundError: How to resolve – Part 1];
+* coobird [http://stackoverflow.com/questions/1457863/what-is-the-difference-between-noclassdeffounderror-and-classnotfoundexception What is the difference between NoClassDefFoundError and ClassNotFoundException?]
+
 
 Переводчик выражает благодарность Виктору Жуковскому за ценные правки и обсуждение рукописи.
-
 
 <br><br><br><br>
 == Введение ==
