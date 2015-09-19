@@ -45,6 +45,7 @@
 
 * [[Способы исправления java.lang.NoClassDefFoundError в Java J2EE]]
 * [[Платформа Apache Hadoop YARN]]
+* [[Перечень онлайн тестов проекта JavaCogito]]
 
 <div style="background:#ddcef2; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Полезно почитать</div>
 
