@@ -8,19 +8,19 @@
 |style="width:80%; font-size:150%; color:#000; text-align:left; vertical-align:top;"|
 {|
 '''Добро пожаловать в JavaCogito&nbsp;—'''<br />
-свободный энциклопедический интернет-проект на русском языке, посвящённый языку программирования Java!<br />
+свободный энциклопедический интернет-проект, посвящённый языку программирования Java!<br />
 Сейчас на сайте JavaCogito [[Special:Statistics|{{NUMBEROFARTICLES}}]] статей, загружено [[Special:Statistics|{{NUMBEROFFILES}}]] файлов.
 |}
 |}
 |}
 
-<div id="welcome" style="margin:1.4em 0 0 1%;font-size:110%;padding:0;line-height:150%;">Это — википедия, посвящённая профессиональному программированию на языке Java, и смежным технологиям. <br />Мы отдаём приоритет языку программирования Java, но пишем и о других языках программирования. На сайте приветствуется размещение авторами любых собственных оригинальных исследований и материалов по программированию, а также переводов статей и публикаций англоязычных и других авторов. Сайт придерживается политики соблюдения прав авторов.</div>
+<div id="welcome" style="margin:1.4em 0 0 1%;font-size:110%;padding:0;line-height:150%;">JavaCogito — это википедия, посвящённая профессиональному программированию на языке Java, и смежным технологиям. <br />Мы отдаём приоритет языку программирования Java, но пишем и о других языках программирования. На сайте приветствуется размещение авторами любых собственных оригинальных исследований и материалов по программированию, а также переводов статей и публикаций англоязычных и других авторов. Сайт придерживается политики соблюдения прав авторов.</div>
 
 {| cellpadding="0" cellspacing="0" width="100%" style="background:none;"
 |- valign="top"
 | width="45%" |
 <!-- Main -->
-<div style="background:lightblue; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Общий обзор</div>
+<div style="background:#fcfcfc; color:#717171; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Общий обзор</div>
 
 Интернет-сайт '''JavaCogito''' предназначен в первую очередь для профессиональных Java программистов и людей, стремящихся овладеть этим языком программирования.
 
@@ -29,7 +29,7 @@
 
 Приглашаем всех участников к дополнению существующих и созданию новых статей о программировании на языке Java, архитектуре виртуальной машины Java и связанных с Java технологиях программирования и платформах!  Для участия в проекте и регистрации в нем необходимо написать на ''javacogito @ gmail.com''.
 
-<div style="background:blue; color: white; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Зачем это нужно?</div>
+<div style="background:#fcfcfc; color:#717171; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Зачем это нужно?</div>
 
 '''Наша миссия: способствовать развитию программирования на благо человечества.'''
 
@@ -37,31 +37,30 @@
 * Мы вдохновляем на непрерывное обучение и распространение знаний ради блага каждого человека.
 * Мы делаем профессиональное программирование доступным.
 
-<div style="background:lightgreen; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Последние поступления по программированию на Java</div>
+<div style="background:#fcfcfc; color:#717171; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Последние поступления по программированию на Java</div>
 
 Ещё можно посмотреть [[Служебная:Newpages|новосозданные статьи]]:
 
-<div style="background:lightgreen; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Новые оригинальные статьи и переводы на другие темы</div>
-
 * [[Способы исправления java.lang.NoClassDefFoundError в Java J2EE]]
-* [[Платформа Apache Hadoop YARN]]
-* [[Перечень онлайн тестов проекта JavaCogito]]
-
-<div style="background:#ddcef2; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Полезно почитать</div>
-
-* [[Благодарности]]
-
-<div style="background:#FFC253; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Сейчас на сайте</div>
-
 * [[Спецификация виртуальной машины Java]]
 * [[Список инструкций JVM с правилами проверки их безопасности]]
 * [[Список инструкций JVM с детальным описанием формата и действий, которые они выполняют]]
+
+<div style="background:#fcfcfc; color:#717171; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Новые оригинальные статьи и переводы на другие темы</div>
+
+* [[Безопасность в Hadoop. Kerberos]]
+* [[Перечень онлайн тестов проекта JavaCogito]]
+* [[Платформа Apache Hadoop YARN]]
+
+<div style="background::#fcfcfc; color: #717171; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Полезно почитать</div>
+
+* [[Благодарности]]
 
 | width="3%" |
 
 |
 
-<div style="background:#faf9b2; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Выдержки из статей </div>
+<div style="background:#fcfcfc; color: #717171; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Выдержки из статей </div>
 
 [[Спецификация виртуальной машины Java#Фреймы|Фреймы]]
 
@@ -86,21 +85,22 @@
 
 Будет скомпилировано в: [[Спецификация виртуальной машины Java#Передача управления|''Далее...'']]
 
-<div style="background:#ffc9c9; color: #000; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Полезные ссылки</div>
 
-См. также:
+[[Способы исправления java.lang.NoClassDefFoundError в Java J2EE#В чём причина NoClassDefFoundError в Java?|В чём причина NoClassDefFoundError в Java?]]
+
+<font face=Courier>NoClassDefFoundError</font> в Java происходит тогда, когда виртуальная машина Java во время исполнения кода не  может найти определённый класс, который был доступен во время компиляции. Например, если мы вызываем метод из класса или обращаемся к статическому члену класса и этот класс не доступен во время выполнения, то  виртуальная машина Java выбрасывает <font face=Courier>NoClassDefFoundError</font>. Важно понимать, что эта ошибка отличается от исключения <font face=Courier>ClassNotFoundException</font>, которое происходит при попытке загрузки класса во время выполнения, причём важно, что имя этого класса было определено только во время выполнения, но не во время компиляции кода. [[Способы исправления java.lang.NoClassDefFoundError в Java J2EE#В чём причина NoClassDefFoundError в Java?|''Далее...'']]
+
+<div style="background:#fcfcfc; color: #717171; border:0px solid #ccc; font:bold 120% sans-serif; padding: 3px 5px; margin: 10px 0px; -moz-border-radius: 5px;">Полезные ссылки</div>
 
 * '''[[JavaCogito:Дружественные и полезные сайты|Дружественные и полезные сайты]]'''
 
-* Полезное: 
-* Также: 
 |}
 
 <br />
 
 <center>У нас  сейчас <big>'''[[Special:Statistics|{{КОЛИЧЕСТВО_СТАТЕЙ}}]]''' {{plural:{{КОЛИЧЕСТВО_СТАТЕЙ}}|статья|статьи|статей}}.</big><br />
 
-[[Special:ListUsers|Участники]] | [[Project:Портал сообщества|Сообщество]]</center>
+[[Special:ListUsers|Участники]]</center>
 
 [[Категория:JavaCogito| ]]
 
