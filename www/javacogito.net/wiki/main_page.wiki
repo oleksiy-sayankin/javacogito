@@ -22,7 +22,7 @@
 <!-- Main -->
 
 
-<div style="background-color: #717171; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
+<div style="background-color: #808080; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
 <div style="border:1px solid #ccc; border-top:0; padding:12px 12px 8px; margin-bottom:2ex; -webkit-border-bottom-right-radius:7px; -webkit-border-bottom-left-radius:7px; -moz-border-radius-bottomright:7px; -moz-border-radius-bottomleft:7px; border-bottom-right-radius:7px; border-bottom-left-radius:7px">
 '''Общий обзор'''
 
@@ -34,7 +34,7 @@
 Приглашаем всех участников к дополнению существующих и созданию новых статей о программировании на языке Java, архитектуре виртуальной машины Java и связанных с Java технологиях программирования и платформах!  Для участия в проекте и регистрации в нем необходимо написать на ''javacogito @ gmail.com''.
 </div>
 
-<div style="background-color: #717171; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
+<div style="background-color: #808080; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
 <div style="border:1px solid #ccc; border-top:0; padding:12px 12px 8px; margin-bottom:2ex; -webkit-border-bottom-right-radius:7px; -webkit-border-bottom-left-radius:7px; -moz-border-radius-bottomright:7px; -moz-border-radius-bottomleft:7px; border-bottom-right-radius:7px; border-bottom-left-radius:7px">
 '''Зачем это нужно?'''
 
@@ -45,7 +45,7 @@
 * Мы делаем профессиональное программирование доступным.
 </div>
 
-<div style="background-color: #717171; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
+<div style="background-color: #808080; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
 <div style="border:1px solid #ccc; border-top:0; padding:12px 12px 8px; margin-bottom:2ex; -webkit-border-bottom-right-radius:7px; -webkit-border-bottom-left-radius:7px; -moz-border-radius-bottomright:7px; -moz-border-radius-bottomleft:7px; border-bottom-right-radius:7px; border-bottom-left-radius:7px">
 '''Последние поступления по программированию на Java'''
 
@@ -57,7 +57,7 @@
 * [[Список инструкций JVM с детальным описанием формата и действий, которые они выполняют]]
 </div>
 
-<div style="background-color: #717171; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
+<div style="background-color: #808080; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
 <div style="border:1px solid #ccc; border-top:0; padding:12px 12px 8px; margin-bottom:2ex; -webkit-border-bottom-right-radius:7px; -webkit-border-bottom-left-radius:7px; -moz-border-radius-bottomright:7px; -moz-border-radius-bottomleft:7px; border-bottom-right-radius:7px; border-bottom-left-radius:7px">
 '''Новые оригинальные статьи и переводы на другие темы'''
 
@@ -66,7 +66,7 @@
 * [[Платформа Apache Hadoop YARN]]
 </div>
 
-<div style="background-color: #717171; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
+<div style="background-color: #808080; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
 <div style="border:1px solid #ccc; border-top:0; padding:12px 12px 8px; margin-bottom:2ex; -webkit-border-bottom-right-radius:7px; -webkit-border-bottom-left-radius:7px; -moz-border-radius-bottomright:7px; -moz-border-radius-bottomleft:7px; border-bottom-right-radius:7px; border-bottom-left-radius:7px">
 '''Полезно почитать'''
 
@@ -74,12 +74,25 @@
 * [[JavaCogito:Дружественные и полезные сайты|Дружественные и полезные сайты]]
 </div>
 
+<div style="background-color: #808080; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
+<div style="border:1px solid #ccc; border-top:0; padding:12px 12px 8px; margin-bottom:2ex; -webkit-border-bottom-right-radius:7px; -webkit-border-bottom-left-radius:7px; -moz-border-radius-bottomright:7px; -moz-border-radius-bottomleft:7px; border-bottom-right-radius:7px; border-bottom-left-radius:7px">
+'''Выдержки из статей'''
+
+'''[[Безопасность в Hadoop. Kerberos#Kerberos. Введение| Безопасность в Hadoop. Kerberos]]'''
+
+[[File:Kerbros-workflow-diagram.png | thumb | 150px | right | Диаграмма последовательностей Kerberos]]
+
+Kerberos зачастую пугает даже опытных системных администраторов и разработчиков даже при первом своём упоминании. Использование Kerberos для обеспечения безопасности  приложений и систем часто влечёт за собой множественные обращения в службу поддержки с просьбами исправить ту или иную проблему, связанную с ним. В этой статье мы рассмотрим основные концепции Kerberos, необходимые для понимания механизмов аутентификации, а также то, как эти принципы используются для аутентификации в Hadoop. ''[[Безопасность в Hadoop. Kerberos#Kerberos. Введение| Далее...]]''
+
+</div>
+
+
 | width="3%" |
 
 |
 
 
-<div style="background-color: #717171; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
+<div style="background-color: #808080; font-size:1px; height:9px; -webkit-border-top-left-radius:7px; -webkit-border-top-right-radius:7px; -moz-border-radius-topleft:7px; -moz-border-radius-topright:7px; border-top-left-radius:7px; border-top-right-radius:7px"></div>
 <div style="border:1px solid #ccc; border-top:0; padding:12px 12px 8px; margin-bottom:2ex; -webkit-border-bottom-right-radius:7px; -webkit-border-bottom-left-radius:7px; -moz-border-radius-bottomright:7px; -moz-border-radius-bottomleft:7px; border-bottom-right-radius:7px; border-bottom-left-radius:7px">
 '''Выдержки из статей'''
 
@@ -129,7 +142,8 @@
 
 Apache Hadoop MapReduce — это проект с открытым исходным кодом копании Apache Software Foundation, представляющий собой реализацию модели вычислений MapReduce, описанную выше. Сам проект Apache Hadoop MapReduce можно разбить на несколько основных частей:
 * Программный интерфейс MapReduce API, предназначенный для конечного пользователя, разрабатывающего приложения MapReduce.
-* Платформа MapReduce, представляющая собой реализацию времени выполнения различных фаз модели вычислений MapReduce: фазы отображения, сортировки/тасовки/слияния/агрегирования и фазы свёртки. ''[[Платформа Apache Hadoop YARN#Платформа Apache Hadoop MapReduce|Далее...]]'' 
+* Платформа MapReduce, представляющая собой реализацию времени выполнения различных фаз модели вычислений MapReduce: фазы отображения, сортировки/тасовки/слияния/агрегирования и фазы свёртки. 
+* Система MapReduce, которая представляет собой набор библиотек для запуска приложений MapReduce, управления ресурсами кластера, управления выполнением тысяч распределённых параллельных заданий. ''[[Платформа Apache Hadoop YARN#Платформа Apache Hadoop MapReduce|Далее...]]'' 
 </div>
 
 |}
