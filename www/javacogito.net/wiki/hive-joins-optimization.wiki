@@ -6,7 +6,7 @@ __TOC__
 '''Предисловие переводчика'''
 
 -----
-Данная статья представляет перевод оригинальных публикаций авторов проекта OpenKB.
+Данная статья представляет перевод оригинальных публикаций авторов проекта OpenKB, а также материалы презентации Лиин Танг (Liyin Tang) и Намит Джейн (Namit Jain).
 
 <br><br><br><br>
 
@@ -24,9 +24,9 @@ __TOC__
 
 Общее соединение выполняется по умолчанию и включает как фазу отображения (map) так и фазу свёртки (reduce):
 
-* Mapper: читает таблицы и выводит пары значений для соединения в промежуточный файл.
-* Shuffle: пары сортируются и объединяются.
-* Reducer: получает сортированный список пар для соединения и непосредственно выполняет соединение.
+* Mapper (процесс отображения): читает таблицы и выводит пары значений для соединения в промежуточный файл.
+* Shuffle (процесс тасовки): пары сортируются и объединяются.
+* Reducer (процесс свёртки): получает сортированный список пар для соединения и непосредственно выполняет соединение.
 
 
 [[File:hive-common-join.png | Shuffle/Common Join (Общее соединение)]]
@@ -221,7 +221,7 @@ set hive.auto.convert.join.noconditionaltask=true;
 set hive.auto.convert.join.noconditionaltask.size=10000000;
 </syntaxhighlight>
 
-Начиная с Hive 0.11, <font face=Courier>hive.auto.convert.join=true</font> по умолчанию. Вы можете отключить эту опцию, установив <font face=Courier>hive.auto.convert.join=false</font>. В случае, когда <font face=Courier>hive.auto.convert.join.noconditionaltask=true</font>, если оценочный размер малых таблиц меньше, чем <font face=Courier>hive.auto.convert.join.noconditionaltask.size</font> (по умолчанию 10MB), то общее соединение (Shuffle/Common Join) может быть преобразовано в  соединения только в фазе отображения (Map Join) автоматически.
+Начиная с Hive 0.11, <font face=Courier>hive.auto.convert.join=true</font> по умолчанию. Вы можете отключить эту опцию, установив <font face=Courier>hive.auto.convert.join=false</font>. В случае, когда <font face=Courier>hive.auto.convert.join.noconditionaltask=true</font>, если оценочный размер малых таблиц меньше, чем <font face=Courier>hive.auto.convert.join.noconditionaltask.size</font> (по умолчанию 10MB), то общее соединение (Shuffle/Common Join) может быть преобразовано в  соединение только в фазе отображения (Map Join) автоматически.
 
 Из плана SQL запроса выше мы знаем, что оценочный размер таблицы <font face=Courier>b</font> равен 31 согласно статистике по таблице. Если выполнить в командой строке Hive:
 
@@ -229,7 +229,7 @@ set hive.auto.convert.join.noconditionaltask.size=10000000;
 hive> set hive.auto.convert.join.noconditionaltask.size = 32; 
 </syntaxhighlight>
 
-то план запроса покажет, что будет использоваться соединение только в фазе отображения (Map Join): Map Join Operator.
+то план запроса покажет, что будет использоваться соединение только в фазе отображения (Map Join): см. ключевое слово <font face=Courier>Map Join Operator</font> в плане выполнения запроса.
 
 Если выполнить в командой строке Hive:
 
@@ -237,9 +237,7 @@ hive> set hive.auto.convert.join.noconditionaltask.size = 32;
 hive> set hive.auto.convert.join.noconditionaltask.size = 32; 
 </syntaxhighlight>
 
-то план запроса покажет, что будет использоваться общеее соединения (Shuffle/Common Join)
-
-Join Operator
+то план запроса покажет, что будет использоваться общеее соединения (Shuffle/Common Join): см. ключевое слово <font face=Courier>Join Operator</font> в плане выполнения запроса.
 
 2. Подсказка оптимизатору "<font face=Courier>MAPJOIN</font>" может быть использована для принудительного преобразования общего соединения (Shuffle/Common Join) в соединения только в фазе отображения (Map Join).
 
@@ -309,7 +307,7 @@ select /*+ MAPJOIN(b2) */ b1.* from b1,b2 where b1.col0=b2.col0 ;
 Недостатки:
 
 * Таблицы должны быть сегментированы по тем колонкам, которые будут использоваться в SQL соединении, и поэтому для других соединений данная разновидность оптимизации не сработает.
-* Работа секционированных (Partition) таблиц может замедлится.
+* Работа секционированных (Partition) таблиц может замедлиться.
 
 Пример:
 
