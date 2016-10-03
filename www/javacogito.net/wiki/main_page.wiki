@@ -61,6 +61,7 @@
 <div style="border:1px solid #ccc; border-top:0; padding:12px 12px 8px; margin-bottom:2ex; -webkit-border-bottom-right-radius:7px; -webkit-border-bottom-left-radius:7px; -moz-border-radius-bottomright:7px; -moz-border-radius-bottomleft:7px; border-bottom-right-radius:7px; border-bottom-left-radius:7px">
 '''Новые оригинальные статьи и переводы на другие темы'''
 
+* [[Оптимизация соединений в Hive]]
 * [[Hadoop в вопросах и ответах]]
 * [[Безопасность в Hadoop. Kerberos]]
 * [[Перечень онлайн тестов проекта JavaCogito]]
